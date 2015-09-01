@@ -3,14 +3,15 @@
 #include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "string.h"
+#include "shell.h"
 
 int main(){
-  char* input, shell_prompt[100];
+  char* input, shell_prompt[100], *dir = NULL;
   rl_bind_key('\t', rl_complete);
-  
+
   while(1){
-    snprintf(shell_prompt, sizeof(shell_prompt), "%s:%s $ ", getenv("USER"), getcwd(NULL, 1024));
+    snprintf(shell_prompt, sizeof(shell_prompt), "%s $ ", getcwd(dir, 1024));
+    free(dir);
     
     input = readline(shell_prompt);
 
@@ -18,7 +19,7 @@ int main(){
       break;
 
     add_history(input);
-
+    run(input);
 
     free(input);  
 

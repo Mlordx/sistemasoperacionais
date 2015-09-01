@@ -1,13 +1,24 @@
+#include <string.h>
 #include "parser.h"
-#include "string.h"
+
 
 int verifica_cd(char command[]){
-  char* tokens = strtok(command," ");
+  char command_copy[MAX_COMMAND_SIZE];
+  char* tokens;
+
+  strcpy(command_copy, command);
+  tokens = strtok(command_copy," ");
+
   return strcmp(tokens, "cd") == 0;
 }
 
 int verifica_executavel(char command[]){
-  char* tokens = strtok(command," ");
+  char command_copy[MAX_COMMAND_SIZE];
+  char* tokens;
+
+  strcpy(command_copy, command);
+  tokens = strtok(command_copy," ");
+  
   return tokens[0] == '/' || (tokens[0] == '.' && tokens[1] == '/');
 }
 
