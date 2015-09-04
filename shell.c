@@ -4,7 +4,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include "parser.h"
+#include "parser_shell.h"
 #include "shell.h"
 
 char** get_arguments(char * command){

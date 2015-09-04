@@ -1,32 +1,18 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "shell.h"
+#include "scheduler.h"
 
-int main(){
-  char* input, shell_prompt[100], *dir = NULL;
-  rl_bind_key('\t', rl_complete);
+int main (int argc, char* argv[]){
+  FILE *fp;
 
-  while(1){
-    snprintf(shell_prompt, sizeof(shell_prompt), "%s $ ", getcwd(dir, 1024));
-    free(dir);
-    
-    input = readline(shell_prompt);
-
-    if (!input)
-      break;
-
-    add_history(input);
-    run(input);
-
-    free(input);  
-
-     
+  if(argc < 3){
+    fprintf(stderr, "Número de argumentos insuficientes.\n");
+    exit(-1);
   }
 
-  
-  return 0;
+  fp = fopen(argv[2], "r");
+  run_jobs(fp, atoi(argv[1]));
+  fclose(fp);
 
+  return 0;
 }
