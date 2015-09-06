@@ -1,3 +1,5 @@
+build
+dep
 bin
 *~
 *.o
