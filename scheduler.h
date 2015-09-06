@@ -3,11 +3,16 @@
 
 typedef struct job {
   double arrival, duration, deadline;
-  char * name;
+  char name[20];
   int priority;
 } Job;
 
-int first_in_first_out(Job *, int);
+typedef struct data{
+    int cpu;
+    Job job;
+} Data;
+
+void* simulate(void *);
 int run_jobs(FILE* , int);
 
 #endif
