@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -pedantic -g -lreadline
+CFLAGS=-Wall -pedantic -g -lreadline -lpthread
 RM=rm -f
 
 bin/ep1: scheduler.o ep1.o
