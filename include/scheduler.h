@@ -3,7 +3,7 @@
 
 typedef struct job {
   double arrival, duration, deadline;
-  char name[20];
+  char* name;
   int priority;
 } Job;
 

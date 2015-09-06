@@ -3,16 +3,18 @@
 #include "scheduler.h"
 
 int main (int argc, char* argv[]){
-  FILE *fp;
+  FILE *fp = NULL;
 
-  if(argc < 3){
+  if(argc < 2){
     fprintf(stderr, "Número de argumentos insuficientes.\n");
     exit(-1);
   }
 
-  fp = fopen(argv[2], "r");
-  run_jobs(fp, atoi(argv[1]));
-  fclose(fp);
+  if(argc == 3)
+    fp = fopen(argv[2], "r");
 
+  run_jobs(fp, atoi(argv[1]));
+  if(fp != NULL)
+    fclose(fp);
   return 0;
 }
