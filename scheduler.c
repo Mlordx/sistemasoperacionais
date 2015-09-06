@@ -22,7 +22,12 @@ void* simulate(void *args){
   while(1){
     long unsigned int diff = time_diff(start);
     if(diff > arguments.job.duration*1000) {
-      printf("%s %ld %ld\n", arguments.job.name, time_diff(global_start), time_diff(global_start) - (long int) (arguments.job.arrival*1000));
+      printf( 
+        "%s %f %f\n", 
+        arguments.job.name, 
+        time_diff(global_start)/1000.0, 
+        time_diff(global_start) - arguments.job.arrival*1000)
+      );
       break;
     }
   }
