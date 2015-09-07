@@ -5,7 +5,7 @@
 #include "time_handler.h"
 #include "scheduler.h"
 
-void run_thread(pthread_t, Job, int);
+void run_thread(pthread_t, Job*, int);
 
 int first_in_first_out(Job * jobs, int n, int* CPUs, int numCPU, long int global_start){
   int i = 0, next = 0, CPU_ocupados = 0;
@@ -16,7 +16,7 @@ int first_in_first_out(Job * jobs, int n, int* CPUs, int numCPU, long int global
       if(!CPUs[i]){
         if(time_diff(global_start) > jobs[next].arrival*1000){
           CPUs[i] = 1;
-          run_thread(threads[next], jobs[next], i);
+          run_thread(threads[next], &jobs[next], i);
           next++;
         }
       }
@@ -32,7 +32,7 @@ int first_in_first_out(Job * jobs, int n, int* CPUs, int numCPU, long int global
   return 1;
 }
 
-void run_thread(pthread_t thread, Job job, int CPU_index){  
+void run_thread(pthread_t thread, Job* job, int CPU_index){  
   Data* args;
   args = malloc(sizeof(Data));
   args->job = job;

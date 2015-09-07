@@ -6,6 +6,7 @@
 #include "first_in_first_out.h"
 #include "shortest_job_first.h"
 #include "scheduler.h"
+#include "shortest_remaining_time_next.h"
 
 double new_number(int);
 int compare_jobs(const void *, const void *);
@@ -17,34 +18,40 @@ int pick_mode(int, Job*, int, int*, int, long int);
 
 int* CPUs;
 long int global_start;
+pthread_mutex_t* mutex;
 
 void* simulate(void *args){
   long int start = define_start();
   Data arguments = *(Data*) args;
   while(1){
     long unsigned int diff = time_diff(start);
-    if(diff > arguments.job.duration*1000) {
+    if(diff > arguments.job->duration*1000) {
+      usleep(1);
+      pthread_mutex_lock(&mutex[arguments.cpu]);
       printf( 
         "%s %f %f\n", 
-        arguments.job.name, 
+        arguments.job->name, 
         time_diff(global_start)/1000.0, 
-        time_diff(global_start)/1000.0 - arguments.job.arrival
+        time_diff(global_start)/1000.0 - arguments.job->arrival
       );
+      CPUs[arguments.cpu] = 0;
+      pthread_mutex_unlock(&mutex[arguments.cpu]);
       break;
     }
   }
-  CPUs[arguments.cpu] = 0;
   return args;
 }
 
 int run_jobs(FILE* trace, int mode){
   int i, numCPU = sysconf( _SC_NPROCESSORS_ONLN )-1, n_jobs;
-  Job processes[100];
+  Job processes[1000];
   
   CPUs = malloc(sizeof(int)*numCPU);
   for(i = 0; i < numCPU; i++)
     CPUs[i] = 0;
   
+  mutex = malloc(sizeof(pthread_mutex_t)*numCPU);
+
   if(trace != NULL){
     read_from_file(trace, processes, &n_jobs);
   }
@@ -64,6 +71,7 @@ int pick_mode(int mode, Job* processes, int n_jobs, int* CPUs, int numCPU, long 
   switch(mode){
     case 1: return first_in_first_out(processes, n_jobs, CPUs, numCPU, global_start);
     case 2: return shortest_job_first(processes, n_jobs, CPUs, numCPU, global_start);
+    case 3: return shortest_remaining_time_next(processes, n_jobs, CPUs, numCPU, global_start, mutex);
   }
   return -1;
 }
@@ -74,11 +82,9 @@ void read_from_file(FILE* trace, Job* processes, int* n_jobs){
   char* name = malloc(sizeof(char)*20);
 
   while (fscanf(trace, "%f %s %f 0 0", &arrival, name, &duration) != EOF) {
-    printf("teste\n");
     processes[i].name = name;
     processes[i].arrival = arrival;
     processes[i++].duration = duration;
-    printf("%f %s %f 0 0\n", processes[i-1].arrival, processes[i-1].name, processes[i-1].duration);
     name = malloc(sizeof(char)*20);
   }
 
