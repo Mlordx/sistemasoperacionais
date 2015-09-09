@@ -21,7 +21,7 @@ pthread_t* threads = NULL;
 pthread_mutex_t* mutex = NULL;
 
 int shortest_remaining_time_next(Job * jobs, int n, int* arg_CPUs, int arg_num_CPU, long int global_start, pthread_mutex_t* arg_mutex){
-  int next = 0, CPU_ocupados = 0, i;
+  int next = 0, busy_CPUs = 0, i;
   
   CPUs = arg_CPUs;
   num_CPU = arg_num_CPU;
@@ -43,10 +43,10 @@ int shortest_remaining_time_next(Job * jobs, int n, int* arg_CPUs, int arg_num_C
   }
 
   do{
-    CPU_ocupados = 0;
+    busy_CPUs = 0;
     for(i = 0; i < num_CPU; i++)
-      CPU_ocupados += CPUs[i];
-  } while (CPU_ocupados > 0);
+      busy_CPUs += CPUs[i];
+  } while (busy_CPUs > 0);
   return 1;
 }
 

@@ -8,7 +8,7 @@
 void run_thread(pthread_t, Job*, int);
 
 int first_in_first_out(Job * jobs, int n, int* CPUs, int numCPU, long int global_start){
-  int i = 0, next = 0, CPU_ocupados = 0;
+  int i = 0, next = 0, busy_CPUs = 0;
   pthread_t* threads = malloc(sizeof(pthread_t)*n); 
   
   while(next < n){
@@ -24,10 +24,10 @@ int first_in_first_out(Job * jobs, int n, int* CPUs, int numCPU, long int global
   }
 
   do{
-    CPU_ocupados = 0;
+    busy_CPUs = 0;
     for(i = 0; i < numCPU; i++)
-      CPU_ocupados += CPUs[i];
-  } while (CPU_ocupados > 0);
+      busy_CPUs += CPUs[i];
+  } while (busy_CPUs > 0);
 
   return 1;
 }

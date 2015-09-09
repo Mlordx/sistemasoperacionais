@@ -11,7 +11,7 @@ Job* get_next_job(Job**, int*);
 int compare_jobs_by_duration(const void * a, const void * b);
 
 int shortest_job_first(Job * jobs, int n, int* CPUs, int numCPU, long int global_start){
-  int next = 0, bufferSize = 0, CPU_ocupados = 0, i;
+  int next = 0, bufferSize = 0, busy_CPUs = 0, i;
   Job** buffer = malloc (sizeof(Job*)*n);
   
   while(next < n || bufferSize > 0){
@@ -28,10 +28,10 @@ int shortest_job_first(Job * jobs, int n, int* CPUs, int numCPU, long int global
   }
 
   do{
-    CPU_ocupados = 0;
+    busy_CPUs = 0;
     for(i = 0; i < numCPU; i++)
-      CPU_ocupados += CPUs[i];
-  } while (CPU_ocupados > 0);
+      busy_CPUs += CPUs[i];
+  } while (busy_CPUs > 0);
   return 1;
 }
 
