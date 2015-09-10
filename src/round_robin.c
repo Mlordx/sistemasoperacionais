@@ -32,12 +32,14 @@ int round_robin(Job * jobs, int n, int* arg_CPUs, int arg_num_CPU, long int glob
   
   while(next < n || buffer_size_rr > 0){
     if(next < n && time_diff(global_start) >= jobs[next].arrival*1000){
-      /*fprintf(output,"O processo %s foi colocado no buffer\n",*(&jobs[next].name));*/
+      if(get_debug()) fprintf(stderr,"O processo %s(linha: %d) chegou\n",*(&jobs[next].name),*(&jobs[next].line));
       buffer[buffer_size_rr++] = &jobs[next++];
       if(rr_get_next_free_CPU() == -1 && time_diff(global_start) >= QUANTUM) rr_reorder_jobs(global_start);
     }
     while((i = rr_get_next_free_CPU()) != -1 && buffer_size_rr > 0){
         CPUs[i] = 1;
+	if(get_debug()) fprintf(stderr,"A cpu %d foi ocupada pelo processo %s\n", i, buffer[buffer_size_rr-1]->name);
+	
         rr_run_thread(rr_get_next_job(), i,output);
     }
   }
@@ -83,6 +85,14 @@ void rr_reorder_jobs(long int global_start){
     if(CPUs[i]){
       pthread_cancel(threads_rr[i]);
       CPUs[i] = 0;
+      if(get_debug()){
+	fprintf(
+		stderr, 
+		"O processo %s deixou de usar a cpu %i\n", 
+		running_jobs[i]->name, 
+		i
+		);
+      }
       
       running_jobs[i]->duration -= QUANTUM/1000.0;
       if(running_jobs[i]->duration < 0.01){
