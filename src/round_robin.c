@@ -32,7 +32,7 @@ int round_robin(Job * jobs, int n, int* arg_CPUs, int arg_num_CPU, long int glob
   
   while(next < n || buffer_size_rr > 0){
     if(next < n && time_diff(global_start) >= jobs[next].arrival*1000){
-      //fprintf(output,"O processo %s foi colocado no buffer\n",*(&jobs[next].name));
+      /*fprintf(output,"O processo %s foi colocado no buffer\n",*(&jobs[next].name));*/
       buffer[buffer_size_rr++] = &jobs[next++];
       if(rr_get_next_free_CPU() == -1 && time_diff(global_start) >= QUANTUM) rr_reorder_jobs(global_start);
     }
@@ -51,7 +51,6 @@ int round_robin(Job * jobs, int n, int* arg_CPUs, int arg_num_CPU, long int glob
 }
 
 Job* rr_get_next_job(){
-  //print_job(buffer[buffer_size_rr-1]);
   return buffer[--buffer_size_rr];
 }
 

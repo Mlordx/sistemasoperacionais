@@ -3,6 +3,7 @@
 #include "scheduler.h"
 
 int main (int argc, char* argv[]){
+  FILE* output;
   FILE *fp = NULL;
 
   if(argc < 4){
@@ -11,13 +12,11 @@ int main (int argc, char* argv[]){
   }
 
   fp = fopen(argv[2], "r");
-  FILE* output = fopen(argv[3], "w");
+  output = fopen(argv[3], "w");
   
-
   run_jobs(fp, atoi(argv[1]),output);
   
   if(fp != NULL) fclose(fp);
-  
   
   return 0;
 }
