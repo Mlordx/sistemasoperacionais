@@ -34,7 +34,7 @@ int shortest_remaining_time_next(Job * jobs, int n, int* arg_CPUs, int arg_num_C
     if(next < n && time_diff(global_start) >= jobs[next].arrival*1000){
       buffer[buffer_size++] = &jobs[next++];
       if(srtn_get_next_free_CPU() == -1)
-        srtn_reorder_jobs(global_start);
+        srtn_reorder_jobs();
     }
     while((i = srtn_get_next_free_CPU()) != -1 && buffer_size > 0){
         CPUs[i] = 1;
@@ -82,11 +82,11 @@ int srtn_get_next_free_CPU(){
   return -1;
 }
 
-void srtn_reorder_jobs(long int global_start){
+void srtn_reorder_jobs(){
   int i;
 
   for(i = 0; i < num_CPU; i++){
-    pthread_mutex_lock(&mutex[0]);
+    pthread_mutex_lock(&mutex[i]);
     if(CPUs[i]){
       pthread_cancel(threads[i]);
       CPUs[i] = 0;
@@ -96,6 +96,6 @@ void srtn_reorder_jobs(long int global_start){
       }
       buffer[buffer_size++] = running_jobs[i];
     }
-    pthread_mutex_unlock(&mutex[0]);
+    pthread_mutex_unlock(&mutex[i]);
   }
 }
