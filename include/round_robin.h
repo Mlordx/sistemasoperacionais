@@ -4,6 +4,6 @@
 #include <pthread.h>
 #include "scheduler.h"
 
-int round_robin(Job *, int, int*, int, long int, pthread_mutex_t*);
+int round_robin(Job *, int, int*, int, long int, pthread_mutex_t*,FILE*);
 
 #endif

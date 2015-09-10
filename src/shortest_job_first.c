@@ -6,11 +6,11 @@
 #include "scheduler.h"
 #include "shortest_job_first.h"
 
-void run_shortest_thread(Job*, int);
+void run_shortest_thread(Job*, int, FILE*);
 Job* get_next_job(Job**, int*);
 int compare_jobs_by_duration(const void * a, const void * b);
 
-int shortest_job_first(Job * jobs, int n, int* CPUs, int numCPU, long int global_start){
+int shortest_job_first(Job * jobs, int n, int* CPUs, int numCPU, long int global_start,FILE* output){
   int next = 0, bufferSize = 0, busy_CPUs = 0, i;
   Job** buffer = malloc (sizeof(Job*)*n);
   
@@ -21,7 +21,7 @@ int shortest_job_first(Job * jobs, int n, int* CPUs, int numCPU, long int global
     for(i = 0; i < numCPU; i++){
       if(!CPUs[i] && bufferSize > 0){
           CPUs[i] = 1;
-          run_shortest_thread(get_next_job(buffer, &bufferSize), i);
+          run_shortest_thread(get_next_job(buffer, &bufferSize), i,output);
           break;
       }
     }
@@ -37,12 +37,6 @@ int shortest_job_first(Job * jobs, int n, int* CPUs, int numCPU, long int global
 
 Job* get_next_job(Job** buffer, int* bufferSize){
   qsort(buffer, *bufferSize, sizeof(Job*), compare_jobs_by_duration);
-  /*printf("------------------------------------------------------\n\n");
-  int i;
-  for(i = 0; i < *bufferSize; i++){
-    printf("%f, %d\n", buffer[i]->duration, i);
-  }
-  printf("\n");*/
   return buffer[--(*bufferSize)];
 }
 
@@ -52,11 +46,12 @@ int compare_jobs_by_duration(const void * a, const void * b){
   return A->duration < B->duration;
 }
 
-void run_shortest_thread(Job* job, int CPU_index){  
+void run_shortest_thread(Job* job, int CPU_index,FILE* output){  
   Data* args;
   pthread_t thread;
   args = malloc(sizeof(Data));
   args->job = job;
   args->cpu = CPU_index;
+  args->output = output;
   pthread_create(&thread, NULL, simulate, (void *) args);
 }

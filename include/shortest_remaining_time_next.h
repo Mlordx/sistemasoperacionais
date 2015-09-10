@@ -3,6 +3,6 @@
 
 #include "scheduler.h"
 
-int shortest_remaining_time_next(Job *, int, int*, int, long int, pthread_mutex_t*);
+int shortest_remaining_time_next(Job *, int, int*, int, long int, pthread_mutex_t*,FILE*);
 
 #endif

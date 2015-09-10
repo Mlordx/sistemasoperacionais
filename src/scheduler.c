@@ -11,21 +11,21 @@
 double new_number(int);
 int compare_jobs(const void *, const void *);
 void print_jobs(Job*, int);
-void print_job(Job*);
 void run_thread(pthread_t, double, int);
-void read_from_file(FILE* trace, Job* processes, int* n_jobs);
-void generate_randomly(Job* processes, int n_jobs);
-int pick_mode(int, Job*, int, int*, int, long int);
+void read_from_file(FILE* , Job* , int*);
+void generate_randomly(Job* , int);
+int pick_mode(int, Job*, int, int*, int, long int,FILE*);
 
 
 
-void print_job(Job* job){
-  printf("%s: %f\n", job->name, job->duration);
-}
 
 int* CPUs;
 long int global_start;
 pthread_mutex_t* mutex;
+
+void print_job(Job* job){
+  printf("%s: %f\n", job->name, job->duration);
+}
 
 void* simulate(void *args){
   long int start = define_start();
@@ -35,12 +35,13 @@ void* simulate(void *args){
     if(diff >= arguments.job->duration*1000) {
       usleep(1);
       pthread_mutex_lock(&mutex[arguments.cpu]);
-      printf( 
-        "%s %f %f\n", 
-        arguments.job->name, 
-        time_diff(global_start)/1000.0, 
-        time_diff(global_start)/1000.0 - arguments.job->arrival
-      );
+      fprintf(
+	      arguments.output, 
+	      "%s %f %f\n", 
+	      arguments.job->name, 
+	      time_diff(global_start)/1000.0, 
+	      time_diff(global_start)/1000.0 - arguments.job->arrival
+	      );
       CPUs[arguments.cpu] = 0;
       pthread_mutex_unlock(&mutex[arguments.cpu]);
       break;
@@ -49,9 +50,11 @@ void* simulate(void *args){
   return args;
 }
 
-int run_jobs(FILE* trace, int mode){
+int run_jobs(FILE* trace, int mode,FILE* output){
   int i, numCPU = sysconf( _SC_NPROCESSORS_ONLN )-1, n_jobs;
   Job processes[1000];
+
+
   
   CPUs = malloc(sizeof(int)*numCPU);
   for(i = 0; i < numCPU; i++)
@@ -69,21 +72,21 @@ int run_jobs(FILE* trace, int mode){
 
   qsort(processes, n_jobs, sizeof(Job), compare_jobs);
   global_start = define_start();
-  pick_mode(mode, processes, n_jobs, CPUs, numCPU, global_start);
+  pick_mode(mode, processes, n_jobs, CPUs, numCPU, global_start, output);
   return mode;
 }
 
-int pick_mode(int mode, Job* processes, int n_jobs, int* CPUs, int numCPU, long int global_start)
+int pick_mode(int mode, Job* processes, int n_jobs, int* CPUs, int numCPU, long int global_start, FILE* output)
 {
   switch(mode){
     case 1:
-      return first_in_first_out(processes, n_jobs, CPUs, numCPU, global_start);
+      return first_in_first_out(processes, n_jobs, CPUs, numCPU, global_start, output);
     case 2:
-      return shortest_job_first(processes, n_jobs, CPUs, numCPU, global_start);
+      return shortest_job_first(processes, n_jobs, CPUs, numCPU, global_start, output);
     case 3:
-      return shortest_remaining_time_next(processes, n_jobs, CPUs, numCPU, global_start, mutex);
+      return shortest_remaining_time_next(processes, n_jobs, CPUs, numCPU, global_start, mutex, output);
     case 4:
-      return round_robin(processes, n_jobs, CPUs, numCPU, global_start, mutex);
+      return round_robin(processes, n_jobs, CPUs, numCPU, global_start, mutex, output);
   }
   return -1;
 }

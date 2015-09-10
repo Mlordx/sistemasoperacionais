@@ -1,11 +1,11 @@
-#define QUANTUM 2000
+#define QUANTUM 1000
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 #include "time_handler.h"
 #include "round_robin.h"
 
-void rr_run_thread(Job*, int);
+void rr_run_thread(Job*, int,FILE*);
 Job* rr_get_next_job();
 int rr_compare_jobs_by_duration(const void * a, const void * b);
 int rr_get_next_free_CPU();
@@ -19,7 +19,7 @@ int num_CPU;
 pthread_t* threads_rr = NULL;
 pthread_mutex_t* mutex_rr = NULL;
 
-int round_robin(Job * jobs, int n, int* arg_CPUs, int arg_num_CPU, long int global_start, pthread_mutex_t* arg_mutex){
+int round_robin(Job * jobs, int n, int* arg_CPUs, int arg_num_CPU, long int global_start, pthread_mutex_t* arg_mutex,FILE* output){
   
   int next = 0, busy_CPUs = 0, i;
   
@@ -32,12 +32,13 @@ int round_robin(Job * jobs, int n, int* arg_CPUs, int arg_num_CPU, long int glob
   
   while(next < n || buffer_size_rr > 0){
     if(next < n && time_diff(global_start) >= jobs[next].arrival*1000){
+      //fprintf(output,"O processo %s foi colocado no buffer\n",*(&jobs[next].name));
       buffer[buffer_size_rr++] = &jobs[next++];
-      if(/*rr_get_next_free_CPU() == -1*/ time_diff(global_start) >= QUANTUM) rr_reorder_jobs(global_start);
+      if(rr_get_next_free_CPU() == -1 && time_diff(global_start) >= QUANTUM) rr_reorder_jobs(global_start);
     }
     while((i = rr_get_next_free_CPU()) != -1 && buffer_size_rr > 0){
         CPUs[i] = 1;
-        rr_run_thread(rr_get_next_job(), i);
+        rr_run_thread(rr_get_next_job(), i,output);
     }
   }
 
@@ -50,14 +51,16 @@ int round_robin(Job * jobs, int n, int* arg_CPUs, int arg_num_CPU, long int glob
 }
 
 Job* rr_get_next_job(){
+  //print_job(buffer[buffer_size_rr-1]);
   return buffer[--buffer_size_rr];
 }
 
-void rr_run_thread(Job* job, int CPU_index){  
+void rr_run_thread(Job* job, int CPU_index,FILE* output){  
   Data* args;
   args = malloc(sizeof(Data));
   args->job = job;
   args->cpu = CPU_index;
+  args->output = output;
   running_jobs[CPU_index] = job;
   job->real_start = define_start();
   pthread_create(&threads_rr[CPU_index], NULL, simulate, (void *) args);

@@ -5,7 +5,7 @@
 #include "time_handler.h"
 #include "shortest_remaining_time_next.h"
 
-void srtn_run_thread(Job*, int);
+void srtn_run_thread(Job*, int, FILE*);
 Job* srtn_get_next_job();
 int srtn_compare_jobs_by_duration(const void * a, const void * b);
 int srtn_get_next_free_CPU();
@@ -19,7 +19,7 @@ int num_CPU;
 pthread_t* threads = NULL;
 pthread_mutex_t* mutex = NULL;
 
-int shortest_remaining_time_next(Job * jobs, int n, int* arg_CPUs, int arg_num_CPU, long int global_start, pthread_mutex_t* arg_mutex){
+int shortest_remaining_time_next(Job * jobs, int n, int* arg_CPUs, int arg_num_CPU, long int global_start, pthread_mutex_t* arg_mutex,FILE* output){
   
   int next = 0, busy_CPUs = 0, i;
   
@@ -38,7 +38,7 @@ int shortest_remaining_time_next(Job * jobs, int n, int* arg_CPUs, int arg_num_C
     }
     while((i = srtn_get_next_free_CPU()) != -1 && buffer_size > 0){
         CPUs[i] = 1;
-        srtn_run_thread(srtn_get_next_job(), i);
+        srtn_run_thread(srtn_get_next_job(), i, output);
     }
   }
 
@@ -61,11 +61,12 @@ int srtn_compare_jobs_by_duration(const void * a, const void * b){
   return A->duration < B->duration;
 }
 
-void srtn_run_thread(Job* job, int CPU_index){  
+void srtn_run_thread(Job* job, int CPU_index, FILE* output){  
   Data* args;
   args = malloc(sizeof(Data));
   args->job = job;
   args->cpu = CPU_index;
+  args->output = output;
   running_jobs[CPU_index] = job;
   job->real_start = define_start();
   pthread_create(&threads[CPU_index], NULL, simulate, (void *) args);

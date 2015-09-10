@@ -3,6 +3,6 @@
 
 #include "scheduler.h"
 
-int shortest_job_first(Job *, int, int*, int, long int);
+int shortest_job_first(Job *, int, int*, int, long int,FILE*);
 
 #endif

@@ -5,15 +5,18 @@ typedef struct job {
   double arrival, duration, deadline;
   char* name;
   int priority;
-  long int real_start ;
+  long int real_start;
 } Job;
 
 typedef struct data{
-    int cpu;
-    Job* job;
+  int cpu;
+  Job* job;
+  FILE* output;
 } Data;
 
 void* simulate(void *);
-int run_jobs(FILE* , int);
+int run_jobs(FILE* , int, FILE*);
+void print_job(Job*);
+
 
 #endif

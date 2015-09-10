@@ -3,6 +3,6 @@
 
 #include "scheduler.h"
 
-int first_in_first_out(Job *, int, int*, int, long int);
+int first_in_first_out(Job *, int, int*, int, long int,FILE*);
 
 #endif

@@ -5,17 +5,19 @@
 int main (int argc, char* argv[]){
   FILE *fp = NULL;
 
-  if(argc < 2){
+  if(argc < 4){
     fprintf(stderr, "Número de argumentos insuficientes.\n");
     exit(-1);
   }
 
-  if(argc == 3)
-    fp = fopen(argv[2], "r");
+  fp = fopen(argv[2], "r");
+  FILE* output = fopen(argv[3], "w");
+  
 
-  run_jobs(fp, atoi(argv[1]));
+  run_jobs(fp, atoi(argv[1]),output);
   
   if(fp != NULL) fclose(fp);
+  
   
   return 0;
 }
