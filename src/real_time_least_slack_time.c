@@ -56,12 +56,7 @@ int real_time_least_slack_time(Job * jobs, int n, int* arg_CPUs, int arg_num_CPU
 }
 
 Job* rt_get_next_job(){
-  int i;
   qsort(rt_buffer, rt_buffer_size, sizeof(Job*), rt_compare_jobs_by_slack_time);
-  printf("------------------------------------------\n\n");
-  for(i = 0; i < rt_buffer_size; i++)
-    printf("%s, %f, %f, %f\n", rt_buffer[i]->name, rt_buffer[i]->duration, rt_buffer[i]->deadline, rt_get_slack_time(rt_buffer[i]));
-  printf("\n");
   return rt_buffer[--rt_buffer_size];
 }
 
