@@ -4,8 +4,7 @@
 typedef struct job {
   double arrival, duration, deadline;
   char* name;
-  int priority;
-  int line;
+  int priority, line;
   long int real_start;
 } Job;
 

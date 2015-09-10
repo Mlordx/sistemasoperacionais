@@ -37,6 +37,7 @@ int real_time_least_slack_time(Job * jobs, int n, int* arg_CPUs, int arg_num_CPU
   
   while(next < n || rt_buffer_size > 0){
     if(next < n && time_diff(global_start) >= jobs[next].arrival*1000){
+      if(get_debug()) fprintf(stderr,"O processo %s(linha: %d) chegou\n",*(&jobs[next].name),*(&jobs[next].line));
       rt_buffer[rt_buffer_size++] = &jobs[next++];
       if(rt_get_next_free_CPU() == -1)
         rt_reorder_jobs();
@@ -73,6 +74,7 @@ void rt_run_thread(Job* job, int CPU_index, FILE* output){
   args->cpu = CPU_index;
   args->output = output;
   rt_running_jobs[CPU_index] = job;
+  if(get_debug()) fprintf(stderr,"A cpu %d foi ocupada pelo processo %s\n", CPU_index, job->name);
   job->real_start = define_start();
   pthread_create(&rt_threads[CPU_index], NULL, simulate, (void *) args);
 }
@@ -95,6 +97,14 @@ void rt_reorder_jobs(){
     if(rt_CPUs[i]){
       pthread_cancel(rt_threads[i]);
       rt_CPUs[i] = 0;
+      if(get_debug()){
+        fprintf(
+          stderr, 
+          "O processo %s deixou de usar a cpu %i\n", 
+          rt_running_jobs[i]->name, 
+          i
+        );
+      }
       rt_running_jobs[i]->duration -= time_diff(rt_running_jobs[i]->real_start)/1000.0;
       if(rt_running_jobs[i]->duration < 0.01){
         rt_running_jobs[i]->duration = 0.01;

@@ -39,7 +39,6 @@ int shortest_remaining_time_next(Job * jobs, int n, int* arg_CPUs, int arg_num_C
     }
     while((i = srtn_get_next_free_CPU()) != -1 && buffer_size > 0){
         CPUs[i] = 1;
-	if(get_debug()) fprintf(stderr,"A cpu %d foi ocupada pelo processo %s\n", i, buffer[buffer_size-1]->name);
         srtn_run_thread(srtn_get_next_job(), i, output);
     }
   }
@@ -70,6 +69,7 @@ void srtn_run_thread(Job* job, int CPU_index, FILE* output){
   args->cpu = CPU_index;
   args->output = output;
   running_jobs[CPU_index] = job;
+  if(get_debug()) fprintf(stderr,"A cpu %d foi ocupada pelo processo %s\n", CPU_index, job->name);
   job->real_start = define_start();
   pthread_create(&threads[CPU_index], NULL, simulate, (void *) args);
 }
@@ -93,12 +93,12 @@ void srtn_reorder_jobs(){
       pthread_cancel(threads[i]);
       CPUs[i] = 0;
       if(get_debug()){
-	fprintf(
-		stderr, 
-		"O processo %s deixou de usar a cpu %i\n", 
-		running_jobs[i]->name, 
-		i
-		);
+        fprintf(
+          stderr, 
+          "O processo %s deixou de usar a cpu %i\n", 
+          running_jobs[i]->name, 
+          i
+        );
       }
       
       running_jobs[i]->duration -= time_diff(running_jobs[i]->real_start)/1000.0;

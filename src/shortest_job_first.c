@@ -22,7 +22,6 @@ int shortest_job_first(Job * jobs, int n, int* CPUs, int numCPU, long int global
     for(i = 0; i < numCPU; i++){
       if(!CPUs[i] && bufferSize > 0){
           CPUs[i] = 1;
-	  if(get_debug()) fprintf(stderr,"A cpu %d foi ocupada pelo processo %s\n", i, buffer[bufferSize-1]->name);
           run_shortest_thread(get_next_job(buffer, &bufferSize), i,output);
           break;
       }
@@ -55,5 +54,6 @@ void run_shortest_thread(Job* job, int CPU_index,FILE* output){
   args->job = job;
   args->cpu = CPU_index;
   args->output = output;
+  if(get_debug()) fprintf(stderr,"A cpu %d foi ocupada pelo processo %s\n", CPU_index, job->name);
   pthread_create(&thread, NULL, simulate, (void *) args);
 }

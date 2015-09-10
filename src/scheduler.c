@@ -7,6 +7,7 @@
 #include "shortest_job_first.h"
 #include "shortest_remaining_time_next.h"
 #include "round_robin.h"
+#include "high_priority_first.h"
 #include "real_time_least_slack_time.h"
 
 double new_number(int);
@@ -106,22 +107,26 @@ int pick_mode(int mode, Job* processes, int n_jobs, int* CPUs, int numCPU, long 
       return shortest_remaining_time_next(processes, n_jobs, CPUs, numCPU, global_start, mutex, output);
     case 4:
       return round_robin(processes, n_jobs, CPUs, numCPU, global_start, mutex, output);
+    case 5:
+      return high_priority_first(processes, n_jobs, CPUs, numCPU, global_start, mutex, output);
     case 6:
       return real_time_least_slack_time(processes, n_jobs, CPUs, numCPU, global_start, mutex, output);
   }
+  printf("Modo %d não existe", mode);
   return -1;
 }
 
 void read_from_file(FILE* trace, Job* processes, int* n_jobs){
-  int i = 0;
+  int i = 0, priority;
   float arrival, duration, deadline;
   char* name = malloc(sizeof(char)*20);
 
-  while (fscanf(trace, "%f %s %f %f 0", &arrival, name, &duration, &deadline) != EOF) {
+  while (fscanf(trace, "%f %s %f %f %d", &arrival, name, &duration, &deadline, &priority) != EOF) {
     processes[i].name = name;
     processes[i].arrival = arrival;
     processes[i].deadline = deadline;
     processes[i].line = i+1;
+    processes[i].priority = priority;
     processes[i++].duration = duration;
     name = malloc(sizeof(char)*20);
   }
@@ -137,7 +142,8 @@ void generate_randomly(Job* processes, int n_jobs){
     processes[i].arrival = new_number(5);
     processes[i].duration = new_number(1);
     processes[i].deadline = new_number(15) + (int) processes[i].arrival + 1;
-    sprintf(processes[i].name, "processo%d_%f", i, processes[i].deadline);
+    processes[i].priority = (int) new_number(5) + 1;
+    sprintf(processes[i].name, "processo%d", i);
   }
 }
 
