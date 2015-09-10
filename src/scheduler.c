@@ -17,9 +17,8 @@ void generate_randomly(Job* , int);
 int pick_mode(int, Job*, int, int*, int, long int,FILE*);
 
 
-
-
 int* CPUs;
+int debug = 0;
 long int global_start;
 pthread_mutex_t* mutex;
 
@@ -35,6 +34,17 @@ void* simulate(void *args){
     if(diff >= arguments.job->duration*1000) {
       usleep(1);
       pthread_mutex_lock(&mutex[arguments.cpu]);
+      
+      if(get_debug()){
+	fprintf(
+		stderr, 
+		"Será impresso %s %f %f no arquivo de saída\n", 
+		arguments.job->name, 
+		time_diff(global_start)/1000.0, 
+		time_diff(global_start)/1000.0 - arguments.job->arrival
+		);
+      }
+      
       fprintf(
 	      arguments.output, 
 	      "%s %f %f\n", 
@@ -43,6 +53,16 @@ void* simulate(void *args){
 	      time_diff(global_start)/1000.0 - arguments.job->arrival
 	      );
       CPUs[arguments.cpu] = 0;
+      if(get_debug()){
+	fprintf(
+		stderr, 
+		"O processo %s deixou de usar a cpu %i\n", 
+		arguments.job->name, 
+		arguments.cpu
+		);
+      }
+      
+
       pthread_mutex_unlock(&mutex[arguments.cpu]);
       break;
     }
@@ -53,8 +73,6 @@ void* simulate(void *args){
 int run_jobs(FILE* trace, int mode,FILE* output){
   int i, numCPU = sysconf( _SC_NPROCESSORS_ONLN )-1, n_jobs;
   Job processes[1000];
-
-
   
   CPUs = malloc(sizeof(int)*numCPU);
   for(i = 0; i < numCPU; i++)
@@ -99,6 +117,7 @@ void read_from_file(FILE* trace, Job* processes, int* n_jobs){
   while (fscanf(trace, "%f %s %f 0 0", &arrival, name, &duration) != EOF) {
     processes[i].name = name;
     processes[i].arrival = arrival;
+    processes[i].line = i+1;
     processes[i++].duration = duration;
     name = malloc(sizeof(char)*20);
   }
@@ -132,4 +151,12 @@ void print_jobs(Job* jobs, int n){
   for(i = 0; i < n; i++){
     printf("%s: %f\n", jobs[i].name, jobs[i].arrival);
   }
+}
+
+int get_debug(){
+  return debug;
+}
+
+void set_debug(){
+  debug = 1;
 }

@@ -16,11 +16,13 @@ int shortest_job_first(Job * jobs, int n, int* CPUs, int numCPU, long int global
   
   while(next < n || bufferSize > 0){
     if(next < n && time_diff(global_start) >= jobs[next].arrival*1000){
+      if(get_debug()) fprintf(stderr,"O processo %s(linha: %d) chegou\n",*(&jobs[next].name),*(&jobs[next].line));
       buffer[bufferSize++] = &jobs[next++];
     }
     for(i = 0; i < numCPU; i++){
       if(!CPUs[i] && bufferSize > 0){
           CPUs[i] = 1;
+	  if(get_debug()) fprintf(stderr,"A cpu %d foi ocupada pelo processo %s\n", i, buffer[bufferSize-1]->name);
           run_shortest_thread(get_next_job(buffer, &bufferSize), i,output);
           break;
       }

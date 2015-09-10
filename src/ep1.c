@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "scheduler.h"
 
 int main (int argc, char* argv[]){
@@ -13,6 +14,8 @@ int main (int argc, char* argv[]){
 
   fp = fopen(argv[2], "r");
   output = fopen(argv[3], "w");
+
+  if(argv[4] != NULL && *(argv[4]) == 'd')set_debug();
   
   run_jobs(fp, atoi(argv[1]),output);
   

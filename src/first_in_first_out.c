@@ -15,6 +15,8 @@ int first_in_first_out(Job * jobs, int n, int* CPUs, int numCPU, long int global
     for(i = 0; i < numCPU; i++){
       if(!CPUs[i]){
         if(time_diff(global_start) >= jobs[next].arrival*1000){
+	  if(get_debug()) fprintf(stderr,"O processo %s(linha: %d) chegou\n",*(&jobs[next].name),*(&jobs[next].line));
+	  if(get_debug()) fprintf(stderr,"A cpu %d foi ocupada pelo processo %s\n", i, *(&jobs[next].name));
           CPUs[i] = 1;
           run_thread(threads[next], &jobs[next], i, output);
           next++;
