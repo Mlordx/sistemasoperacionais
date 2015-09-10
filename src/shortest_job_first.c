@@ -15,7 +15,7 @@ int shortest_job_first(Job * jobs, int n, int* CPUs, int numCPU, long int global
   Job** buffer = malloc (sizeof(Job*)*n);
   
   while(next < n || bufferSize > 0){
-    if(next < n && time_diff(global_start) > jobs[next].arrival*1000){
+    if(next < n && time_diff(global_start) >= jobs[next].arrival*1000){
       buffer[bufferSize++] = &jobs[next++];
     }
     for(i = 0; i < numCPU; i++){

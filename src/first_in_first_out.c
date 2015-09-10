@@ -14,7 +14,7 @@ int first_in_first_out(Job * jobs, int n, int* CPUs, int numCPU, long int global
   while(next < n){
     for(i = 0; i < numCPU; i++){
       if(!CPUs[i]){
-        if(time_diff(global_start) > jobs[next].arrival*1000){
+        if(time_diff(global_start) >= jobs[next].arrival*1000){
           CPUs[i] = 1;
           run_thread(threads[next], &jobs[next], i);
           next++;

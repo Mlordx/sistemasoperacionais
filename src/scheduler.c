@@ -5,16 +5,23 @@
 #include "time_handler.h"
 #include "first_in_first_out.h"
 #include "shortest_job_first.h"
-#include "scheduler.h"
 #include "shortest_remaining_time_next.h"
+#include "round_robin.h"
 
 double new_number(int);
 int compare_jobs(const void *, const void *);
 void print_jobs(Job*, int);
+void print_job(Job*);
 void run_thread(pthread_t, double, int);
 void read_from_file(FILE* trace, Job* processes, int* n_jobs);
 void generate_randomly(Job* processes, int n_jobs);
 int pick_mode(int, Job*, int, int*, int, long int);
+
+
+
+void print_job(Job* job){
+  printf("%s: %f\n", job->name, job->duration);
+}
 
 int* CPUs;
 long int global_start;
@@ -25,7 +32,7 @@ void* simulate(void *args){
   Data arguments = *(Data*) args;
   while(1){
     long unsigned int diff = time_diff(start);
-    if(diff > arguments.job->duration*1000) {
+    if(diff >= arguments.job->duration*1000) {
       usleep(1);
       pthread_mutex_lock(&mutex[arguments.cpu]);
       printf( 
@@ -69,9 +76,14 @@ int run_jobs(FILE* trace, int mode){
 int pick_mode(int mode, Job* processes, int n_jobs, int* CPUs, int numCPU, long int global_start)
 {
   switch(mode){
-    case 1: return first_in_first_out(processes, n_jobs, CPUs, numCPU, global_start);
-    case 2: return shortest_job_first(processes, n_jobs, CPUs, numCPU, global_start);
-    case 3: return shortest_remaining_time_next(processes, n_jobs, CPUs, numCPU, global_start, mutex);
+    case 1:
+      return first_in_first_out(processes, n_jobs, CPUs, numCPU, global_start);
+    case 2:
+      return shortest_job_first(processes, n_jobs, CPUs, numCPU, global_start);
+    case 3:
+      return shortest_remaining_time_next(processes, n_jobs, CPUs, numCPU, global_start, mutex);
+    case 4:
+      return round_robin(processes, n_jobs, CPUs, numCPU, global_start, mutex);
   }
   return -1;
 }

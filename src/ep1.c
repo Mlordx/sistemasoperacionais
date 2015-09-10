@@ -14,7 +14,8 @@ int main (int argc, char* argv[]){
     fp = fopen(argv[2], "r");
 
   run_jobs(fp, atoi(argv[1]));
-  if(fp != NULL)
-    fclose(fp);
+  
+  if(fp != NULL) fclose(fp);
+  
   return 0;
 }

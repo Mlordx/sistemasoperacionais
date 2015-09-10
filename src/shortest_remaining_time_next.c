@@ -3,7 +3,6 @@
 #include <unistd.h>
 #include <pthread.h>
 #include "time_handler.h"
-#include "scheduler.h"
 #include "shortest_remaining_time_next.h"
 
 void srtn_run_thread(Job*, int);
@@ -21,6 +20,7 @@ pthread_t* threads = NULL;
 pthread_mutex_t* mutex = NULL;
 
 int shortest_remaining_time_next(Job * jobs, int n, int* arg_CPUs, int arg_num_CPU, long int global_start, pthread_mutex_t* arg_mutex){
+  
   int next = 0, busy_CPUs = 0, i;
   
   CPUs = arg_CPUs;
@@ -31,7 +31,7 @@ int shortest_remaining_time_next(Job * jobs, int n, int* arg_CPUs, int arg_num_C
   mutex = arg_mutex;
   
   while(next < n || buffer_size > 0){
-    if(next < n && time_diff(global_start) > jobs[next].arrival*1000){
+    if(next < n && time_diff(global_start) >= jobs[next].arrival*1000){
       buffer[buffer_size++] = &jobs[next++];
       if(srtn_get_next_free_CPU() == -1)
         srtn_reorder_jobs(global_start);
@@ -51,7 +51,6 @@ int shortest_remaining_time_next(Job * jobs, int n, int* arg_CPUs, int arg_num_C
 }
 
 Job* srtn_get_next_job(){
-  int i;
   qsort(buffer, buffer_size, sizeof(Job*), srtn_compare_jobs_by_duration);
   return buffer[--buffer_size];
 }
@@ -80,10 +79,6 @@ int srtn_get_next_free_CPU(){
     }
   }
   return -1;
-}
-
-void print_job(Job* job){
-  printf("%s: %f\n", job->name, job->duration);
 }
 
 void srtn_reorder_jobs(long int global_start){

@@ -39,35 +39,37 @@ int execute(char * command){
   char ** argv = get_arguments(command);
   
   switch ( pid = fork() ) {
-  case -1:
-    perror("Erro ao criar novo processo");
-    free(argv);
-    return 0;
-  case 0: 
-    status = execve(argv[0], argv, envp);
-    exit(status);
-  default:
-    free(argv);
-    if ( waitpid(pid, &status, 0) < 0 ) {
-      perror("Não conseguiu recuperar o processo filho");
-      exit(EXIT_FAILURE);
-    }
+    case -1:
+      perror("Erro ao criar novo processo");
+      free(argv);
+      return 0;
+    case 0: 
+      status = execve(argv[0], argv, envp);
+      exit(status);
+    default:
+      free(argv);
+      if( waitpid(pid, &status, 0) < 0 ) {
+	perror("Não conseguiu recuperar o processo filho");
+	exit(EXIT_FAILURE);
+      }
  
-    if ( WIFEXITED(status) ) {
-      return WEXITSTATUS(status);
-    }
-    return 0;
+      if( WIFEXITED(status) ) {
+	return WEXITSTATUS(status);
+      }
+      return 0;
   }
 }
 
 int run (char * command){
   switch(parse(command)){
-    
-  case PWD: return pwd();
-  case CD: return cd(command);
-  case EXECUTE: return execute(command);
-  default: return 1;
-
+    case PWD:
+      return pwd();
+    case CD:
+      return cd(command);
+    case EXECUTE:
+      return execute(command);
+    default:
+      return 1;
   }
 }
 
