@@ -58,10 +58,10 @@ void* simulate(void *args){
       
       fprintf(
 	      arguments.output, 
-	      "%s %f %f\n", 
-	      arguments.job->name, 
-	      time_diff(global_start)/1000.0, 
-	      time_diff(global_start)/1000.0 - arguments.job->arrival
+	      "%f;%f;%f\n", 
+	      (time_diff(global_start)/1000.0 - arguments.job->arrival) - arguments.job->real_duration,
+        (time_diff(global_start)/1000.0 - arguments.job->arrival)/arguments.job->real_duration,
+        arguments.job->deadline - time_diff(global_start)/1000.0
 	      );
       CPUs[arguments.cpu] = 0;
       if(get_debug()){
@@ -136,6 +136,7 @@ void read_from_file(FILE* trace, Job* processes, int* n_jobs){
     processes[i].deadline = deadline;
     processes[i].line = i+1;
     processes[i].priority = priority;
+    processes[i].real_duration = duration;
     processes[i++].duration = duration;
     name = malloc(sizeof(char)*20);
   }
@@ -144,16 +145,30 @@ void read_from_file(FILE* trace, Job* processes, int* n_jobs){
 }
 
 void generate_randomly(Job* processes, int n_jobs){
-  int i;
+  int i, j;
   srand(3);
-  for(i = 0; i < n_jobs; i++){
-    processes[i].name = malloc(sizeof(char)*20);
-    processes[i].arrival = new_number(5);
-    processes[i].duration = new_number(1);
-    processes[i].deadline = new_number(15) + (int) processes[i].arrival + 1;
-    processes[i].priority = (int) new_number(5) + 1;
-    sprintf(processes[i].name, "processo%d", i);
+  for(j = 0; j < 29; j++){
+    char* arq = malloc(sizeof(char)*20);
+    FILE* output;
+    sprintf(arq, "teste/teste_100_%d.txt", j);
+    output = fopen(arq, "w");
+    for(i = 0; i < n_jobs; i++){
+      processes[i].name = malloc(sizeof(char)*20);
+      processes[i].arrival = new_number(10);
+      processes[i].duration = new_number(2);
+      processes[i].deadline = new_number(18) + (int) processes[i].arrival + 2;
+      processes[i].priority = (int) new_number(5) + 1;
+      sprintf(processes[i].name, "processo%d", i);
+      fprintf(output, "%f %s %f %f %d\n",
+        processes[i].arrival,
+        processes[i].name,
+        processes[i].duration,
+        processes[i].deadline,
+        processes[i].priority
+      );
+    }
   }
+  exit(-1);
 }
 
 double new_number(int max){

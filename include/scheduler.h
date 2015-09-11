@@ -2,7 +2,7 @@
 #define SCHEDULER_H
 
 typedef struct job {
-  double arrival, duration, deadline;
+  double arrival, duration, deadline, real_duration;
   char* name;
   int priority, line;
   long int real_start;
