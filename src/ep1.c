@@ -18,8 +18,11 @@ int main (int argc, char* argv[]){
   if(argv[4] != NULL && *(argv[4]) == 'd')set_debug();
   
   run_jobs(fp, atoi(argv[1]),output);
-  
+
+  if(get_debug()) fprintf(stderr,"%d\n",get_context());
+
   if(fp != NULL) fclose(fp);
+  fclose(output);
   
   return 0;
 }

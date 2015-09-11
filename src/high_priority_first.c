@@ -94,6 +94,7 @@ void hpf_reorder_jobs(){
     pthread_mutex_lock(&hpf_mutex[i]);
     if(hpf_CPUs[i]){
       pthread_cancel(hpf_threads[i]);
+      add_context();
       hpf_CPUs[i] = 0;
       if(get_debug()){
         fprintf(

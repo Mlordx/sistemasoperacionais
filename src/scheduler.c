@@ -21,8 +21,17 @@ int pick_mode(int, Job*, int, int*, int, long int,FILE*);
 
 int* CPUs;
 int debug = 0;
+int context_change_count = 0;
 long int global_start;
 pthread_mutex_t* mutex;
+
+int get_context(){
+  return context_change_count;
+}
+
+void add_context(){
+  context_change_count++;
+}
 
 void print_job(Job* job){
   printf("%s: %f\n", job->name, job->duration);

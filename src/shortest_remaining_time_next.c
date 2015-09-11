@@ -91,6 +91,7 @@ void srtn_reorder_jobs(){
     pthread_mutex_lock(&mutex[i]);
     if(CPUs[i]){
       pthread_cancel(threads[i]);
+      add_context();
       CPUs[i] = 0;
       if(get_debug()){
         fprintf(

@@ -101,6 +101,7 @@ void rr_reorder_jobs(){
     pthread_mutex_lock(&rr_mutex[i]);
     if(rr_CPUs[i]){
       pthread_cancel(rr_threads[i]);
+      add_context();
       rr_CPUs[i] = 0;
       if(get_debug()){
         fprintf(
