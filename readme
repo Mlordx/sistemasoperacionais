@@ -1,0 +1,25 @@
+################################
+       EP1 - MAC0422           #
+ Vinícius Silva - NUSP 7557626 #
+ Mateus Barros - NUSP 7991037  #	
+################################
+
+Como compilar: 
+	Basta rodar o comando 'make'. Os 2 executáveis serão gerados na pasta bin/ .
+
+Como rodar:
+	- ep1sh: 
+		Basta rodar './bin/ep1sh'
+	- ep1: 
+		Basta rodar './bin/ep1 # arquivo_de_entrada arquivo_de_saida d'. 
+
+		# é um numero de 1 a 6 correspondendo a: 
+		  1. First in first out
+		  2. Shortest job first
+		  3. Shortest remaining time next
+		  4. Round robin
+		  5. High priority first ( Escalonamento com prioridade )
+		  6. Real time least slack time ( Escalonamento em tempo real com deadlines rígidos )
+		
+
+		d é a flag de debug que é opcional. ( A saída desse modo é jogada na stderr )
