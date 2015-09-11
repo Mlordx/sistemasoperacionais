@@ -20,6 +20,7 @@ int main (int argc, char* argv[]){
   run_jobs(fp, atoi(argv[1]),output);
 
   if(get_debug()) fprintf(stderr,"%d\n",get_context());
+  fprintf(output,"%d\n",get_context());
 
   if(fp != NULL) fclose(fp);
   fclose(output);
