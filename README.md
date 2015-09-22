@@ -4,7 +4,7 @@ EPs de SO
 ## TODO list EP2
 
 - [ ] **Preparação**
-    - [ ] Escolher a linguagem
+    - [x] Escolher a linguagem
     - [ ] Criar gerador de entradas
     - [ ] Criar parser da entrada
 - [ ] **Algorítmos de gestão de espaço livre**
