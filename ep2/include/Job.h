@@ -17,6 +17,11 @@ private:
   std::queue<Access> accesses_;
 
 public:
+  Job* addAccess(Access& accesses);
+  Access& peakAccess();
+  Access& getNextAccess();
+  bool hasAccesses();
+
   int getStartTime();
   int getEndTime();
   std::string getName();
@@ -25,10 +30,7 @@ public:
   Job* setEndTime(int endTime);
   Job* setName(std::string name);
 
-  Job* addAccess(Access& accesses);
-  Access& peakAccess();
-  Access& getNextAccess();
-  bool hasAccessess();
+  std::string toString();
 };
 
 #endif // JOB_H
