@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "Job.hpp"
+#include "job.hpp"
 
 using namespace std;
 
@@ -50,6 +50,7 @@ Job* Job::setName(string name){
   return this;
 }
 
-ostream &operator<<(ostream &os, Job const &job){
-  return os << "name: "  <<  name_ << endl <<  "start time: " << to_string(startTime_) << endl << "end time: " << to_string(endTime_) << endl;
+ostream& operator<<(ostream &os, Job const &job){
+  os << "name: "  <<  job.name_ << endl <<  "start time: " << job.startTime_ << endl << "end time: " << job.endTime_ << endl;
+  return os;
 }

@@ -6,6 +6,9 @@
 
 struct Access {
   int time, position;
+
+  Access(int a, int b) : time(a), position(b){}
+  
 };
 
 
@@ -30,9 +33,7 @@ public:
   Job* setStartTime(int);
   Job* setEndTime(int);
   Job* setName(std::string);
-
-
-  //std::string toString();
+  friend std::ostream& operator<<(std::ostream&, const Job&);
 };
 
 #endif // JOB_HPP
