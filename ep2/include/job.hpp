@@ -1,5 +1,5 @@
-#ifndef JOB_H
-#define JOB_H
+#ifndef JOB_HPP
+#define JOB_HPP
 
 #include <string>
 #include <queue>
@@ -8,8 +8,9 @@ struct Access {
   int time, position;
 };
 
-class Job
-{
+
+class Job{
+  
 private:
   int startTime_;
   int endTime_;
@@ -17,7 +18,7 @@ private:
   std::queue<Access> accesses_;
 
 public:
-  Job* addAccess(Access& accesses);
+  Job* addAccess(Access&);
   Access& peakAccess();
   Access& getNextAccess();
   bool hasAccesses();
@@ -26,11 +27,11 @@ public:
   int getEndTime();
   std::string getName();
 
-  Job* setStartTime(int startTime);
-  Job* setEndTime(int endTime);
-  Job* setName(std::string name);
+  Job* setStartTime(int);
+  Job* setEndTime(int);
+  Job* setName(std::string);
 
   std::string toString();
 };
 
-#endif // JOB_H
+#endif // JOB_HPP

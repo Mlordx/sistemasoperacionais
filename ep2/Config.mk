@@ -44,7 +44,7 @@
 # CPPFLAGS        := # Precompiler Flags
 # ASFLAGS         := # Assembly Flags
 CFLAGS            := -Wall -pedantic -g
-# CXXFLAGS        := # C++ Flags
+CXXFLAGS        := -Wall -pedantic -g # C++ Flags
 LDFLAGS           := # -lreadline -lpthread
 
 # Documentation
