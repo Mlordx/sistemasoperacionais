@@ -50,7 +50,6 @@ Job* Job::setName(string name){
   return this;
 }
 
-
-string Job::toString(){
-  return "name: " + name_ + "\n" + "start time: " + to_string(startTime_) + "\n" + "end time: " + to_string(endTime_) + "\n";
+ostream &operator<<(ostream &os, Job const &job){
+  return os << "name: "  <<  name_ << endl <<  "start time: " << to_string(startTime_) << endl << "end time: " << to_string(endTime_) << endl;
 }

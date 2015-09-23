@@ -31,7 +31,8 @@ public:
   Job* setEndTime(int);
   Job* setName(std::string);
 
-  std::string toString();
+
+  //std::string toString();
 };
 
 #endif // JOB_HPP
