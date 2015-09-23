@@ -5,7 +5,7 @@ EPs de SO
 
 - [ ] **Preparação**
     - [x] Escolher a linguagem
-    - [ ] Criar gerador de entradas
+    - [x] Criar gerador de entradas
     - [ ] Criar parser da entrada
 - [ ] **Algorítmos de gestão de espaço livre**
     - [ ] *First Fit*

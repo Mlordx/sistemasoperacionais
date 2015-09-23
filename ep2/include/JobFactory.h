@@ -17,7 +17,8 @@ public:
   std::vector<Job> createManyJobs(int maxStartTime, 
                                   int maxEndTime, 
                                   std::string nameTemplate, 
-                                  int maxAccess);
+                                  int maxAccess,
+                                  int nJobs);
 };
 
 #endif // JOB_FACTORY_H
