@@ -3,10 +3,10 @@ EPs de SO
 
 ## TODO list EP2
 
-- [ ] **Preparação**
+- [x] **Preparação**
     - [x] Escolher a linguagem
     - [x] Criar gerador de entradas
-    - [ ] Criar parser da entrada
+    - [x] Criar parser da entrada
 - [ ] **Algorítmos de gestão de espaço livre**
     - [ ] *First Fit*
     - [ ] *Next Fit*
