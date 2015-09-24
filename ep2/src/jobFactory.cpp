@@ -1,30 +1,34 @@
 #include <iostream>
+#include <fstream>
 #include <algorithm> 
 
 #include "jobFactory.hpp"
+#include <string.h>
 
 using namespace std;
 
 vector<int> makeAccessTimes(int, int, int);
 bool ascending(int i, int j) { return i > j; }
-
+int randomUpTo(int ceiling) { return rand() % ceiling + 1; }
 
 JobFactory::JobFactory(int sd) : seed(sd){
   srand(seed);
 }
 
-Job* JobFactory::createJob(int maxStartTime, int maxEndTime, string name, int maxAccess){
-  int startTime = rand() % maxStartTime + 1;
-  int endTime = rand() % (maxEndTime - startTime) + startTime + 1;
+Job* JobFactory::createJobRandomly(int maxStartTime, int maxEndTime, string name, int maxAccess){
+  
+  int startTime = randomUpTo(maxStartTime);
+  int endTime = randomUpTo(maxEndTime - startTime) + startTime;
   maxAccess = min(maxAccess, endTime - startTime);
-  int nAccess = rand() % maxAccess + 1;
-  int memorySize = rand() % MEMORY_SIZE + 1;
+  int nAccess = randomUpTo(maxAccess);
+  int memorySize = randomUpTo(MEMORY_SIZE);
+  
   Job* job = new Job;
   job->setStartTime(startTime)->setEndTime(endTime)->setName(name);
   vector<int> accessTimes = makeAccessTimes(startTime, endTime, nAccess);
 
   for(int i = 0; i < nAccess; i++){
-    Access* access = new Access(accessTimes.back(),rand() % memorySize);
+    Access* access = new Access(accessTimes.back(),randomUpTo(memorySize-1));
     accessTimes.pop_back();
     job->addAccess(*access);
   }
@@ -32,13 +36,47 @@ Job* JobFactory::createJob(int maxStartTime, int maxEndTime, string name, int ma
   return job;
 }
 
-vector<Job> JobFactory::createManyJobs(int maxStartTime, int maxEndTime, std::string nameTemplate, int maxAccess, int nJobs){
+vector<Job> JobFactory::createManyJobsRandomly(int maxStartTime, int maxEndTime, std::string nameTemplate, int maxAccess, int nJobs){
   
   vector<Job> jobs;
   for(int i = 0; i < nJobs; i++){
     string name = nameTemplate + to_string(i);
-    jobs.push_back(*createJob(maxStartTime, maxEndTime, name, maxAccess));
+    jobs.push_back(*createJobRandomly(maxStartTime, maxEndTime, name, maxAccess));
   }
+
+  return jobs;
+}
+
+Job* JobFactory::createJobFromDescription(string description){
+  
+  Job* job = new Job;
+  job->setStartTime(atoi(strtok((char*) description.c_str(), " ")));
+  string name(strtok(NULL, " "));
+  job->setName(name);
+  job->setEndTime(atoi(strtok(NULL, " ")));
+  char * nextToken;
+  while((nextToken = strtok(NULL, " ")) != NULL){
+    Access* access = new Access(atoi(nextToken), atoi(strtok(NULL, " ")));
+    job->addAccess(*access);
+  }
+  return job;
+}
+
+vector<Job> JobFactory::createJobsFromFile(string fileName, int* total, int* virt){
+
+  vector<Job> jobs;
+  ifstream file;
+  file.open(fileName);
+  string description;
+
+  getline(file, description);
+  *total = atoi(strtok((char*) description.c_str(), " "));
+  *virt = atoi(strtok(NULL, " "));
+
+  while(getline(file, description)){
+    jobs.push_back(*createJobFromDescription(description));
+  }
+  file.close();
   return jobs;
 }
 

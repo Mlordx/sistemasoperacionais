@@ -12,9 +12,13 @@ class JobFactory{
 public:
   JobFactory(int s);
 
-  Job* createJob(int, int, std::string, int);
+  Job* createJobRandomly(int, int, std::string, int);
   
-  std::vector<Job> createManyJobs(int, int, std::string, int, int);
+  std::vector<Job> createManyJobsRandomly(int, int, std::string, int, int);
+  
+  Job* createJobFromDescription(std::string);
+
+  std::vector<Job> createJobsFromFile(std::string, int*, int*);
 };
 
 #endif // JOB_FACTORY_H
