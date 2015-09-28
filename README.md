@@ -18,7 +18,7 @@ EPs de SO
     - [ ] *Least Recently Used Page*
 - [ ] **Interação com o simulador**
     - [ ] Criar o interpretador de comandos
-    - [ ] Criar abstrações para os arquivos binários ep2.vir e ep2.mem
+    - [x] Criar abstrações para os arquivos binários ep2.vir e ep2.mem
 - [ ] **Documentação**
     - [ ] Gráficos dos experimentos
     - [ ] Apresentação em pdf
