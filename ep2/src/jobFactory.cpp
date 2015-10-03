@@ -9,13 +9,13 @@ using namespace std;
 
 vector<int> makeAccessTimes(int, int, int);
 bool ascending(int i, int j) { return i > j; }
-int randomUpTo(int ceiling) { return rand() % ceiling + 1; }
+inline int randomUpTo(int ceiling) { return rand() % ceiling + 1; }
 
 JobFactory::JobFactory(int sd) : seed(sd){
   srand(seed);
 }
 
-Job* JobFactory::createJobRandomly(int maxStartTime, int maxEndTime, string name, int maxAccess){
+shared_ptr<Job> JobFactory::createJobRandomly(int maxStartTime, int maxEndTime, string name, int maxAccess){
   
   int startTime = randomUpTo(maxStartTime);
   int endTime = randomUpTo(maxEndTime - startTime) + startTime;
@@ -23,19 +23,19 @@ Job* JobFactory::createJobRandomly(int maxStartTime, int maxEndTime, string name
   int nAccess = randomUpTo(maxAccess);
   int memorySize = randomUpTo(MEMORY_SIZE);
   
-  Job* job = new Job;
+  shared_ptr<Job> job(new Job);
   job->setStartTime(startTime)->setEndTime(endTime)->setName(name);
   vector<int> accessTimes = makeAccessTimes(startTime, endTime, nAccess);
 
   for(int i = 0; i < nAccess; i++){
-    Access* access = new Access(accessTimes.back(),randomUpTo(memorySize-1));
+    shared_ptr<Access> access(new Access(accessTimes.back(),randomUpTo(memorySize-1)));
     accessTimes.pop_back();
     job->addAccess(*access);
   }
 
   return job;
 }
-
+  
 vector<Job> JobFactory::createManyJobsRandomly(int maxStartTime, int maxEndTime, std::string nameTemplate, int maxAccess, int nJobs){
   
   vector<Job> jobs;
@@ -47,16 +47,16 @@ vector<Job> JobFactory::createManyJobsRandomly(int maxStartTime, int maxEndTime,
   return jobs;
 }
 
-Job* JobFactory::createJobFromDescription(string description){
+shared_ptr<Job> JobFactory::createJobFromDescription(string description){
   
-  Job* job = new Job;
+  shared_ptr<Job> job(new Job);
   job->setStartTime(atoi(strtok((char*) description.c_str(), " ")));
-  string name(strtok(NULL, " "));
+  string name(strtok(nullptr, " "));
   job->setName(name);
-  job->setEndTime(atoi(strtok(NULL, " ")));
+  job->setEndTime(atoi(strtok(nullptr, " ")));
   char * nextToken;
-  while((nextToken = strtok(NULL, " ")) != NULL){
-    Access* access = new Access(atoi(nextToken), atoi(strtok(NULL, " ")));
+  while((nextToken = strtok(nullptr, " ")) != nullptr){
+    shared_ptr<Access> access(new Access(atoi(nextToken), atoi(strtok(nullptr, " "))));
     job->addAccess(*access);
   }
   return job;
@@ -71,7 +71,7 @@ vector<Job> JobFactory::createJobsFromFile(string fileName, int* total, int* vir
 
   getline(file, description);
   *total = atoi(strtok((char*) description.c_str(), " "));
-  *virt = atoi(strtok(NULL, " "));
+  *virt = atoi(strtok(nullptr, " "));
 
   while(getline(file, description)){
     jobs.push_back(*createJobFromDescription(description));

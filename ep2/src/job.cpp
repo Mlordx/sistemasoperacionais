@@ -1,12 +1,13 @@
 #include <iostream>
+#include <memory>
 
 #include "job.hpp"
 
 using namespace std;
 
-Job* Job::addAccess(Access& access){
+shared_ptr<Job> Job::addAccess(Access& access){
   accesses_.push(access);
-  return this;
+  return shared_from_this();
 }
 
 Access& Job::peakAccess(){
@@ -27,27 +28,27 @@ int Job::getStartTime(){
   return startTime_;
 }
 
-Job* Job::setStartTime(int startTime){
+shared_ptr<Job> Job::setStartTime(int startTime){
   startTime_ = startTime;
-  return this;
+  return shared_from_this();
 }
 
 int Job::getEndTime(){
   return endTime_;
 }
 
-Job* Job::setEndTime(int endTime){
+shared_ptr<Job> Job::setEndTime(int endTime){
   endTime_ = endTime;
-  return this;
+  return shared_from_this();
 }
 
 string Job::getName(){
   return name_;
 }
 
-Job* Job::setName(string name){
+shared_ptr<Job> Job::setName(string name){
   name_ = name;
-  return this;
+  return shared_from_this();
 }
 
 ostream& operator<<(ostream &os, Job const &job){

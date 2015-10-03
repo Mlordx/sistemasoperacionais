@@ -3,6 +3,7 @@
 
 #include <string>
 #include <queue>
+#include <memory>
 
 struct Access {
   int time, position;
@@ -12,7 +13,7 @@ struct Access {
 };
 
 
-class Job{
+class Job: public std::enable_shared_from_this<Job> {
   
 private:
   int startTime_;
@@ -21,7 +22,7 @@ private:
   std::queue<Access> accesses_;
 
 public:
-  Job* addAccess(Access&);
+  std::shared_ptr<Job> addAccess(Access&);
   Access& peakAccess();
   Access& getNextAccess();
   bool hasAccesses();
@@ -30,9 +31,9 @@ public:
   int getEndTime();
   std::string getName();
 
-  Job* setStartTime(int);
-  Job* setEndTime(int);
-  Job* setName(std::string);
+  std::shared_ptr<Job> setStartTime(int);
+  std::shared_ptr<Job> setEndTime(int);
+  std::shared_ptr<Job> setName(std::string);
   friend std::ostream& operator<<(std::ostream&, const Job&);
 };
 

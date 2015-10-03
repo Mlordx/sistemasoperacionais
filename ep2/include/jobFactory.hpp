@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #include <job.hpp>
 #define MEMORY_SIZE 100
@@ -12,11 +13,11 @@ class JobFactory{
 public:
   JobFactory(int s);
 
-  Job* createJobRandomly(int, int, std::string, int);
+  std::shared_ptr<Job> createJobRandomly(int, int, std::string, int);
   
   std::vector<Job> createManyJobsRandomly(int, int, std::string, int, int);
   
-  Job* createJobFromDescription(std::string);
+  std::shared_ptr<Job> createJobFromDescription(std::string);
 
   std::vector<Job> createJobsFromFile(std::string, int*, int*);
 };
