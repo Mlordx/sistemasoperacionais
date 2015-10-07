@@ -42,6 +42,24 @@ shared_ptr<Job> Job::setEndTime(int endTime){
   return shared_from_this();
 }
 
+int Job::getSize(){
+  return size_;
+}
+
+shared_ptr<Job> Job::setSize(int size){
+  size_ = size;
+  return shared_from_this();
+}
+
+int Job::getId(){
+  return id_;
+}
+
+shared_ptr<Job> Job::setId(int id){
+  id_ = id;
+  return shared_from_this();
+}
+
 string Job::getName(){
   return name_;
 }

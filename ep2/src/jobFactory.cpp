@@ -15,16 +15,16 @@ JobFactory::JobFactory(int sd) : seed(sd){
   srand(seed);
 }
 
-shared_ptr<Job> JobFactory::createJobRandomly(int maxStartTime, int maxEndTime, string name, int maxAccess){
+shared_ptr<Job> JobFactory::createJobRandomly(int id, int maxStartTime, int maxEndTime, string name, int maxSize, int maxAccess){
   
   int startTime = randomUpTo(maxStartTime);
   int endTime = randomUpTo(maxEndTime - startTime) + startTime;
   maxAccess = min(maxAccess, endTime - startTime);
   int nAccess = randomUpTo(maxAccess);
-  int memorySize = randomUpTo(MEMORY_SIZE);
+  int memorySize = randomUpTo(maxSize - maxSize/10 - 1 ) + 1 + maxSize/10;
   
   shared_ptr<Job> job(new Job);
-  job->setStartTime(startTime)->setEndTime(endTime)->setName(name);
+  job->setId(id)->setStartTime(startTime)->setEndTime(endTime)->setName(name)->setSize(memorySize);
   vector<int> accessTimes = makeAccessTimes(startTime, endTime, nAccess);
 
   for(int i = 0; i < nAccess; i++){
@@ -36,23 +36,25 @@ shared_ptr<Job> JobFactory::createJobRandomly(int maxStartTime, int maxEndTime, 
   return job;
 }
   
-vector<Job> JobFactory::createManyJobsRandomly(int maxStartTime, int maxEndTime, std::string nameTemplate, int maxAccess, int nJobs){
+vector<Job> JobFactory::createManyJobsRandomly(int maxStartTime, int maxEndTime, std::string nameTemplate, int maxSize, int maxAccess, int nJobs){
   
   vector<Job> jobs;
   for(int i = 0; i < nJobs; i++){
     string name = nameTemplate + to_string(i);
-    jobs.push_back(*createJobRandomly(maxStartTime, maxEndTime, name, maxAccess));
+    jobs.push_back(*createJobRandomly(i, maxStartTime, maxEndTime, name, maxSize, maxAccess));
   }
 
   return jobs;
 }
 
-shared_ptr<Job> JobFactory::createJobFromDescription(string description){
+shared_ptr<Job> JobFactory::createJobFromDescription(int id, string description){
   
   shared_ptr<Job> job(new Job);
+  job->setId(id);
   job->setStartTime(atoi(strtok((char*) description.c_str(), " ")));
   string name(strtok(nullptr, " "));
   job->setName(name);
+  job->setSize(atoi(strtok(nullptr, " ")));
   job->setEndTime(atoi(strtok(nullptr, " ")));
   char * nextToken;
   while((nextToken = strtok(nullptr, " ")) != nullptr){
@@ -72,9 +74,10 @@ vector<Job> JobFactory::createJobsFromFile(string fileName, int* total, int* vir
   getline(file, description);
   *total = atoi(strtok((char*) description.c_str(), " "));
   *virt = atoi(strtok(nullptr, " "));
-
+  int nextId = 0;
   while(getline(file, description)){
-    jobs.push_back(*createJobFromDescription(description));
+    jobs.push_back(*createJobFromDescription(nextId, description));
+    nextId++;
   }
   file.close();
   return jobs;

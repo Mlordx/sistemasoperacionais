@@ -24,7 +24,6 @@ void Memory::setMemoryState(shared_ptr<MemorySlot> memorySlot){
   vector<byte> bytes(size_,-1);
   
   while(memorySlot != nullptr){
-    cout << "memorySlot: " << memorySlot->pid << endl;  
     write(memorySlot, bytes);
     memorySlot = memorySlot->next;
   }

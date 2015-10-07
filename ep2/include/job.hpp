@@ -18,6 +18,8 @@ class Job: public std::enable_shared_from_this<Job> {
 private:
   int startTime_;
   int endTime_;
+  int size_;
+  int id_;
   std::string name_;
   std::queue<Access> accesses_;
 
@@ -29,10 +31,14 @@ public:
 
   int getStartTime();
   int getEndTime();
+  int getSize();
+  int getId();
   std::string getName();
 
   std::shared_ptr<Job> setStartTime(int);
   std::shared_ptr<Job> setEndTime(int);
+  std::shared_ptr<Job> setSize(int);
+  std::shared_ptr<Job> setId(int);
   std::shared_ptr<Job> setName(std::string);
   friend std::ostream& operator<<(std::ostream&, const Job&);
 };

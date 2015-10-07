@@ -13,11 +13,11 @@ class JobFactory{
 public:
   JobFactory(int s);
 
-  std::shared_ptr<Job> createJobRandomly(int, int, std::string, int);
+  std::shared_ptr<Job> createJobRandomly(int, int, int, std::string, int, int);
   
-  std::vector<Job> createManyJobsRandomly(int, int, std::string, int, int);
+  std::vector<Job> createManyJobsRandomly(int, int, std::string, int, int, int);
   
-  std::shared_ptr<Job> createJobFromDescription(std::string);
+  std::shared_ptr<Job> createJobFromDescription(int, std::string);
 
   std::vector<Job> createJobsFromFile(std::string, int*, int*);
 };

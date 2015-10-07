@@ -1,4 +1,4 @@
-#include <firstfit.hpp>
+/*#include <firstfit.hpp>
 
 void FirstFit(Memory mem,vector<Job> jobs){
   int time = 0;
@@ -44,3 +44,4 @@ void FirstFit(Memory mem,vector<Job> jobs){
   }
 
 }
+*/
