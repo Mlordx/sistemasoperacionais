@@ -8,7 +8,6 @@ using namespace std;
 
 typedef char byte;
 
-void initialize(string, int);
 void write(shared_ptr<MemorySlot>, vector<byte>&);
 
 Memory::Memory(string filename, int size){
