@@ -20,8 +20,7 @@ shared_ptr<MemorySlot> MemoryAlgorithm::insertJob(Job job, shared_ptr<MemorySlot
   memorySlot->size = job.getSize();
   memorySlot->pid = job.getId();
 
-  if(remainderSize == 0)
-    return memorySlot;
+  if(remainderSize == 0) return memorySlot;
 
   shared_ptr<MemorySlot> remainder(new MemorySlot(-1,remainderPosition,remainderSize));
 

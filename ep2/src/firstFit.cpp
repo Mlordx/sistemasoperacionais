@@ -1,9 +1,8 @@
 #include <iostream>
-#include "nextFit.hpp"
-#include "jobFactory.hpp"
+#include <firstFit.hpp>
+#include <jobFactory.hpp>
 
 using namespace std;
-
 /*
 int main(){
   cout << "teste\n";
@@ -12,15 +11,16 @@ int main(){
   Memory mem("teste.mem", 1000);
   auto head = mem.getMemoryState();
   auto table = head;
-  NextFit algorithm(head);
+  FirstFit algorithm(head);
 
-  for(int i = 0; i < 40; i++){
+  int i = 0;
+  for(;i < 40; i++){
     cout << algorithm.execute(jobs[i]) << endl;
     while(table != nullptr){
       cout << "(" << table->position << ", " << table->size << ", " << table->pid << ") ";
       table = table->next;
     }
-    cout << endl << endl << endl;
+    cout << endl << endl;
     table = head;
     mem.setMemoryState(head);
   }
@@ -28,21 +28,26 @@ int main(){
   return 0;
 }
 */
+FirstFit::FirstFit(shared_ptr<MemorySlot> head) : MemoryAlgorithm(head),list(head) {}
 
-NextFit::NextFit(shared_ptr<MemorySlot> head) : MemoryAlgorithm(head), next_(head) {}
 
+int FirstFit::execute(Job job){
+  auto p = list;
+  auto size = job.getSize();
 
-int NextFit::execute(Job job){
-  auto memoryTable = next_;
-  do{
-    if(memoryTable->pid == -1 && memoryTable->size >= job.getSize()){
-      next_ = insertJob(job, memoryTable);
-      return next_->position;
+  while(p != nullptr){
+    auto aux = *(p);
+    if(p->pid == -1){ 
+      if(p->size < size){
+	p = p->next;
+	continue; 
+      }
+      else{
+	auto bla = insertJob(job,p);
+	return bla->pid;
+      }
     }
-    memoryTable = memoryTable->next;
-    if(memoryTable == nullptr)
-      memoryTable = head_;
-  } while(memoryTable != next_);
-
+    p = p->next;
+  }
   return -1;
 }
