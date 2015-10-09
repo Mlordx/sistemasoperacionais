@@ -8,8 +8,8 @@ EPs de SO
     - [x] Criar gerador de entradas
     - [x] Criar parser da entrada
 - [ ] **Algorítmos de gestão de espaço livre**
-    - [ ] *First Fit*
-    - [ ] *Next Fit*
+    - [x] *First Fit*
+    - [x] *Next Fit*
     - [ ] *Quick Fit*
 - [ ] **Algorítmos de substituição de página**
     - [ ] *Not Recently Used Page*
