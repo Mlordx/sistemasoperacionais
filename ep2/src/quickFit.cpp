@@ -14,10 +14,15 @@ int main(){
   auto table = head;
   QuickFit algorithm(head);
 
+  for(auto bla = jobs.begin(); bla != jobs.end(); bla++){
+    cout << (*(bla)).getSize() << " ";
+  }
+
+  cout << endl << endl;
 
   int i = 0;
   for(;i < 40; i++){
-    cout << algorithm.execute(jobs[i]) << endl;
+    cout << jobs[i].getSize() << "~" << algorithm.execute(jobs[i]) << endl;
     while(table != nullptr){
       cout << "(" << table->position << ", " << table->size << ", " << table->pid << ") ";
       table = table->next;
@@ -46,15 +51,18 @@ void QuickFit::updateMemoryList(shared_ptr<MemorySlot> head){
   while(p != nullptr){
     
     for(unsigned int i = 0; i < 5; i++){
-      if(i == 4){
-	memory_list[4].push_back(p);
-
-      }else{
-	if(i*16 < (unsigned)p->size && (unsigned)p->size <= (i+1)*16){
-	  memory_list[i].push_back(p);
+      if(p->pid == -1){
+	if(i == 4){
+	  memory_list[4].push_back(p);
+	  
+	}else{
+	  if(i*16 < (unsigned)p->size && (unsigned)p->size <= (i+1)*16){
+	    memory_list[i].push_back(p);
+	  }
 	}
       }
     }
+    
     p = p->next;
   }
 }

@@ -70,6 +70,6 @@ shared_ptr<Job> Job::setName(string name){
 }
 
 ostream& operator<<(ostream &os, Job const &job){
-  os << "name: "  <<  job.name_ << endl <<  "start time: " << job.startTime_ << endl << "end time: " << job.endTime_ << endl;
+  os << "name: "  <<  job.name_ << endl <<  "start time: " << job.startTime_ << endl << "end time: " << job.endTime_ << endl << "size: " << job.size_ << endl;
   return os;
 }
