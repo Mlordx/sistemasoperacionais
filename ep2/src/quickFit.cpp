@@ -4,7 +4,7 @@
 #include <jobFactory.hpp>
 
 using namespace std;
-
+/*
 int main(){
   cout << "teste\n";
   JobFactory factory(10);
@@ -35,7 +35,7 @@ int main(){
   
   return 0;
 }
-
+*/
 
 QuickFit::QuickFit(shared_ptr<MemorySlot> hd) : MemoryAlgorithm(hd),head(hd) {
   memory_list.resize(5);

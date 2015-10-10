@@ -6,7 +6,7 @@
 #include "job.hpp"
 #include "memory.hpp"
 
-class MemoryAlgorithm{
+class MemoryAlgorithm: public std::enable_shared_from_this<MemoryAlgorithm>{
 protected:
   std::shared_ptr<MemorySlot> head_;
 public:
