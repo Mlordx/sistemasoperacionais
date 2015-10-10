@@ -4,6 +4,7 @@
 
 using namespace std;
 
+/*
 int main(){
   cout << "teste\n";
   JobFactory factory(50);
@@ -26,11 +27,9 @@ int main(){
   
   return 0;
 }
+*/
 
-
-NextFit::NextFit(shared_ptr<MemorySlot> head) : MemoryAlgorithm(head){
-  next_ = head;
-}
+NextFit::NextFit(shared_ptr<MemorySlot> head) : MemoryAlgorithm(head), next_(head) {}
 
 
 int NextFit::execute(Job job){

@@ -76,3 +76,5 @@ void write(shared_ptr<MemorySlot> mem, vector<byte>& bytes){
   for(int i = mem->position; i < size; i++)
     bytes[i] = mem->pid;
 }
+
+

@@ -9,6 +9,7 @@ struct MemorySlot{
   int pid, position, size;
   std::shared_ptr<MemorySlot> next;
   std::shared_ptr<MemorySlot> prev;
+
   MemorySlot(int a, int b, int c) : pid(a), position(b), size(c){}
 };
 
