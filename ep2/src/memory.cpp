@@ -51,8 +51,8 @@ shared_ptr<MemorySlot> Memory::getMemoryState(){
   for(int i = 0; i < size_; i++){
     if(bytes[i] != lastpid){
       if(size > 0){
-	shared_ptr<MemorySlot> aux(new MemorySlot((int) lastpid,pos,size));
-	mem->next = aux;
+        shared_ptr<MemorySlot> aux(new MemorySlot((int) lastpid,pos,size));
+        mem->next = aux;
         mem = mem->next;
       }
       size = 0;

@@ -9,15 +9,15 @@ MemoryAlgorithm::MemoryAlgorithm(shared_ptr<MemorySlot> memorySlot){
 
 shared_ptr<MemorySlot> MemoryAlgorithm::insertJob(Job job, shared_ptr<MemorySlot> memorySlot){
   
-  if(memorySlot->size < job.getSize()){
+  if(memorySlot->size < getRealSize(job)){
     cout << "Erro na alocação de memória\n";
     exit(-1);
   }
 
-  int remainderSize = memorySlot->size - job.getSize();
-  int remainderPosition = memorySlot->position + job.getSize();
+  int remainderSize = memorySlot->size - getRealSize(job);
+  int remainderPosition = memorySlot->position + getRealSize(job);
 
-  memorySlot->size = job.getSize();
+  memorySlot->size = getRealSize(job);
   memorySlot->pid = job.getId();
 
   if(remainderSize == 0)
@@ -29,4 +29,11 @@ shared_ptr<MemorySlot> MemoryAlgorithm::insertJob(Job job, shared_ptr<MemorySlot
   memorySlot->next = remainder;
 
   return memorySlot;
+}
+
+int MemoryAlgorithm::getRealSize(Job job){
+  int numPages = job.getSize()/16;
+  if(job.getSize()%16 != 0)
+    numPages++;
+  return numPages * 16;
 }

@@ -6,9 +6,9 @@ using namespace std;
 
 int main(){
   cout << "teste\n";
-  JobFactory factory(40);
+  JobFactory factory(50);
   auto jobs = factory.createManyJobsRandomly(5, 20, "processo_", 50, 10, 40);
-  Memory mem("teste.mem", 1000);
+  Memory mem("teste.mem", 1024);
   auto head = mem.getMemoryState();
   auto table = head;
   NextFit algorithm(head);
@@ -36,7 +36,7 @@ NextFit::NextFit(shared_ptr<MemorySlot> head) : MemoryAlgorithm(head){
 int NextFit::execute(Job job){
   auto memoryTable = next_;
   do{
-    if(memoryTable->pid == -1 && memoryTable->size >= job.getSize()){
+    if(memoryTable->pid == -1 && memoryTable->size >= getRealSize(job)){
       next_ = insertJob(job, memoryTable);
       return next_->position;
     }

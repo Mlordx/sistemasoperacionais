@@ -12,6 +12,7 @@ protected:
 public:
   MemoryAlgorithm(std::shared_ptr<MemorySlot>);
   std::shared_ptr<MemorySlot> insertJob(Job, std::shared_ptr<MemorySlot>);
+  int getRealSize(Job);
   virtual int execute(Job) =0;
 };
 
