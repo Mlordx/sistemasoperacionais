@@ -57,8 +57,7 @@ void MemoryManager::setMemoryAlgorithm(int memoryAlgorithmIndex){
 bool MemoryManager::insert(Job job){
   cout << "inserindo: " << job.getId() << endl;
   int position = memoryAlg_->execute(job);
-  if(position == -1)
-    return false;
+  if(position == -1) return false;
   printMemoryState();
 
   int page = position/PAGE_SIZE;

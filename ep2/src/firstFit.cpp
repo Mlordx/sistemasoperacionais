@@ -8,19 +8,13 @@ FirstFit::FirstFit(shared_ptr<MemorySlot> head) : MemoryAlgorithm(head),list(hea
 
 int FirstFit::execute(Job job){
   auto p = list;
-  auto size = job.getSize();
+  auto size = getRealSize(job);
 
   while(p != nullptr){
     auto aux = *(p);
-    if(p->pid == -1){ 
-      if(p->size < size){
-	p = p->next;
-	continue; 
-      }
-      else{
+    if(p->pid == -1 && p->size >= size){
 	auto bla = insertJob(job,p);
 	return bla->pid;
-      }
     }
     p = p->next;
   }
