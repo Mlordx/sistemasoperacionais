@@ -72,8 +72,11 @@ vector<Job> JobFactory::createJobsFromFile(string fileName, int* total, int* vir
   string description;
 
   getline(file, description);
-  *total = atoi(strtok((char*) description.c_str(), " "));
-  *virt = atoi(strtok(nullptr, " "));
+  int a,b;
+  a = atoi(strtok((char*) description.c_str(), " "));
+  total = &a;
+  b = atoi(strtok(nullptr, " "));
+  virt = &b;
   int nextId = 0;
   while(getline(file, description)){
     jobs.push_back(*createJobFromDescription(nextId, description));
