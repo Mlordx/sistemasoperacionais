@@ -68,7 +68,7 @@ void QuickFit::updateMemoryList(shared_ptr<MemorySlot> head){
 }
 
 int QuickFit::execute(Job job){
-  auto size = job.getSize();
+  auto size = getRealSize(job);
   unsigned int i = size/16;
 
   if(i >= memory_list.size()) i = memory_list.size()-1;

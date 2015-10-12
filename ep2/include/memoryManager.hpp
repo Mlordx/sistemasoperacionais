@@ -7,6 +7,7 @@
 #include "memoryAlgorithm.hpp"
 #include "pageAlgorithm.hpp"
 
+#define INTERVAL 1
 #define PAGE_SIZE 16
 #define REAL_FILE "ep2.mem"
 #define VIRTUAL_FILE "ep2.vir"
@@ -28,6 +29,8 @@ public:
   void setMemoryAlgorithm(int);
   void printMemoryState();
   void printPageTable();
+  void setReal(int);
+  void setVirtual(int);
   bool insert(Job);
   bool remove(Job);
   bool read(int);

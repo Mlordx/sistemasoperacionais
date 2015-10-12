@@ -11,6 +11,7 @@
 
 using namespace std;
 
+/*
 int main(){
   MemoryManager manager(256, 64);
   JobFactory factory = JobFactory(40);
@@ -34,6 +35,17 @@ int main(){
 
   return 0;
 }
+*/
+
+void MemoryManager::setReal(int sizeReal){
+  Memory real(REAL_FILE, sizeReal);
+  real_ = real.getMemoryState();
+}
+
+void MemoryManager::setVirtual(int sizeVirtual){
+  Memory virt(VIRTUAL_FILE, sizeVirtual);
+  virtual_ = virt.getMemoryState();
+}
 
 MemoryManager::MemoryManager(int sizeVirtual, int sizeReal){
   
@@ -53,7 +65,6 @@ MemoryManager::MemoryManager(int sizeVirtual, int sizeReal){
 shared_ptr<MemorySlot> MemoryManager::getMemoryState(){
   return virtual_;
 }
-
 
 bool MemoryManager::insert(Job job){
 
