@@ -13,6 +13,13 @@ struct MemorySlot{
   MemorySlot(int a, int b, int c) : pid(a), position(b), size(c){}
 };
 
+struct Page{
+  int posVirtual, posReal, pid;
+  bool read;
+
+  Page(int a, int b, int c, bool d) : posVirtual(a), posReal(b), pid(c), read(d){}
+};
+
 class Memory{
   
 private:

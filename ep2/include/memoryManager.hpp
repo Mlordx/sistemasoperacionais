@@ -11,20 +11,16 @@
 #define REAL_FILE "ep2.mem"
 #define VIRTUAL_FILE "ep2.vir"
 
-struct Page{
-  int posVirtual, posReal, pid;
-  bool read;
-
-  Page(int a, int b, int c, bool d) : posVirtual(a), posReal(b), pid(c), read(d){}
-};
-
 class MemoryManager{
 private:
+  int sizeVirtual_;
+  int sizeReal_;
   std::shared_ptr<MemorySlot> virtual_;
   std::shared_ptr<MemorySlot> real_;
   std::vector<Page> pageTable_;
   std::shared_ptr<PageAlgorithm> pageAlg_;
   std::shared_ptr<MemoryAlgorithm> memoryAlg_;
+  bool swap (int, int);
 public:
   MemoryManager(int, int);
   std::shared_ptr<MemorySlot> getMemoryState();
@@ -35,6 +31,7 @@ public:
   bool insert(Job);
   bool remove(Job);
   bool read(int);
+  void reset();
 };
 
 #endif // MEMORY_MANAGER_HPP

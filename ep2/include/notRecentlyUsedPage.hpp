@@ -1,12 +1,14 @@
 #ifndef NOT_RECENTLY_USED_PAGE_HPP
 #define NOT_RECENTLY_USED_PAGE_HPP
 
-class notRecentlyUsedPage : public PageAlgorithm{
-private:
-  std::shared_ptr<MemorySlot> next_;
+#include <vector>
+
+#include "memory.hpp"
+#include "pageAlgorithm.hpp"
+
+class NotRecentlyUsedPage : public PageAlgorithm {
 public:
-  NextFit(std::shared_ptr<MemorySlot>);
-  int execute(Job);
+  int readPage(std::vector<Page>, int);
 };
 
 #endif // NOT_RECENTLY_USED_PAGE_HPP
