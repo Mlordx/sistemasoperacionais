@@ -24,7 +24,11 @@ shared_ptr<Job> JobFactory::createJobRandomly(int id, int maxStartTime, int maxE
   int memorySize = randomUpTo(maxSize - maxSize/10 - 1 ) + 1 + maxSize/10;
   
   shared_ptr<Job> job(new Job);
-  job->setId(id)->setStartTime(startTime)->setEndTime(endTime)->setName(name)->setSize(memorySize);
+  job->setId(id);
+  job->setStartTime(startTime);
+  job->setEndTime(endTime);
+  job->setName(name);
+  job->setSize(memorySize);
   vector<int> accessTimes = makeAccessTimes(startTime, endTime, nAccess);
 
   for(int i = 0; i < nAccess; i++){

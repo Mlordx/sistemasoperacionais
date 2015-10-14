@@ -24,7 +24,7 @@ private:
   std::queue<Access> accesses_;
 
 public:
-  std::shared_ptr<Job> addAccess(Access&);
+  void addAccess(Access&);
   Access& peakAccess();
   Access& getNextAccess();
   bool hasAccesses();
@@ -35,11 +35,11 @@ public:
   int getId();
   std::string getName();
 
-  std::shared_ptr<Job> setStartTime(int);
-  std::shared_ptr<Job> setEndTime(int);
-  std::shared_ptr<Job> setSize(int);
-  std::shared_ptr<Job> setId(int);
-  std::shared_ptr<Job> setName(std::string);
+  void setStartTime(int);
+  void setEndTime(int);
+  void setSize(int);
+  void setId(int);
+  void setName(std::string);
   friend std::ostream& operator<<(std::ostream&, const Job&);
 };
 

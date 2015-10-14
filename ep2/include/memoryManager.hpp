@@ -22,6 +22,7 @@ private:
   std::vector<Page> pageTable_;
   std::shared_ptr<PageAlgorithm> pageAlg_;
   std::shared_ptr<MemoryAlgorithm> memoryAlg_;
+  std::shared_ptr<MemoryAlgorithm> inserter_;
   bool swap (int, int);
   bool removeFromPageTable (Job);
   bool removeFromMemory (Job, std::shared_ptr<MemorySlot>);
