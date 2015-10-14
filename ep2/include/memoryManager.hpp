@@ -8,7 +8,6 @@
 #include "pageAlgorithm.hpp"
 
 #define INTERVAL 1
-#define PAGE_SIZE 16
 #define REAL_FILE "ep2.mem"
 #define VIRTUAL_FILE "ep2.vir"
 

@@ -18,19 +18,25 @@ int main(){
   manager.setMemoryAlgorithm(2);
   manager.setPageAlgorithm(1);
 
+  Memory virt(VIRTUAL_FILE, 256);
+  Memory real(REAL_FILE, 64);
+
   for(int i = 0; i < 10; i++){
     cout << "\ninserindo job: " << i << endl << endl;
     if(!manager.insert(jobs[i])){
       cout << "Não foi possível inserir\n";
       exit(-1);
     }
-    cout << "lendo: " << jobs[i].getId() << "\n";
-    if(!manager.read(jobs[i], 0)){
+    int lerJob = rand() % (i + 1);
+    int lerPos = rand() % (jobs[lerJob].getSize());
+    cout << "lendo: " << lerJob << "\n";
+    cout << "posição: " << lerPos << "\n";
+    if(!manager.read(jobs[lerJob], lerPos)){
       cout << "Não foi possível ler\n";
       exit(-1); 
     }
-    manager.printMemoryState();
     manager.printPageTable();
+    manager.printMemoryState();
     if(i > 0 && i%3 == 0){
       cout << "\nremovendo job: " << i << endl << endl;
       if(!manager.remove(jobs[i-3])){
@@ -38,8 +44,10 @@ int main(){
         exit(-1);
       }
       manager.printPageTable();
-      // manager.printMemoryState();
+      manager.printMemoryState();
     }
+    real.print("Memória Real");
+    virt.print("Memória Virtual");
     std::cin.ignore();
   }
 
@@ -105,7 +113,15 @@ bool MemoryManager::insert(Job job){
 
 bool MemoryManager::remove(Job job){
   
-  return removeFromPageTable(job) && removeFromMemory(job, virtual_);
+  if(!(removeFromPageTable(job) && removeFromMemory(job, virtual_))){
+    return false;
+  }
+  Memory virt(VIRTUAL_FILE, sizeVirtual_);
+  Memory real(REAL_FILE, sizeReal_);
+  virt.setMemoryState(virtual_);
+  real.setMemoryState(real_);
+  return true;
+
 }
 
 bool MemoryManager::removeFromPageTable(Job job){
@@ -189,6 +205,10 @@ bool MemoryManager::read(Job job, int position){
     crawler = crawler->next;
   
   crawler->pid = pageTable_[pageIn].pid;
+
+  Memory real(REAL_FILE, sizeReal_);
+  real.setMemoryState(real_);
+
   return true;
 
 }

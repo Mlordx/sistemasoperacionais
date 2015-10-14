@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 
+#define PAGE_SIZE 16
 
 struct MemorySlot{
   int pid, position, size;
@@ -30,6 +31,7 @@ public:
   Memory(std::string , int);
   std::shared_ptr<MemorySlot> getMemoryState();
   void setMemoryState(std::shared_ptr<MemorySlot>);
+  void print(std::string);
 };
 
 #endif // MEMORY_HPP

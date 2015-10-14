@@ -68,7 +68,27 @@ shared_ptr<MemorySlot> Memory::getMemoryState(){
   mem = mem->next;
   mem->next = nullptr;
 
+  free(bytes);
   return head->next;
+}
+
+void Memory::print(string label){
+  ifstream file;
+  byte* bytes = (byte*) malloc(sizeof(byte)*size_);
+
+  
+  file.open(filename_, ios::binary);
+  file.read(bytes, size_);
+  file.close();
+
+  cout << "\n" << label << ":\n";
+  for(int i = 0; i < size_; i+= PAGE_SIZE){
+      for(int j = 0; j < PAGE_SIZE; j+= 1){
+        cout << (int) bytes[i+j] << ", ";
+    }
+    cout << endl;  
+  }
+    
 }
 
 void write(shared_ptr<MemorySlot> mem, vector<byte>& bytes){
