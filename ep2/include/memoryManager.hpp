@@ -16,12 +16,15 @@ class MemoryManager{
 private:
   int sizeVirtual_;
   int sizeReal_;
+  int nextPageNumber_;
   std::shared_ptr<MemorySlot> virtual_;
   std::shared_ptr<MemorySlot> real_;
   std::vector<Page> pageTable_;
   std::shared_ptr<PageAlgorithm> pageAlg_;
   std::shared_ptr<MemoryAlgorithm> memoryAlg_;
   bool swap (int, int);
+  bool removeFromPageTable (Job);
+  bool removeFromMemory (Job, std::shared_ptr<MemorySlot>);
 public:
   MemoryManager(int, int);
   std::shared_ptr<MemorySlot> getMemoryState();
@@ -33,7 +36,7 @@ public:
   void setVirtual(int);
   bool insert(Job);
   bool remove(Job);
-  bool read(int);
+  bool read(Job, int);
   void reset();
 };
 

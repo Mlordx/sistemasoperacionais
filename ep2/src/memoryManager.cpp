@@ -11,7 +11,6 @@
 
 using namespace std;
 
-/*
 int main(){
   MemoryManager manager(256, 64);
   JobFactory factory = JobFactory(40);
@@ -20,22 +19,24 @@ int main(){
   manager.setPageAlgorithm(1);
 
   for(int i = 0; i < 10; i++){
+    cout << "\ninserindo job: " << i << endl << endl;
     manager.insert(jobs[i]);
-    if(i > 0 && i%3 == 0)
-      manager.remove(jobs[i-3]);
-  }
-
-  for(int i = 0; i < 100; i++){
-    int ler = rand() % 258 + 1;
-    cout << "Lendo : " << ler << endl;
-    manager.read(ler);
-    if(i%10 == 0)
-      manager.reset();
+    manager.printPageTable();
+    manager.printMemoryState();
+    manager.read(jobs[i], 0);
+    if(i > 0 && i%3 == 0){
+      cout << "\nremovendo job: " << i << endl << endl;
+      if(!manager.remove(jobs[i-3])){
+        cout << "falhou\n";
+        exit(-1);
+      }
+      manager.printPageTable();
+      manager.printMemoryState();
+    }
   }
 
   return 0;
 }
-*/
 
 void MemoryManager::setReal(int sizeReal){
   Memory real(REAL_FILE, sizeReal);
@@ -60,6 +61,7 @@ MemoryManager::MemoryManager(int sizeVirtual, int sizeReal){
   Memory real(REAL_FILE, sizeReal_);
   virtual_ = virt.getMemoryState();
   real_ = real.getMemoryState();
+  nextPageNumber_ = 0;
 }
 
 shared_ptr<MemorySlot> MemoryManager::getMemoryState(){
@@ -77,12 +79,13 @@ bool MemoryManager::insert(Job job){
   int nPages = memoryAlg_->getRealSize(job)/PAGE_SIZE;
 
   for(int i = page; i < page + nPages; i++){
-    if(i >= (int) pageTable_.size() /*|| pageTable_[i].pid != -1*/){
+    if(i >= (int) pageTable_.size() || pageTable_[i].pid != -1){
       cout << "Memory allocation fail\n";
       exit(-1);
     }
     pageTable_[i].pid = job.getId();
     pageTable_[i].read = false;
+    pageTable_[i].pageNumber = nextPageNumber_++;
   }
 
   Memory virt(VIRTUAL_FILE, sizeVirtual_);
@@ -92,7 +95,27 @@ bool MemoryManager::insert(Job job){
 }
 
 bool MemoryManager::remove(Job job){
-  auto crawler = virtual_;
+  
+  return removeFromPageTable(job) && removeFromMemory(job, virtual_);
+}
+
+bool MemoryManager::removeFromPageTable(Job job){
+  bool alterou = false;
+  for(int i = 0; i < (int) pageTable_.size(); i++){
+    if(pageTable_[i].pid == job.getId()){
+      alterou = true;
+      pageTable_[i].pid = -1;
+      pageTable_[i].pageNumber = -1;
+      if(pageTable_[i].posReal != -1)
+        removeFromMemory(job, real_);
+    }
+  }
+
+  return alterou;    
+}
+
+bool MemoryManager::removeFromMemory(Job job, shared_ptr<MemorySlot> memory){
+  auto crawler = memory;
   auto prev = crawler;
 
   while(crawler->pid != job.getId() && crawler != nullptr){
@@ -114,11 +137,17 @@ bool MemoryManager::remove(Job job){
   }
 
   Memory virt(VIRTUAL_FILE, sizeVirtual_);
-  virt.setMemoryState(virtual_);
+  virt.setMemoryState(memory);
   return true;
 }
 
-bool MemoryManager::read(int position){
+bool MemoryManager::read(Job job, int position){
+
+  cout << "lendo: " << job.getId() << "\n";
+
+  for(int i = 0; i < (int) pageTable_.size(); i++)
+    if(pageTable_[i].pid == job.getId())
+      position += pageTable_[i].posVirtual;
 
   int pageIn = position/16;
   pageTable_[pageIn].read = true;
@@ -131,9 +160,18 @@ bool MemoryManager::read(int position){
   realJob->setId(pageTable_[pageIn].pid)->setSize(PAGE_SIZE);
   pageTable_[pageIn].posReal = inserter.execute(*realJob);
 
+  cout << "entrou em: " << pageTable_[pageIn].posReal << endl;
+
 
   if(pageTable_[pageIn].posReal == -1)
-    swap(pageIn, pageAlg_->readPage(pageTable_, pageIn));  
+    swap(pageIn, pageAlg_->readPage(pageTable_, pageIn));
+
+  auto crawler = real_;
+  
+  while(crawler->position != pageTable_[pageIn].posReal)
+    crawler = crawler->next;
+  
+  crawler->pid = pageTable_[pageIn].posReal;
   
   return true;
 
@@ -185,7 +223,7 @@ void MemoryManager::printMemoryState(){
 
 void MemoryManager::printPageTable(){
   for(auto page = pageTable_.begin(); page != pageTable_.end(); page++){
-    cout << (*(page)).posVirtual << ", " << (*(page)).posReal << ", " << (*(page)).read << endl;
+    cout << (*(page)).posVirtual << ", " << (*(page)).posReal << ", " << (*(page)).pid << endl;
   }
 }
 
