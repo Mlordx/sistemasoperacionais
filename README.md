@@ -13,8 +13,8 @@ EPs de SO
     - [x] *Quick Fit*
 - [ ] **Algorítmos de substituição de página**
     - [x] *Not Recently Used Page*
-    - [ ] *First-In, First-Out*
-    - [ ] *Second-Chance Page*
+    - [x] *First-In, First-Out*
+    - [x] *Second-Chance Page*
     - [ ] *Least Recently Used Page*
 - [x] **Interação com o simulador**
     - [x] Criar o interpretador de comandos

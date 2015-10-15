@@ -9,7 +9,7 @@ using namespace std;
 #include <simulator.hpp>
 
 int main(int argc,char** argv){
-  int n;
+  int n, espaco, substitui;
   string cmd,arg;
   int virt;
   int tot;
@@ -25,23 +25,24 @@ int main(int argc,char** argv){
     if( cmd == "carrega"){
       cin >> arg;
       processes = jobs.createJobsFromFile(arg,&tot,&virt);
-      mmu = new MemoryManager(tot, virt);
       
     }else if( cmd == "espaco" ){
-      cin >> n;
-      mmu->setMemoryAlgorithm(n);
+      cin >> espaco;
  
     }else if( cmd == "substitui"){
-      cin >> n;
-      mmu->setPageAlgorithm(n);
+      cin >> substitui;
       
     }else if( cmd == "executa"){
-      // processes = jobs.createJobsFromFile("testes/teste10.txt",&tot,&virt);
+      processes = jobs.createJobsFromFile("testes/teste10.txt",&tot,&virt);
       // mmu = new MemoryManager(tot, virt);
-      // mmu->setMemoryAlgorithm(2);
-      // mmu->setPageAlgorithm(3);
+      espaco = 2;
+      substitui = 2;
       cin >> n;
+      mmu = new MemoryManager(tot, virt);
+      mmu->setMemoryAlgorithm(espaco);
+      mmu->setPageAlgorithm(substitui);
       simulator.run(processes, mmu, n);
+      delete mmu;
     }else if( cmd == "sai"){ break; }
     else{
       cout << "\nComando inválido!\n\n";

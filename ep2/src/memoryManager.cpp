@@ -5,6 +5,7 @@
 #include "nextFit.hpp"
 #include "quickFit.hpp"
 #include "notRecentlyUsedPage.hpp"
+#include "firstInFirstOut.hpp"
 #include "secondChance.hpp"
 
 #include "jobFactory.hpp"
@@ -198,6 +199,7 @@ bool MemoryManager::read(Job job, int position){
   pageTable_[pageIn].posReal = inserter_->execute(*realJob);
 
   if(pageTable_[pageIn].posReal == -1){
+    printPageTable();
     swap(pageIn, pageAlg_->readPage(pageTable_, pageIn));
   }
 
@@ -235,6 +237,8 @@ void MemoryManager::setPageAlgorithm(int pageAlgorithmIndex){
   switch(pageAlgorithmIndex){
     case 1:
       pageAlg_.reset(new NotRecentlyUsedPage); break;
+    case 2:
+      pageAlg_.reset(new FirstInFirstOut); break;
     case 3:
       pageAlg_.reset(new SecondChance); break;
     default:
@@ -244,6 +248,7 @@ void MemoryManager::setPageAlgorithm(int pageAlgorithmIndex){
 }
 
 bool MemoryManager::swap(int in, int out){
+  cout << "out: " << out << endl << endl;
   if(out == -1)
     return false;
   if(in == out)
