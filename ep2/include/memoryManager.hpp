@@ -16,6 +16,7 @@ private:
   int sizeVirtual_;
   int sizeReal_;
   int nextPageNumber_;
+  int nextAccessNumber_;
   std::shared_ptr<MemorySlot> virtual_;
   std::shared_ptr<MemorySlot> real_;
   std::vector<Page> pageTable_;

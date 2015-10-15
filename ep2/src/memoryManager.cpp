@@ -7,6 +7,7 @@
 #include "notRecentlyUsedPage.hpp"
 #include "firstInFirstOut.hpp"
 #include "secondChance.hpp"
+#include "leastRecentlyUsedPage.hpp"
 
 #include "jobFactory.hpp"
 
@@ -85,6 +86,7 @@ MemoryManager::MemoryManager(int sizeVirtual, int sizeReal){
   virtual_ = virt.getMemoryState();
   real_ = real.getMemoryState();
   nextPageNumber_ = 0;
+  nextAccessNumber_ = 0;
   inserter_.reset(new NextFit(real_));
 }
 
@@ -186,6 +188,7 @@ bool MemoryManager::read(Job job, int position){
 
   int pageIn = position/16;
   pageTable_[pageIn].read = true;
+  pageTable_[pageIn].accessNumber = nextAccessNumber_++;
 
   if(pageTable_[pageIn].posReal != -1)
     return true;
@@ -199,7 +202,6 @@ bool MemoryManager::read(Job job, int position){
   pageTable_[pageIn].posReal = inserter_->execute(*realJob);
 
   if(pageTable_[pageIn].posReal == -1){
-    printPageTable();
     swap(pageIn, pageAlg_->readPage(pageTable_, pageIn));
   }
 
@@ -241,6 +243,8 @@ void MemoryManager::setPageAlgorithm(int pageAlgorithmIndex){
       pageAlg_.reset(new FirstInFirstOut); break;
     case 3:
       pageAlg_.reset(new SecondChance); break;
+    case 4:
+      pageAlg_.reset(new LeastRecentlyUsedPage); break;
     default:
       cout << "Invalid page algorithm: " << pageAlgorithmIndex << endl;
       exit(-1);
@@ -248,7 +252,6 @@ void MemoryManager::setPageAlgorithm(int pageAlgorithmIndex){
 }
 
 bool MemoryManager::swap(int in, int out){
-  cout << "out: " << out << endl << endl;
   if(out == -1)
     return false;
   if(in == out)
@@ -286,7 +289,8 @@ void MemoryManager::printPageTable(){
     << (*(page)).pid << ", "
     << (*(page)).posVirtual << ", " 
     << (*(page)).posReal << ", " 
-    << ((*(page)).read ? "true" : "false") << endl;
+    << ((*(page)).read ? "true" : "false") << ", "
+    << (*(page)).accessNumber << endl;
   }
 }
 

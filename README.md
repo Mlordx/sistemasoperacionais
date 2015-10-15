@@ -11,11 +11,11 @@ EPs de SO
     - [x] *First Fit*
     - [x] *Next Fit*
     - [x] *Quick Fit*
-- [ ] **Algorítmos de substituição de página**
+- [x] **Algorítmos de substituição de página**
     - [x] *Not Recently Used Page*
     - [x] *First-In, First-Out*
     - [x] *Second-Chance Page*
-    - [ ] *Least Recently Used Page*
+    - [x] *Least Recently Used Page*
 - [x] **Interação com o simulador**
     - [x] Criar o interpretador de comandos
     - [x] Criar abstrações para os arquivos binários ep2.vir e ep2.mem

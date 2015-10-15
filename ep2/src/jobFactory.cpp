@@ -9,8 +9,8 @@ using namespace std;
 
 // int main(){
 //   JobFactory factory(40);
-//   auto jobs = factory.createManyJobsRandomly(5, 20, "job_", 64, 20, 100);
-//   for(int i = 0; i < 100; i++){
+//   auto jobs = factory.createManyJobsRandomly(5, 20, "job_", 64, 20, 60);
+//   for(int i = 0; i < 60; i++){
 //     cout << 
 //     jobs[i].getStartTime() << " " <<
 //     jobs[i].getName() << " " <<

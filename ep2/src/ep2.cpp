@@ -33,10 +33,10 @@ int main(int argc,char** argv){
       cin >> substitui;
       
     }else if( cmd == "executa"){
-      processes = jobs.createJobsFromFile("testes/teste10.txt",&tot,&virt);
+      // processes = jobs.createJobsFromFile("testes/teste100.txt",&tot,&virt);
       // mmu = new MemoryManager(tot, virt);
-      espaco = 2;
-      substitui = 2;
+      // espaco = 2;
+      // substitui = 4;
       cin >> n;
       mmu = new MemoryManager(tot, virt);
       mmu->setMemoryAlgorithm(espaco);

@@ -12,12 +12,18 @@ void Simulator::run(vector<Job>& jobs, MemoryManager* manager, int print){
   Memory real(REAL_FILE, manager->getRealSize());
 
   while(!jobs.empty() || !running_.empty()){
-    if(!insert(manager, jobs, i))
+    if(!insert(manager, jobs, i)){
       cout << "Error: Out of Memory\n";
-    if(!read(manager, jobs, i))
+      exit(-1);
+    }
+    if(!read(manager, jobs, i)){
       cout << "Error: Memory fail.\n";
-    if(!remove(manager, jobs, i))
+      exit(-1);
+    }
+    if(!remove(manager, jobs, i)){
       cout << "Error: Memory fail.\n";
+      exit(-1);
+    }
     if(i % print == 0){
       cout << "\n-------------SEGUNDO " << i << "---------------\n\n";
       manager->printMemoryState();
