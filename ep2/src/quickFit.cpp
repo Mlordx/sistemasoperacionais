@@ -5,9 +5,13 @@
 
 using namespace std;
 
+<<<<<<< HEAD
 QuickFit::QuickFit(shared_ptr<MemorySlot> hd) : MemoryAlgorithm(hd),head(hd) {
+=======
+QuickFit::QuickFit(shared_ptr<MemorySlot> hd) : MemoryAlgorithm(hd),head_(hd) {
+>>>>>>> 4021039ebd82c0e088b222a725917d5625ee046b
   memory_list.resize(5);
-  updateMemoryList(head);
+  updateMemoryList(head_);
 }
 
 void QuickFit::updateMemoryList(shared_ptr<MemorySlot> head){
@@ -40,14 +44,16 @@ int QuickFit::execute(Job job){
   unsigned int i = size/16;
 
   if(i >= memory_list.size()) i = memory_list.size()-1;
-
   
-  while( memory_list[i].empty() ) i++; //procura uma lista maior para o processo caso a lista ideal dele esteja vazia;
+  while( memory_list[i].empty() ) i++;
 
-  for(unsigned int a = 0; a < memory_list[i].size(); a++){
-    shared_ptr<MemorySlot> slot(memory_list[i][a]);
+  auto memoryTable = memory_list[i];
+
+  for(unsigned int a = 0; a < memoryTable.size(); a++){
+    shared_ptr<MemorySlot> slot(memoryTable[a]);
     if(slot->size >= size){
       auto aux = insertJob(job,slot);
+      updateMemoryList(head_);
       return aux->position;
     }
   }

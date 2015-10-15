@@ -10,7 +10,7 @@
 
 class QuickFit : public MemoryAlgorithm{
 private:
-  std::shared_ptr<MemorySlot> head;
+  std::shared_ptr<MemorySlot> head_;
   std::vector< std::vector< std::shared_ptr<MemorySlot> > > memory_list;
 public:
   QuickFit(std::shared_ptr<MemorySlot>);

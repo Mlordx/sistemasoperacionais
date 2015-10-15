@@ -7,6 +7,7 @@
 
 using namespace std;
 
+<<<<<<< HEAD
 int main(){
   JobFactory factory(40);
   int nJobs = 100;
@@ -32,6 +33,8 @@ int main(){
   }
 }
 
+=======
+>>>>>>> 4021039ebd82c0e088b222a725917d5625ee046b
 vector<int> makeAccessTimes(int, int, int);
 bool ascending(int i, int j) { return i > j; }
 inline int randomUpTo(int ceiling) { return rand() % ceiling + 1; }
