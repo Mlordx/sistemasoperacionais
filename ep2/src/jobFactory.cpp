@@ -7,6 +7,26 @@
 
 using namespace std;
 
+// int main(){
+//   JobFactory factory(40);
+//   auto jobs = factory.createManyJobsRandomly(5, 20, "job_", 64, 20, 100);
+//   for(int i = 0; i < 100; i++){
+//     cout << 
+//     jobs[i].getStartTime() << " " <<
+//     jobs[i].getName() << " " <<
+//     jobs[i].getEndTime() << " " <<
+//     jobs[i].getSize() << " ";
+//     while(jobs[i].hasAccesses()){
+//       auto access = jobs[i].getNextAccess();
+//       cout << 
+//       access.position << " " <<
+//       access.time << " ";
+//     }
+//     cout << endl;
+//   }
+
+// }
+
 vector<int> makeAccessTimes(int, int, int);
 bool ascending(int i, int j) { return i > j; }
 inline int randomUpTo(int ceiling) { return rand() % ceiling + 1; }
@@ -32,7 +52,7 @@ shared_ptr<Job> JobFactory::createJobRandomly(int id, int maxStartTime, int maxE
   vector<int> accessTimes = makeAccessTimes(startTime, endTime, nAccess);
 
   for(int i = 0; i < nAccess; i++){
-    shared_ptr<Access> access(new Access(accessTimes.back(),randomUpTo(memorySize-1)));
+    shared_ptr<Access> access(new Access(randomUpTo(memorySize-1), accessTimes.back()));
     accessTimes.pop_back();
     job->addAccess(*access);
   }
@@ -58,8 +78,8 @@ shared_ptr<Job> JobFactory::createJobFromDescription(int id, string description)
   job->setStartTime(atoi(strtok((char*) description.c_str(), " ")));
   string name(strtok(nullptr, " "));
   job->setName(name);
-  job->setSize(atoi(strtok(nullptr, " ")));
   job->setEndTime(atoi(strtok(nullptr, " ")));
+  job->setSize(atoi(strtok(nullptr, " ")));
   char * nextToken;
   while((nextToken = strtok(nullptr, " ")) != nullptr){
     shared_ptr<Access> access(new Access(atoi(nextToken), atoi(strtok(nullptr, " "))));
@@ -76,11 +96,8 @@ vector<Job> JobFactory::createJobsFromFile(string fileName, int* total, int* vir
   string description;
 
   getline(file, description);
-  int a,b;
-  a = atoi(strtok((char*) description.c_str(), " "));
-  total = &a;
-  b = atoi(strtok(nullptr, " "));
-  virt = &b;
+  *total = atoi(strtok((char*) description.c_str(), " "));
+  *virt = atoi(strtok(nullptr, " "));
   int nextId = 0;
   while(getline(file, description)){
     jobs.push_back(*createJobFromDescription(nextId, description));

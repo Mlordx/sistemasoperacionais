@@ -15,7 +15,7 @@ struct MemorySlot{
 };
 
 struct Page{
-  int posVirtual, posReal, pid, pageNumber;
+  int posVirtual, posReal, pid, pageNumber = -1;
   bool read;
 
   Page(int a, int b, int c, bool d) : posVirtual(a), posReal(b), pid(c), read(d){}

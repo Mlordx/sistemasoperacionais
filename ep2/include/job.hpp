@@ -6,9 +6,9 @@
 #include <memory>
 
 struct Access {
-  int time, position;
+  int position, time;
 
-  Access(int a, int b) : time(a), position(b){}
+  Access(int a, int b) : position(a), time(b){}
   
 };
 

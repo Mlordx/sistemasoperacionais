@@ -5,54 +5,53 @@
 #include "nextFit.hpp"
 #include "quickFit.hpp"
 #include "notRecentlyUsedPage.hpp"
+#include "secondChance.hpp"
 
 #include "jobFactory.hpp"
 
 
 using namespace std;
 
-int main(){
-  MemoryManager manager(256, 64);
-  JobFactory factory = JobFactory(40);
-  auto jobs = factory.createManyJobsRandomly(5, 20, "processo_", 50, 10, 40);
-  manager.setMemoryAlgorithm(2);
-  manager.setPageAlgorithm(1);
+// int main(){
+//   JobFactory factory(40);
+//   int totalSize, virtSize;
+//   auto jobs = factory.createJobsFromFile("testes/teste100.txt", &totalSize, &virtSize);
+//   MemoryManager manager(virtSize, totalSize);
+//   manager.setMemoryAlgorithm(2);
+//   manager.setPageAlgorithm(3);
 
-  Memory virt(VIRTUAL_FILE, 256);
-  Memory real(REAL_FILE, 64);
+//   Memory virt(VIRTUAL_FILE, virtSize);
+//   Memory real(REAL_FILE, totalSize);
 
-  for(int i = 0; i < 10; i++){
-    cout << "\ninserindo job: " << i << endl << endl;
-    if(!manager.insert(jobs[i])){
-      cout << "Não foi possível inserir\n";
-      exit(-1);
-    }
-    int lerJob = rand() % (i + 1);
-    int lerPos = rand() % (jobs[lerJob].getSize());
-    cout << "lendo: " << lerJob << "\n";
-    cout << "posição: " << lerPos << "\n";
-    if(!manager.read(jobs[lerJob], lerPos)){
-      cout << "Não foi possível ler\n";
-      exit(-1); 
-    }
-    manager.printPageTable();
-    manager.printMemoryState();
-    if(i > 0 && i%3 == 0){
-      cout << "\nremovendo job: " << i << endl << endl;
-      if(!manager.remove(jobs[i-3])){
-        cout << "falhou\n";
-        exit(-1);
-      }
-      manager.printPageTable();
-      manager.printMemoryState();
-    }
-    real.print("Memória Real");
-    virt.print("Memória Virtual");
-    std::cin.ignore();
-  }
+//   for(int i = 0; i < 100; i++){
+//     if(i > 0 && i%2 == 0){
+//       manager.reset();
+//     //   cout << "removendp: " << jobs[lerJob].getNome() << endl;
+//     //   if(!manager.remove(jobs[i-3])){
+//     //     cout << "erro na remoção\n";
+//     //     exit(-1);
+//     //   }
+//     //   manager.printPageTable();
+//     }
+//     cout << "inserindo: " << jobs[i].getName() << endl;
+//     if(!manager.insert(jobs[i])){
+//       cout << "erro na inserção\n";
+//       exit(-1);
+//     }
+//     int lerJob = rand() % (i + 1);
+//     int lerPos = rand() % (jobs[lerJob].getSize());
+//     cout << "lendo: " << jobs[lerJob].getName() << endl;
+//     cout << "posição: " << lerPos << endl;
+//     if(!manager.read(jobs[lerJob], lerPos)){
+//       cout << "erro na leitura\n";
+//       exit(-1); 
+//     }
+//     manager.printPageTable();
+//     std::cin.ignore();
+//   }
 
-  return 0;
-}
+//   return 0;
+// }
 
 void MemoryManager::setReal(int sizeReal){
   Memory real(REAL_FILE, sizeReal);
@@ -64,8 +63,15 @@ void MemoryManager::setVirtual(int sizeVirtual){
   virtual_ = virt.getMemoryState();
 }
 
+int MemoryManager::getRealSize(){
+  return sizeReal_;
+}
+
+int MemoryManager::getVirtualSize(){
+  return sizeVirtual_;
+}
+
 MemoryManager::MemoryManager(int sizeVirtual, int sizeReal){
-  
   for(int i = 0; i < sizeVirtual; i+=PAGE_SIZE){
     pageTable_.push_back(Page(i, -1, -1, false));
   }
@@ -102,7 +108,6 @@ bool MemoryManager::insert(Job job){
     }
     pageTable_[i].pid = job.getId();
     pageTable_[i].read = false;
-    pageTable_[i].pageNumber = nextPageNumber_++;
   }
 
   Memory virt(VIRTUAL_FILE, sizeVirtual_);
@@ -145,10 +150,7 @@ bool MemoryManager::removeFromMemory(Job job, shared_ptr<MemorySlot> memory){
   auto crawler = memory;
   auto prev = crawler;
 
-  cout << "procurando: " << job.getId() << endl;
-
   while(crawler != nullptr && crawler->pid != job.getId()){
-    cout << "verificado: " << crawler->pid << endl;
     prev = crawler;
     crawler = crawler->next;
   }
@@ -174,7 +176,6 @@ bool MemoryManager::removeFromMemory(Job job, shared_ptr<MemorySlot> memory){
 
 bool MemoryManager::read(Job job, int position){
 
-
   for(int i = 0; i < (int) pageTable_.size(); i++){
     if(pageTable_[i].pid == job.getId()){
       position += pageTable_[i].posVirtual;
@@ -188,6 +189,8 @@ bool MemoryManager::read(Job job, int position){
   if(pageTable_[pageIn].posReal != -1)
     return true;
 
+  pageTable_[pageIn].pageNumber = nextPageNumber_++;  
+
   std::shared_ptr<Job> realJob(new Job);
 
   realJob->setId(pageTable_[pageIn].pid);
@@ -195,14 +198,14 @@ bool MemoryManager::read(Job job, int position){
   pageTable_[pageIn].posReal = inserter_->execute(*realJob);
 
   if(pageTable_[pageIn].posReal == -1){
-    cout << "swapping\n";
     swap(pageIn, pageAlg_->readPage(pageTable_, pageIn));
   }
 
   auto crawler = real_;
   
-  while(crawler->position != pageTable_[pageIn].posReal)
+  while(crawler->position != pageTable_[pageIn].posReal){
     crawler = crawler->next;
+  }
   
   crawler->pid = pageTable_[pageIn].pid;
 
@@ -228,19 +231,19 @@ void MemoryManager::setMemoryAlgorithm(int memoryAlgorithmIndex){
 }
 
 void MemoryManager::setPageAlgorithm(int pageAlgorithmIndex){
+  
   switch(pageAlgorithmIndex){
     case 1:
       pageAlg_.reset(new NotRecentlyUsedPage); break;
+    case 3:
+      pageAlg_.reset(new SecondChance); break;
     default:
       cout << "Invalid page algorithm: " << pageAlgorithmIndex << endl;
       exit(-1);
   }
 }
 
-bool MemoryManager::swap(int in, int out){  
-  cout << "in: " << in << endl;
-  cout << "out: " << out << endl;
-
+bool MemoryManager::swap(int in, int out){
   if(out == -1)
     return false;
   if(in == out)
@@ -267,8 +270,18 @@ void MemoryManager::printMemoryState(){
 }
 
 void MemoryManager::printPageTable(){
+  int i = 0;
   for(auto page = pageTable_.begin(); page != pageTable_.end(); page++){
-    cout << (*(page)).posVirtual << ", " << (*(page)).posReal << ", " << (*(page)).pid << endl;
+    if((*(page)).posReal == -1){
+      i++;
+      continue;
+    }
+    cout << i++ << ": "
+    << (*(page)).pageNumber << ", "
+    << (*(page)).pid << ", "
+    << (*(page)).posVirtual << ", " 
+    << (*(page)).posReal << ", " 
+    << ((*(page)).read ? "true" : "false") << endl;
   }
 }
 

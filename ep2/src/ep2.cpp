@@ -6,16 +6,17 @@ using namespace std;
 
 #include <jobFactory.hpp>
 #include <memoryManager.hpp>
-/*
+#include <simulator.hpp>
+
 int main(int argc,char** argv){
   int n;
   string cmd,arg;
-  int a = 0;
-  int* virt = &a;
-  int* tot = &a;
+  int virt;
+  int tot;
   vector<Job> processes;
-  MemoryManager mmu(0,0);
+  MemoryManager* mmu;
   JobFactory jobs(42);
+  Simulator simulator;
 
   while(1){
     cout << "Insira comando: ";
@@ -23,23 +24,24 @@ int main(int argc,char** argv){
 
     if( cmd == "carrega"){
       cin >> arg;
-      processes = jobs.createJobsFromFile(arg,tot,virt);
-      mmu.setReal(*tot);
-      mmu.setVirtual(*virt);
-      
+      processes = jobs.createJobsFromFile(arg,&tot,&virt);
+      mmu = new MemoryManager(tot, virt);
       
     }else if( cmd == "espaco" ){
       cin >> n;
-      mmu.setMemoryAlgorithm(n);
+      mmu->setMemoryAlgorithm(n);
  
     }else if( cmd == "substitui"){
       cin >> n;
-      mmu.setPageAlgorithm(n);
+      mmu->setPageAlgorithm(n);
       
     }else if( cmd == "executa"){
+      // processes = jobs.createJobsFromFile("testes/teste10.txt",&tot,&virt);
+      // mmu = new MemoryManager(tot, virt);
+      // mmu->setMemoryAlgorithm(2);
+      // mmu->setPageAlgorithm(3);
       cin >> n;
-      //roda o arquivo e imprime de n em n >segundos< 
-
+      simulator.run(processes, mmu, n);
     }else if( cmd == "sai"){ break; }
     else{
       cout << "\nComando inválido!\n\n";
@@ -52,7 +54,6 @@ int main(int argc,char** argv){
       continue;
     }
   }
-  
+  free(mmu);
   return 0;
 }
-*/

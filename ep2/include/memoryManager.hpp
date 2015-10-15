@@ -34,6 +34,8 @@ public:
   void printPageTable();
   void setReal(int);
   void setVirtual(int);
+  int getRealSize();
+  int getVirtualSize();
   bool insert(Job);
   bool remove(Job);
   bool read(Job, int);

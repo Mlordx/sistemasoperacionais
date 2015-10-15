@@ -8,7 +8,7 @@
 
 class NotRecentlyUsedPage : public PageAlgorithm {
 public:
-  int readPage(std::vector<Page>, int);
+  int readPage(std::vector<Page>&, int);
 };
 
 #endif // NOT_RECENTLY_USED_PAGE_HPP
