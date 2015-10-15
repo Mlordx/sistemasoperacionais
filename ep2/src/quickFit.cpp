@@ -4,38 +4,6 @@
 #include <jobFactory.hpp>
 
 using namespace std;
-/*
-int main(){
-  cout << "teste\n";
-  JobFactory factory(10);
-  auto jobs = factory.createManyJobsRandomly(5, 20, "processo_", 50, 10, 40);
-  Memory mem("teste.mem", 1000);
-  auto head = mem.getMemoryState();
-  auto table = head;
-  QuickFit algorithm(head);
-
-  for(auto bla = jobs.begin(); bla != jobs.end(); bla++){
-    cout << (*(bla)).getSize() << " ";
-  }
-
-  cout << endl << endl;
-
-  int i = 0;
-  for(;i < 40; i++){
-    cout << jobs[i].getSize() << "~" << algorithm.execute(jobs[i]) << endl;
-    while(table != nullptr){
-      cout << "(" << table->position << ", " << table->size << ", " << table->pid << ") ";
-      table = table->next;
-    }
-    cout << endl << endl;
-    table = head;
-    mem.setMemoryState(head);
-    algorithm.updateMemoryList(head);
-  }
-  
-  return 0;
-}
-*/
 
 QuickFit::QuickFit(shared_ptr<MemorySlot> hd) : MemoryAlgorithm(hd),head(hd) {
   memory_list.resize(5);
@@ -52,14 +20,14 @@ void QuickFit::updateMemoryList(shared_ptr<MemorySlot> head){
     
     for(unsigned int i = 0; i < 5; i++){
       if(p->pid == -1){
-	if(i == 4){
-	  memory_list[4].push_back(p);
-	  
-	}else{
-	  if(i*16 < (unsigned)p->size && (unsigned)p->size <= (i+1)*16){
-	    memory_list[i].push_back(p);
-	  }
-	}
+        if(i == 4){
+          memory_list[4].push_back(p);
+      
+      } else {
+        if(i*16 < (unsigned)p->size && (unsigned)p->size <= (i+1)*16){
+          memory_list[i].push_back(p);
+        }
+      }
       }
     }
     
