@@ -7,26 +7,6 @@
 
 using namespace std;
 
-// int main(){
-//   JobFactory factory(40);
-//   auto jobs = factory.createManyJobsRandomly(5, 20, "job_", 64, 20, 60);
-//   for(int i = 0; i < 60; i++){
-//     cout << 
-//     jobs[i].getStartTime() << " " <<
-//     jobs[i].getName() << " " <<
-//     jobs[i].getEndTime() << " " <<
-//     jobs[i].getSize() << " ";
-//     while(jobs[i].hasAccesses()){
-//       auto access = jobs[i].getNextAccess();
-//       cout << 
-//       access.position << " " <<
-//       access.time << " ";
-//     }
-//     cout << endl;
-//   }
-
-// }
-
 vector<int> makeAccessTimes(int, int, int);
 bool ascending(int i, int j) { return i > j; }
 inline int randomUpTo(int ceiling) { return rand() % ceiling + 1; }

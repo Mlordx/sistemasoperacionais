@@ -14,47 +14,6 @@
 
 using namespace std;
 
-// int main(){
-//   JobFactory factory(40);
-//   int totalSize, virtSize;
-//   auto jobs = factory.createJobsFromFile("testes/teste100.txt", &totalSize, &virtSize);
-//   MemoryManager manager(virtSize, totalSize);
-//   manager.setMemoryAlgorithm(2);
-//   manager.setPageAlgorithm(3);
-
-//   Memory virt(VIRTUAL_FILE, virtSize);
-//   Memory real(REAL_FILE, totalSize);
-
-//   for(int i = 0; i < 100; i++){
-//     if(i > 0 && i%2 == 0){
-//       manager.reset();
-//     //   cout << "removendp: " << jobs[lerJob].getNome() << endl;
-//     //   if(!manager.remove(jobs[i-3])){
-//     //     cout << "erro na remoção\n";
-//     //     exit(-1);
-//     //   }
-//     //   manager.printPageTable();
-//     }
-//     cout << "inserindo: " << jobs[i].getName() << endl;
-//     if(!manager.insert(jobs[i])){
-//       cout << "erro na inserção\n";
-//       exit(-1);
-//     }
-//     int lerJob = rand() % (i + 1);
-//     int lerPos = rand() % (jobs[lerJob].getSize());
-//     cout << "lendo: " << jobs[lerJob].getName() << endl;
-//     cout << "posição: " << lerPos << endl;
-//     if(!manager.read(jobs[lerJob], lerPos)){
-//       cout << "erro na leitura\n";
-//       exit(-1); 
-//     }
-//     manager.printPageTable();
-//     std::cin.ignore();
-//   }
-
-//   return 0;
-// }
-
 void MemoryManager::setReal(int sizeReal){
   Memory real(REAL_FILE, sizeReal);
   real_ = real.getMemoryState();

@@ -14,7 +14,7 @@ int main(int argc,char** argv){
   int virt;
   int tot;
   vector<Job> processes;
-  MemoryManager* mmu;
+  shared_ptr<MemoryManager> mmu;
   JobFactory jobs(42);
   Simulator simulator;
 
@@ -33,16 +33,13 @@ int main(int argc,char** argv){
       cin >> substitui;
       
     }else if( cmd == "executa"){
-      // processes = jobs.createJobsFromFile("testes/teste100.txt",&tot,&virt);
-      // mmu = new MemoryManager(tot, virt);
-      // espaco = 2;
-      // substitui = 4;
       cin >> n;
-      mmu = new MemoryManager(tot, virt);
+      shared_ptr<MemoryManager> aux(new MemoryManager(tot, virt));
+      mmu = aux;
       mmu->setMemoryAlgorithm(espaco);
       mmu->setPageAlgorithm(substitui);
       simulator.run(processes, mmu, n);
-      delete mmu;
+     
     }else if( cmd == "sai"){ break; }
     else{
       cout << "\nComando inválido!\n\n";
@@ -55,6 +52,5 @@ int main(int argc,char** argv){
       continue;
     }
   }
-  free(mmu);
   return 0;
 }

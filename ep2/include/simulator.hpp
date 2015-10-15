@@ -9,11 +9,11 @@
 class Simulator{
 private:
   std::vector<Job> running_;
-  bool insert(MemoryManager*, std::vector<Job>&, int);
-  bool read(MemoryManager*, std::vector<Job>&, int);
-  bool remove(MemoryManager*, std::vector<Job>&, int);
+  bool insert(std::shared_ptr<MemoryManager>, std::vector<Job>&, int);
+  bool read(std::shared_ptr<MemoryManager>, std::vector<Job>&, int);
+  bool remove(std::shared_ptr<MemoryManager>, std::vector<Job>&, int);
 public:
-  void run(std::vector<Job>&, MemoryManager*, int);
+  void run(std::vector<Job>&, std::shared_ptr<MemoryManager>, int);
 };
 
 #endif // SIMULATOR_HPP

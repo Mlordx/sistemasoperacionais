@@ -1,0 +1,24 @@
+#include <iostream>
+#include "firstInFirstOut.hpp"
+
+using namespace std;
+
+FirstInFirstOut::FirstInFirstOut(queue<int>& pq){
+  pageQueue_ = make_shared<queue<int > >(pq);
+}
+
+int FirstInFirstOut::readPage(vector<Page> pageTable,int page){
+  
+  if(pageTable[page].posReal != -1) return page;
+
+  if(pageTable[page].posVirtual == -1) return -1;
+
+  
+  if(pageQueue_->empty()) return -1; 
+  
+  int pg = pageQueue_->front();
+  pageQueue_->pop();
+  pageQueue_->push(pg);
+
+  return pg;
+}
