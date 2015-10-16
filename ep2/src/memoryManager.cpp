@@ -220,8 +220,9 @@ bool MemoryManager::swap(int in, int out){
   return true;
 }
 
-void MemoryManager::printMemoryState(){
-  
+void MemoryManager::printMemoryState(){ 
+  cout << "Legenda: (Posição,Tamanho,PID)\n\n";
+ 
   auto table = virtual_;
   cout << "Lista da memória física:\n";
   while(table != nullptr){
