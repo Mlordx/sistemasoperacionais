@@ -31,7 +31,6 @@ int main(int argc,char** argv){
  
     }else if( cmd == "substitui"){
       cin >> substitui;
-      
     }else if( cmd == "executa"){
       cin >> n;
       shared_ptr<MemoryManager> aux(new MemoryManager(tot, virt));

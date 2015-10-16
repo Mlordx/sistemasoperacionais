@@ -5,7 +5,11 @@
 
 using namespace std;
 
+<<<<<<< HEAD
+QuickFit::QuickFit(shared_ptr<MemorySlot> hd) : MemoryAlgorithm(hd),head(hd) {
+=======
 QuickFit::QuickFit(shared_ptr<MemorySlot> hd) : MemoryAlgorithm(hd),head_(hd) {
+>>>>>>> 4021039ebd82c0e088b222a725917d5625ee046b
   memory_list.resize(5);
   updateMemoryList(head_);
 }
@@ -20,14 +24,14 @@ void QuickFit::updateMemoryList(shared_ptr<MemorySlot> head){
     
     for(unsigned int i = 0; i < 5; i++){
       if(p->pid == -1){
-	if(i == 4){
-	  memory_list[4].push_back(p);
-	  
-	}else{
-	  if(i*16 < (unsigned)p->size && (unsigned)p->size <= (i+1)*16){
-	    memory_list[i].push_back(p);
-	  }
-	}
+        if(i == 4){
+          memory_list[4].push_back(p);
+      
+      } else {
+        if(i*16 < (unsigned)p->size && (unsigned)p->size <= (i+1)*16){
+          memory_list[i].push_back(p);
+        }
+      }
       }
     }
     

@@ -7,6 +7,34 @@
 
 using namespace std;
 
+<<<<<<< HEAD
+int main(){
+  JobFactory factory(40);
+  int nJobs = 100;
+  for(int i = 0; i < 30; i++){
+    auto jobs = factory.createManyJobsRandomly(5, 20, "job_", 64, 20, nJobs);
+    ofstream testFile;
+    testFile.open ("testes/teste" + to_string(nJobs) + "_" + to_string(i)  +".txt");
+    for(int i = 0; i < nJobs; i++){
+      testFile << 
+      jobs[i].getStartTime() << " " <<
+      jobs[i].getName() << " " <<
+      jobs[i].getEndTime() << " " <<
+      jobs[i].getSize() << " ";
+      while(jobs[i].hasAccesses()){
+        auto access = jobs[i].getNextAccess();
+        testFile << 
+        access.position << " " <<
+        access.time << " ";
+      }
+      testFile << endl;
+    }
+    testFile.close();
+  }
+}
+
+=======
+>>>>>>> 4021039ebd82c0e088b222a725917d5625ee046b
 vector<int> makeAccessTimes(int, int, int);
 bool ascending(int i, int j) { return i > j; }
 inline int randomUpTo(int ceiling) { return rand() % ceiling + 1; }
