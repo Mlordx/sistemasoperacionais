@@ -31,6 +31,8 @@ private:
   std::queue<Access> accesses_;
 
 public:
+  int memoryFail = 0;
+
   void addAccess(Access&);
   Access& peakAccess();
   Access& getNextAccess();

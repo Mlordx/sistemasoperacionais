@@ -25,16 +25,16 @@ void Simulator::run(vector<Job>& jobs, shared_ptr<MemoryManager> manager, int pr
       exit(-1);
     }
     if(i % print == 0){
-      cout << "\n-------------SEGUNDO " << i << "---------------\n\n";
-      manager->printMemoryState();
-      virt.print("Virtual");
-      real.print("Real");
+      // cout << "\n-------------SEGUNDO " << i << "---------------\n\n";
+      // manager->printMemoryState();
+      // virt.print("Virtual");
+      // real.print("Real");
     }
     i++;
     if(i % 3 == 0){
       manager->reset();
     }
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    // std::this_thread::sleep_for(std::chrono::seconds(1));
   }
 }
 
@@ -68,6 +68,8 @@ bool Simulator::remove(shared_ptr<MemoryManager> manager, vector<Job>& jobs, int
     if(job->getEndTime() == turn){
       if(!manager->remove(*job))
         return false;
+      else
+        cout << job->getId() << ";" << job->memoryFail << endl;
       running_.erase(job);
     }else{
       job++;

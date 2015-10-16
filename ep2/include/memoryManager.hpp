@@ -46,7 +46,7 @@ public:
   int getVirtualSize();
   bool insert(Job);
   bool remove(Job);
-  bool read(Job, int);
+  bool read(Job&, int);
   void reset();
 };
 

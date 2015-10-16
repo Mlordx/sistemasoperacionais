@@ -7,9 +7,12 @@
 
 using namespace std;
 
+void imprimeDados(){
+
+}
 
 int main(int argc,char** argv){
-  int n, espaco, substitui;
+  int n;
   string cmd,arg;
   int virt;
   int tot;
@@ -18,38 +21,21 @@ int main(int argc,char** argv){
   JobFactory jobs(42);
   Simulator simulator;
 
-  while(1){
-    cout << "Insira comando: ";
-    cin >> cmd;
+  int nJobs[3] = {25, 60, 100};
 
-    if( cmd == "carrega"){
-      cin >> arg;
-      processes = jobs.createJobsFromFile(arg,&tot,&virt);
-      
-    }else if( cmd == "espaco" ){
-      cin >> espaco;
- 
-    }else if( cmd == "substitui"){
-      cin >> substitui;
-    }else if( cmd == "executa"){
-      cin >> n;
+  for(int j = 0; j < 3; j++){
+    cout << "\n-------------TAMANHO >> " << nJobs[j] << "---------------\n\n";
+    for(int i = 0; i < 30; i++){
+      cout << "\n" << i << ": \n";
+      processes = jobs.createJobsFromFile("testes/teste" + to_string(nJobs[j]) + "_" + to_string(i) + ".txt",&tot,&virt);
+      n = 20;
       shared_ptr<MemoryManager> aux(new MemoryManager(tot, virt));
       mmu = aux;
-      mmu->setMemoryAlgorithm(espaco);
-      mmu->setPageAlgorithm(substitui);
+      mmu->setMemoryAlgorithm(1);
+      mmu->setPageAlgorithm(1);
       simulator.run(processes, mmu, n);
-     
-    }else if( cmd == "sai"){ break; }
-    else{
-      cout << "\nComando inválido!\n\n";
-      cout << "-Comandos aceitos:\n";
-      cout << "----carrega <arquivo>\n";
-      cout << "----espaco <num>\n";
-      cout << "----substitui <num>\n";
-      cout << "----executa <intervalo>\n";
-      cout << "----sai\n\n";
-      continue;
     }
   }
+
   return 0;
 }

@@ -14,6 +14,7 @@ using namespace std;
 //     auto jobs = factory.createManyJobsRandomly(5, 20, "job_", 64, 20, nJobs);
 //     ofstream testFile;
 //     testFile.open ("testes/teste" + to_string(nJobs) + "_" + to_string(i)  +".txt");
+//     testFile << "4096 512\n";
 //     for(int i = 0; i < nJobs; i++){
 //       testFile << 
 //       jobs[i].getStartTime() << " " <<

@@ -136,7 +136,7 @@ bool MemoryManager::removeFromMemory(Job job, shared_ptr<MemorySlot> memory){
   return true;
 }
 
-bool MemoryManager::read(Job job, int position){
+bool MemoryManager::read(Job& job, int position){
 
   for(int i = 0; i < (int) pageTable_.size(); i++){
     if(pageTable_[i].pid == job.getId()){
@@ -151,6 +151,8 @@ bool MemoryManager::read(Job job, int position){
 
   if(pageTable_[pageIn].posReal != -1)
     return true;
+
+  job.memoryFail++;
 
   pageTable_[pageIn].pageNumber = nextPageNumber_++;  
 
