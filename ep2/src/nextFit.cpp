@@ -7,8 +7,11 @@ using namespace std;
 NextFit::NextFit(shared_ptr<MemorySlot> head) : MemoryAlgorithm(head), next_(head) {}
 
 int NextFit::execute(Job job){
+  if (next_->next == nullptr)
+    next_ = head_;
   auto memoryTable = next_;
   do{
+    cout << "memoryTable->position: " << memoryTable->position << endl; 
     if(memoryTable->pid == -1 && memoryTable->size >= getRealSize(job)){
       next_ = insertJob(job, memoryTable);
       return next_->position;
