@@ -11,7 +11,6 @@ int NextFit::execute(Job job){
     next_ = head_;
   auto memoryTable = next_;
   do{
-    cout << "memoryTable->position: " << memoryTable->position << endl; 
     if(memoryTable->pid == -1 && memoryTable->size >= getRealSize(job)){
       next_ = insertJob(job, memoryTable);
       return next_->position;

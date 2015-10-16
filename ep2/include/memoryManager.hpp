@@ -15,8 +15,8 @@ Mateus Barros - 7991037
 #include "pageAlgorithm.hpp"
 
 #define INTERVAL 1
-#define REAL_FILE "ep2.mem"
-#define VIRTUAL_FILE "ep2.vir"
+#define REAL_FILE "tmp/ep2.mem"
+#define VIRTUAL_FILE "tmp/ep2.vir"
 
 class MemoryManager{
 private:
