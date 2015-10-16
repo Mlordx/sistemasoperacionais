@@ -1,3 +1,10 @@
+/************************
+EP2 - SO
+Vinícius Silva - 7557626
+Mateus Barros - 7991037
+
+*************************/
+
 #ifndef MEMORY_ALGORITHM_HPP
 #define MEMORY_ALGORITHM_HPP
 

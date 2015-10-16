@@ -1,3 +1,10 @@
+/************************
+EP2 - SO
+Vinícius Silva - 7557626
+Mateus Barros - 7991037
+
+*************************/
+
 #ifndef PAGE_ALGORITHM_HPP
 #define PAGE_ALGORITHM_HPP
 
