@@ -1,3 +1,11 @@
+/************************
+EP2 - SO
+Vinícius Silva - 7557626
+Mateus Barros - 7991037
+
+*************************/
+
+
 #ifndef FIRSTFIT_HPP
 #define FIRSTFIT_HPP
 

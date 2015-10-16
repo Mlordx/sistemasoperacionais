@@ -223,12 +223,14 @@ bool MemoryManager::swap(int in, int out){
 void MemoryManager::printMemoryState(){
   
   auto table = virtual_;
+  cout << "Lista da memória física:\n";
   while(table != nullptr){
     cout << "(" << table->position << ", " << table->size << ", " << table->pid << ") ";
     table = table->next;
   }
   cout << endl << endl << endl;
   table = real_;
+  cout << "Lista da memória virtual:\n";
   while(table != nullptr){
     cout << "(" << table->position << ", " << table->size << ", " << table->pid << ") ";
     table = table->next;

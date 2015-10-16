@@ -1,3 +1,10 @@
+/************************
+EP2 - SO
+Vinícius Silva - 7557626
+Mateus Barros - 7991037
+
+*************************/
+
 #ifndef SECOND_CHANCE_HPP
 #define SECOND_CHANCE_HPP
 
