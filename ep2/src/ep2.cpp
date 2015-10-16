@@ -26,7 +26,7 @@ int main(int argc,char** argv){
   for(int j = 0; j < 3; j++){
     cout << "\n-------------TAMANHO >> " << nJobs[j] << "---------------\n\n";
     for(int i = 0; i < 30; i++){
-      cout << "\n" << i << ": \n";
+      // cout << "\n" << i << ": \n";
       processes = jobs.createJobsFromFile("testes/teste" + to_string(nJobs[j]) + "_" + to_string(i) + ".txt",&tot,&virt);
       n = 20;
       shared_ptr<MemoryManager> aux(new MemoryManager(tot, virt));

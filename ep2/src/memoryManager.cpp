@@ -128,6 +128,7 @@ bool MemoryManager::removeFromMemory(Job job, shared_ptr<MemorySlot> memory){
     auto next = crawler->next;
     crawler->size += next->size;
     crawler->next = next->next;
+    next->next = nullptr;
   }
 
   Memory virt(VIRTUAL_FILE, sizeVirtual_);
