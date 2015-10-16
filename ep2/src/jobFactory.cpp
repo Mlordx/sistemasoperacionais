@@ -9,27 +9,29 @@ using namespace std;
 
 // int main(){
 //   JobFactory factory(40);
-//   int nJobs = 100;
-//   for(int i = 0; i < 30; i++){
-//     auto jobs = factory.createManyJobsRandomly(5, 20, "job_", 64, 20, nJobs);
-//     ofstream testFile;
-//     testFile.open ("testes/teste" + to_string(nJobs) + "_" + to_string(i)  +".txt");
-//     testFile << "8192 512\n";
-//     for(int i = 0; i < nJobs; i++){
-//       testFile << 
-//       jobs[i].getStartTime() << " " <<
-//       jobs[i].getName() << " " <<
-//       jobs[i].getEndTime() << " " <<
-//       jobs[i].getSize() << " ";
-//       while(jobs[i].hasAccesses()){
-//         auto access = jobs[i].getNextAccess();
+//   int nJobs[] = {100, 60, 25};
+//   for(int j = 0; j < 3; j++){
+//     for(int i = 0; i < 30; i++){
+//       auto jobs = factory.createManyJobsRandomly(50, 100, "job_", 128, 100, nJobs[j]);
+//       ofstream testFile;
+//       testFile.open ("testes/teste" + to_string(nJobs[j]) + "_" + to_string(i)  +".txt");
+//       testFile << "8192 1024\n";
+//       for(int i = 0; i < nJobs[j]; i++){
 //         testFile << 
-//         access.position << " " <<
-//         access.time << " ";
+//         jobs[i].getStartTime() << " " <<
+//         jobs[i].getName() << " " <<
+//         jobs[i].getEndTime() << " " <<
+//         jobs[i].getSize() << " ";
+//         while(jobs[i].hasAccesses()){
+//           auto access = jobs[i].getNextAccess();
+//           testFile << 
+//           access.position << " " <<
+//           access.time << " ";
+//         }
+//         testFile << endl;
 //       }
-//       testFile << endl;
+//       testFile.close();
 //     }
-//     testFile.close();
 //   }
 // }
 

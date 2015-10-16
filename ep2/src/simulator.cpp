@@ -69,7 +69,7 @@ bool Simulator::remove(shared_ptr<MemoryManager> manager, vector<Job>& jobs, int
       if(!manager->remove(*job))
         return false;
       else
-        cout << job->getId() << ";" << job->memoryFail << endl;
+        cout << job->memoryFail << ";";
       running_.erase(job);
     }else{
       job++;

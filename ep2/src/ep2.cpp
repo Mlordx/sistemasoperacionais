@@ -23,6 +23,8 @@ int main(int argc,char** argv){
 
   int nJobs[3] = {25, 60, 100};
 
+  for(int k = 1; k < 5; k++){
+    cout << "\n-------------ALGORITMO >> " << k << "---------------\n\n";
   for(int j = 0; j < 3; j++){
     cout << "\n-------------TAMANHO >> " << nJobs[j] << "---------------\n\n";
     for(int i = 0; i < 30; i++){
@@ -32,9 +34,10 @@ int main(int argc,char** argv){
       shared_ptr<MemoryManager> aux(new MemoryManager(tot, virt));
       mmu = aux;
       mmu->setMemoryAlgorithm(1);
-      mmu->setPageAlgorithm(1);
+      mmu->setPageAlgorithm(k);
       simulator.run(processes, mmu, n);
     }
+  }
   }
 
   return 0;
