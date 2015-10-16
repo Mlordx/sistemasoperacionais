@@ -1,12 +1,12 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
-using namespace std;
-
 #include <jobFactory.hpp>
 #include <memoryManager.hpp>
 #include <simulator.hpp>
+
+using namespace std;
+
 
 int main(int argc,char** argv){
   int n, espaco, substitui;

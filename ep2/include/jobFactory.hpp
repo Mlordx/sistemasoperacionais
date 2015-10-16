@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 #include <memory>
-
 #include <job.hpp>
+
 #define MEMORY_SIZE 100
 
 class JobFactory{

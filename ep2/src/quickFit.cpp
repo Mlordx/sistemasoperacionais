@@ -5,11 +5,7 @@
 
 using namespace std;
 
-<<<<<<< HEAD
-QuickFit::QuickFit(shared_ptr<MemorySlot> hd) : MemoryAlgorithm(hd),head(hd) {
-=======
 QuickFit::QuickFit(shared_ptr<MemorySlot> hd) : MemoryAlgorithm(hd),head_(hd) {
->>>>>>> 4021039ebd82c0e088b222a725917d5625ee046b
   memory_list.resize(5);
   updateMemoryList(head_);
 }
