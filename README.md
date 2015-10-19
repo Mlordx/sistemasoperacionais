@@ -19,13 +19,13 @@ EPs de SO
 - [x] **Interação com o simulador**
     - [x] Criar o interpretador de comandos
     - [x] Criar abstrações para os arquivos binários ep2.vir e ep2.mem
-- [ ] **Documentação**
-    - [ ] Gráficos dos experimentos
-    - [ ] Apresentação em pdf
-- [ ] **Entrega**
-    - [ ] Código Fonte
-    - [ ] Arquivo LEIAME
-    - [ ] Makefile ou similar
-    - [ ] Apresentação
+- [x] **Documentação**
+    - [x] Gráficos dos experimentos
+    - [x] Apresentação em pdf
+- [x] **Entrega**
+    - [x] Código Fonte
+    - [x] Arquivo LEIAME
+    - [x] Makefile ou similar
+    - [x] Apresentação
 
 
