@@ -34,4 +34,3 @@ EPs de SO
     - [ ] LEIAME
     - [x] Makefile
     - [ ] Apresentação
-

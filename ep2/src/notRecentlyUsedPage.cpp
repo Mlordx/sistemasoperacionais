@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int NotRecentlyUsedPage::readPage(vector<Page> pageTable, int page){
+int NotRecentlyUsedPage::readPage(vector<Page>& pageTable, int page){
   if(pageTable[page].posReal != -1)
     return page;
   if(pageTable[page].posVirtual == -1)

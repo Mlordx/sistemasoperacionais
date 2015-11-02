@@ -1,3 +1,10 @@
+/************************
+EP2 - SO
+Vinícius Silva - 7557626
+Mateus Barros - 7991037
+
+*************************/
+
 #ifndef QUICK_FIT_HPP
 #define QUICK_FIT_HPP
 
@@ -10,7 +17,7 @@
 
 class QuickFit : public MemoryAlgorithm{
 private:
-  std::shared_ptr<MemorySlot> head;
+  std::shared_ptr<MemorySlot> head_;
   std::vector< std::vector< std::shared_ptr<MemorySlot> > > memory_list;
 public:
   QuickFit(std::shared_ptr<MemorySlot>);

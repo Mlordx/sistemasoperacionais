@@ -9,6 +9,7 @@ MemoryAlgorithm::MemoryAlgorithm(shared_ptr<MemorySlot> memorySlot){
 
 shared_ptr<MemorySlot> MemoryAlgorithm::insertJob(Job job, shared_ptr<MemorySlot> memorySlot){
   
+
   if(memorySlot->size < getRealSize(job)){
     cout << "Erro na alocação de memória\n";
     exit(-1);

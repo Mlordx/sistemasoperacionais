@@ -1,11 +1,18 @@
+/************************
+EP2 - SO
+Vinícius Silva - 7557626
+Mateus Barros - 7991037
+
+*************************/
+
 #ifndef JOB_FACTORY_H
 #define JOB_FACTORY_H
 
 #include <string>
 #include <vector>
 #include <memory>
-
 #include <job.hpp>
+
 #define MEMORY_SIZE 100
 
 class JobFactory{

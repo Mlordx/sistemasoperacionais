@@ -1,9 +1,17 @@
+/************************
+EP2 - SO
+Vinícius Silva - 7557626
+Mateus Barros - 7991037
+
+*************************/
+
 #ifndef MEMORY_HPP
 #define MEMORY_HPP
 
 #include <string>
 #include <memory>
 
+#define PAGE_SIZE 16
 
 struct MemorySlot{
   int pid, position, size;
@@ -14,7 +22,7 @@ struct MemorySlot{
 };
 
 struct Page{
-  int posVirtual, posReal, pid;
+  int posVirtual, posReal, pid, pageNumber = -1, accessNumber = -1;
   bool read;
 
   Page(int a, int b, int c, bool d) : posVirtual(a), posReal(b), pid(c), read(d){}
@@ -30,6 +38,7 @@ public:
   Memory(std::string , int);
   std::shared_ptr<MemorySlot> getMemoryState();
   void setMemoryState(std::shared_ptr<MemorySlot>);
+  void print(std::string);
 };
 
 #endif // MEMORY_HPP

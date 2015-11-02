@@ -1,3 +1,10 @@
+/************************
+EP2 - SO
+Vinícius Silva - 7557626
+Mateus Barros - 7991037
+
+*************************/
+
 #ifndef JOB_HPP
 #define JOB_HPP
 
@@ -6,9 +13,9 @@
 #include <memory>
 
 struct Access {
-  int time, position;
+  int position, time;
 
-  Access(int a, int b) : time(a), position(b){}
+  Access(int a, int b) : position(a), time(b){}
   
 };
 
@@ -24,7 +31,7 @@ private:
   std::queue<Access> accesses_;
 
 public:
-  std::shared_ptr<Job> addAccess(Access&);
+  void addAccess(Access&);
   Access& peakAccess();
   Access& getNextAccess();
   bool hasAccesses();
@@ -35,11 +42,11 @@ public:
   int getId();
   std::string getName();
 
-  std::shared_ptr<Job> setStartTime(int);
-  std::shared_ptr<Job> setEndTime(int);
-  std::shared_ptr<Job> setSize(int);
-  std::shared_ptr<Job> setId(int);
-  std::shared_ptr<Job> setName(std::string);
+  void setStartTime(int);
+  void setEndTime(int);
+  void setSize(int);
+  void setId(int);
+  void setName(std::string);
   friend std::ostream& operator<<(std::ostream&, const Job&);
 };
 

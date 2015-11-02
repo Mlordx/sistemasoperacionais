@@ -7,16 +7,13 @@ FirstFit::FirstFit(shared_ptr<MemorySlot> head) : MemoryAlgorithm(head),list(hea
 
 
 int FirstFit::execute(Job job){
-  auto p = list;
-  auto size = getRealSize(job);
-
-  while(p != nullptr){
-    auto aux = *(p);
-    if(p->pid == -1 && p->size >= size){
-	auto bla = insertJob(job,p);
-	return bla->pid;
+  auto memoryTable = head_;
+  while(memoryTable != nullptr){
+    if(memoryTable->pid == -1 && memoryTable->size >= getRealSize(job)){
+      memoryTable = insertJob(job, memoryTable);
+      return memoryTable->position;
     }
-    p = p->next;
+    memoryTable = memoryTable->next;
   }
   return -1;
 }
