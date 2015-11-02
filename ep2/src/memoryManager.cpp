@@ -11,7 +11,7 @@
 
 using namespace std;
 
-/*
+
 int main(){
   MemoryManager manager(256, 64);
   JobFactory factory = JobFactory(40);
@@ -35,7 +35,6 @@ int main(){
 
   return 0;
 }
-*/
 
 void MemoryManager::setReal(int sizeReal){
   Memory real(REAL_FILE, sizeReal);

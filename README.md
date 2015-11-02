@@ -1,31 +1,37 @@
 # sistemasoperacionais
 EPs de SO
 
-## TODO list EP2
+## TODO list EP3
 
-- [x] **Preparação**
-    - [x] Escolher a linguagem
-    - [x] Criar gerador de entradas
-    - [x] Criar parser da entrada
-- [ ] **Algorítmos de gestão de espaço livre**
-    - [x] *First Fit*
-    - [x] *Next Fit*
-    - [ ] *Quick Fit*
-- [ ] **Algorítmos de substituição de página**
-    - [ ] *Not Recently Used Page*
-    - [ ] *First-In, First-Out*
-    - [ ] *Second-Chance Page*
-    - [ ] *Least Recently Used Page*
-- [ ] **Interação com o simulador**
-    - [ ] Criar o interpretador de comandos
-    - [x] Criar abstrações para os arquivos binários ep2.vir e ep2.mem
-- [ ] **Documentação**
-    - [ ] Gráficos dos experimentos
-    - [ ] Apresentação em pdf
+- [ ] **Preparação**
+    - [ ] Pensar na estrutura de dados
+    - [ ] Pensar na estrutura de dados
+    - [ ] Criar o shell para iteração com o programa
+- [ ] **Comandos**
+    - [ ] *mount arquivo*
+    - [ ] *cp origem destino*
+    - [ ] *mkdir diretorio*
+    - [ ] *rmdir diretorio*
+    - [ ] *cat arquivo*
+    - [ ] *touch arquivo*
+    - [ ] *rm arquivo*
+    - [ ] *ls diretorio*
+    - [ ] *find diretorio arquivo*
+    - [ ] *df*
+    - [ ] *unmount*
+    - [ ] *sai*
+- [ ] **Testes**
+    - [ ] Copia de um arquivo de 1MB no ‘/’
+    - [ ] Copia de um arquivo de 10MB no ‘/’
+    - [ ] Copia de um arquivo de 30MB no ‘/’
+    - [ ] Remoção de um arquivo de 1MB no ‘/’
+    - [ ] Remoção de um arquivo de 10MB no ‘/’
+    - [ ] Remoção de um arquivo de 30MB no ‘/’
+    - [ ] Remoção completa de um diretório “pai” com 30 níveis de hierarquia abaixo dele e sem arquivo regular em nenhum dos subdiretórios
+    - [ ] Remoção completa de um diretório “pai” com 30 níveis de hierarquia abaixo dele e com centenas de arquivos regulares em todos os subdiretórios
 - [ ] **Entrega**
-    - [ ] Código Fonte
-    - [ ] Arquivo LEIAME
-    - [ ] Makefile ou similar
+    - [ ] código-fonte
+    - [ ] LEIAME
+    - [x] Makefile
     - [ ] Apresentação
-
 
