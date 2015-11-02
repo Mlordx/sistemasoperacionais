@@ -6,7 +6,7 @@ EPs de SO
 - [ ] **Preparação**
     - [ ] Pensar na estrutura de dados
     - [ ] Pensar na estrutura de dados
-    - [ ] Criar o shell para iteração com o programa
+    - [x] Criar o shell para iteração com o programa
 - [ ] **Comandos**
     - [ ] *mount arquivo*
     - [ ] *cp origem destino*
@@ -19,7 +19,7 @@ EPs de SO
     - [ ] *find diretorio arquivo*
     - [ ] *df*
     - [ ] *unmount*
-    - [ ] *sai*
+    - [x] *sai*
 - [ ] **Testes**
     - [ ] Copia de um arquivo de 1MB no ‘/’
     - [ ] Copia de um arquivo de 10MB no ‘/’
