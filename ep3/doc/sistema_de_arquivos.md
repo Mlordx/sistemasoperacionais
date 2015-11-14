@@ -6,7 +6,7 @@
 
 ## Tabela de blocos
 
-cada 5 bytes representa um bloco. A posição dos bytes é o indice dos blocos e os 5 bytes são caracteres que contém o valor numérico do próximo bloco do arquivo. A tabela da figura () do livro ficaria assim (sem as queebras de linha e os índices):
+cada 5 bytes representa um bloco. A posição dos bytes é o indice dos blocos e os 5 bytes são caracteres que contém o valor numérico do próximo bloco do arquivo. A tabela da figura 5-9 do livro ficaria assim (sem as queebras de linha e os índices):
 
 0. xxxxx
 1. xxxxx
