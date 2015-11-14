@@ -1,0 +1,3 @@
+32    blocos -> tabela de blocos
+ 4    blocos -> bitmap (ou 12 se tivermos que gravar como texto)
+25568 blocos -> diretórios e arquivos (ou 25560 pelo mesmo motivo acima)

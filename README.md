@@ -4,7 +4,7 @@ EPs de SO
 ## TODO list EP3
 
 - [ ] **Preparação**
-    - [ ] Pensar na estrutura de dados
+    - [x] Pensar na estrutura de dados
     - [ ] Criar abstração para a estrutura de dados
     - [x] Criar o shell para iteração com o programa
 - [ ] **Comandos**
