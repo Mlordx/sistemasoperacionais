@@ -7,6 +7,7 @@
 #include "Terminal.hpp"
 
 // EP3 Classes
+#include "FileSystem.hpp"
 #include "LeaveCommand.hpp"
 
 
@@ -23,6 +24,8 @@ vector<string> &split(const string &input, char delim, vector<string> &args) {
 
 Terminal::Terminal(){
   shared_ptr<Command> sai(new LeaveCommand);
+  FileSystem teste;
+  teste.init("fs.txt");
   commands_["sai"] = sai;
 }
 

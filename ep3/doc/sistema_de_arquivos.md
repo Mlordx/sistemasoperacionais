@@ -2,7 +2,7 @@
 
 - 32 blocos -> tabela de blocos
 - 1 bloco  -> bitmap (ou 3 se tivermos que gravar como texto)
-- 25571 blocos -> diretórios e arquivos (ou 25568 pelo mesmo motivo acima)
+- 25567 blocos -> diretórios e arquivos (ou 25568 pelo mesmo motivo acima)
 
 ## Tabela de blocos
 
