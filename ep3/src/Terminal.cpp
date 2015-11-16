@@ -8,6 +8,8 @@
 
 // EP3 Classes
 #include "FileSystem.hpp"
+#include "FileEntry.hpp"
+#include "Folder.hpp"
 #include "LeaveCommand.hpp"
 
 
