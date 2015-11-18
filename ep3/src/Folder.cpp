@@ -7,22 +7,17 @@
 using namespace std;
 
 Folder::Folder(string name) : FileEntry(name){
-  
   cout << "sem pai" << endl;
   
-  for(auto file : files_){
-    cout << file->getName() << endl;
-  }
+  for(auto file : files_) cout << file->getName() << endl;
+  
 }
 
 Folder::Folder(string name, shared_ptr<FileEntry> parent) : FileEntry(name){
-
   cout << "com pai" << endl;
   
   addParent(parent);
-  for(auto file : files_){
-    cout << file->getName() << endl;
-  }
+  for(auto file : files_) cout << file->getName() << endl;
 }
 
 void Folder::addFile(shared_ptr<FileEntry> file){
@@ -43,4 +38,8 @@ string Folder::getData(){
   data += to_string(getInitialBlock()) + ';';
   cout << data << endl;
   return data;
+}
+
+vector<shared_ptr<FileEntry> >& Folder::getFiles(){
+  return files_;
 }

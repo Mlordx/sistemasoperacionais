@@ -7,8 +7,7 @@
 //Standard Libraries
 #include <string>
 
-class FileEntry
-{
+class FileEntry{
  private:
   std::string name_;
   int size_;

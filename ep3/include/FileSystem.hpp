@@ -17,17 +17,21 @@
 
 //EP3 Libraries
 #include "FileEntry.hpp"
+#include "Folder.hpp"
 
-class FileSystem
-{
+class FileSystem : public std::enable_shared_from_this<FileSystem>{
  private:
   std::fstream disk_;
-
+  std::shared_ptr<Folder> currentFolder_;
   void formatDisk();
+  
  public:
+  FileSystem() = default;
   void init(std::string);
   bool isDisk(std::string fileName);
   void persist(std::shared_ptr<FileEntry> entry, int block);
+  void setCurrentFolder(std::shared_ptr<Folder> f);
+  std::shared_ptr<Folder> getCurrentFolder();
 };
 
 #endif

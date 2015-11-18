@@ -5,8 +5,7 @@
 #include <string>
 #include <vector>
 
-class Command
-{
+class Command{
  public:
   virtual int execute(std::vector<std::string> args) =0;
 };

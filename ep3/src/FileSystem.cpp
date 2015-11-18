@@ -11,8 +11,7 @@
 using namespace std;
 
 void FileSystem::init(string fileName){
-  if(isDisk(fileName))
-    return;
+  if(isDisk(fileName)) return;
   disk_.close();
   disk_.open(fileName, ios::out);
   formatDisk();
@@ -26,8 +25,7 @@ void FileSystem::formatDisk(){
   cout << BITMAP_POSITION << endl << TOTAL_SIZE << endl;
   char empty = 0;
   disk_.seekp(BITMAP_POSITION);
-  for(int i = 0; i < FILE_BLOCKS/8+1; i++)
-    disk_ << empty;
+  for(int i = 0; i < FILE_BLOCKS/8+1; i++) disk_ << empty;
   disk_.seekp(TOTAL_SIZE);
   disk_ << "";
 }
@@ -46,3 +44,12 @@ void FileSystem::persist(shared_ptr<FileEntry> entry, int block){
   disk_ << empty;
   disk_ << flush;
 }
+
+void FileSystem::setCurrentFolder(shared_ptr<Folder> f){
+  currentFolder_ = f;
+}
+
+shared_ptr<Folder> FileSystem::getCurrentFolder(){
+  return currentFolder_;
+}
+  

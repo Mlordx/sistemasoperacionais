@@ -8,8 +8,7 @@
 // EP3 Classes
 #include "Command.hpp"
 
-class LeaveCommand : public Command
-{
+class LeaveCommand : public Command{
  public:
   int execute(std::vector<std::string> args);
 };

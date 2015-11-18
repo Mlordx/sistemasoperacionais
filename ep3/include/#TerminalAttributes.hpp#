@@ -1,0 +1,10 @@
+
+
+class TerminalAttributes{
+private:
+  FileSystem fileSystem_;
+  
+
+public:
+
+};
