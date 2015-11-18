@@ -2,7 +2,7 @@
 #define HPP_FILESYSTEM_DEFINED
 
 #define BITMAP_BLOCKS 1
-#define FILEMAP_BLOCKS 32
+#define FILEMAP_BLOCKS 1
 #define FILE_BLOCKS 10
 
 #define N_BLOCKS (BITMAP_BLOCKS + FILEMAP_BLOCKS + FILE_BLOCKS)
@@ -23,6 +23,7 @@ class FileSystem : public std::enable_shared_from_this<FileSystem>{
  private:
   std::fstream disk_;
   std::shared_ptr<Folder> currentFolder_;
+  std::vector<int> fileMap_;
   void formatDisk();
   
  public:
@@ -32,6 +33,7 @@ class FileSystem : public std::enable_shared_from_this<FileSystem>{
   void persist(std::shared_ptr<FileEntry> entry, int block);
   void setCurrentFolder(std::shared_ptr<Folder> f);
   std::shared_ptr<Folder> getCurrentFolder();
+  std::vector<int> getFileMap();
 };
 
 #endif
