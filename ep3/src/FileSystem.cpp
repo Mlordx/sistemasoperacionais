@@ -10,6 +10,8 @@
 
 using namespace std;
 
+char* cleanIndex(string index, char* filtered);
+
 void FileSystem::init(string fileName){
   if(isDisk(fileName)) return;
   disk_.close();
@@ -54,20 +56,15 @@ shared_ptr<Folder> FileSystem::getCurrentFolder(){
 }
   
 vector<int> FileSystem::getFileMap(){
-  
+  char filtered[5];
   if(fileMap_.empty()){
-    disk_.seekp(FILEMAP_POSITION+10);
-    disk_ << "00004";
     disk_.seekp(FILEMAP_POSITION);
     for(int i = 0; i < FILE_BLOCKS; i++){
-      char next[5];
-      disk_.width(5);
+      char next[6];
+      disk_.width(6);
       disk_ >> next;
-      cout << atoi(next) << endl;
       fileMap_.push_back(atoi(next));
     }
   }
-  cout << fileMap_[2] << endl;
   return fileMap_;
-
 }
