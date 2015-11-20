@@ -31,6 +31,7 @@ class FileEntry{
   time_t getModificationTime();
   time_t getAccessTime();
   int getInitialBlock();
+  void printFormattedInfo();
 
   void initFromData(std::vector<std::string>);
 

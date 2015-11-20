@@ -1,9 +1,9 @@
 #ifndef HPP_FILESYSTEM_DEFINED
 #define HPP_FILESYSTEM_DEFINED
 
-#define BITMAP_BLOCKS 2
-#define FILEMAP_BLOCKS 40
-#define FILE_BLOCKS 30000
+#define BITMAP_BLOCKS 1
+#define FILEMAP_BLOCKS 38
+#define FILE_BLOCKS 25561
 
 #define N_BLOCKS (BITMAP_BLOCKS + FILEMAP_BLOCKS + FILE_BLOCKS)
 #define BLOCK_SIZE (4<<10)
@@ -28,7 +28,6 @@ class FileSystem : public std::enable_shared_from_this<FileSystem>{
   void formatDisk();
   std::vector<std::string> getFileChunks(std::string);
   void addMapRegistry(int, int);
-  std::shared_ptr<Folder> loadFolder(int block);
   std::shared_ptr<Folder> getInitialFolder(std::string& path);
   
  public:
@@ -42,6 +41,7 @@ class FileSystem : public std::enable_shared_from_this<FileSystem>{
   int getNextFreeBlock();
   std::string getFileData(int);
   std::shared_ptr<Folder> getPathFolder(std::string&);  
+  std::shared_ptr<Folder> loadFolder(int block);
 };
 
 #endif

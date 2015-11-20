@@ -3,6 +3,7 @@
 
 //Standard Libraries
 #include <iostream>
+#include <cstdio>
 
 using namespace std;
 
@@ -79,4 +80,18 @@ void FileEntry::setData(string data){
 
 string FileEntry::getData(){
   return data_;
+}
+
+void FileEntry::printFormattedInfo(){
+
+  struct tm * timeinfo;
+
+  timeinfo = localtime(&modificationTime_);
+
+  char date[11];
+  strftime(date, 11, "%d/%m/%Y", timeinfo);
+
+  printf("%-11s", date);
+  printf("%-11d", size_);
+  printf("%s\n", name_.c_str());
 }

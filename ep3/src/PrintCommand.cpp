@@ -23,7 +23,6 @@ int PrintCommand::execute(std::vector<std::string> args){
     return 0;
   }
   
-  cout << targetFolder->getData() << endl;
   auto targetFile = targetFolder->getFile(fileName);
   
   if(targetFile == NULL){
@@ -32,7 +31,8 @@ int PrintCommand::execute(std::vector<std::string> args){
   }
 
   string data = fileSystem_->getFileData(targetFile->getInitialBlock());
-  cout << data << endl;
+  targetFile->setAccessTime();
+  cout << data;
 
   return 1;
 }

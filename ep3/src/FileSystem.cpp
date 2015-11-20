@@ -22,13 +22,19 @@ void FileSystem::init(string fileName){
   cout << "BITMAP_POSITION = " << BITMAP_POSITION << endl;
   cout << "FILEMAP_POSITION = " << FILEMAP_POSITION << endl;
 
-  if(isDisk(fileName)) return;
+  if(isDisk(fileName)) {
+    initFileMap();
+    setCurrentFolder(loadFolder(0));
+    return;
+  }
   disk_.close();
   disk_.open(fileName, ios::out);
   formatDisk();
   disk_.close();
   disk_.open(fileName, ios::in | ios::out);
   auto root  = shared_ptr<Folder>(new Folder("/"));
+  if(!disk_.good())
+    cout << "Já Morreu!\n";
   initFileMap();
   root->setInitialBlock(getNextFreeBlock());
   persist(root);
@@ -39,7 +45,7 @@ void FileSystem::formatDisk(){
   char empty = 0;
   disk_.seekp(BITMAP_POSITION);
   for(int i = 0; i < FILE_BLOCKS/8+1; i++) disk_ << empty;
-  disk_.seekp(TOTAL_SIZE);
+  disk_.seekp(TOTAL_SIZE-1);
   disk_ << "";
 }
 
@@ -106,9 +112,8 @@ void FileSystem::initFileMap(){
   disk_.seekp(FILEMAP_POSITION);
   for(int i = 0; i < FILE_BLOCKS; i++){
     char next[6];
-    disk_.width(6);
-    disk_ >> next;
-    fileMap_[atoi(next)];
+    disk_.read(next, 6);
+    fileMap_[i] = atoi(next);
   }
 }
 
@@ -131,7 +136,8 @@ vector<string> FileSystem::getFileChunks(string data){
 }
 
 int FileSystem::getNextFreeBlock(){
-
+  if(!disk_.good())
+    cout << "Morreu!\n";
   disk_.seekp(BITMAP_POSITION);
   char c = 1;
   for(int i=0; i < FILE_BLOCKS/8+1; i++){
