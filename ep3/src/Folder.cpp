@@ -53,3 +53,8 @@ string Folder::generateData(std::shared_ptr<FileEntry> entry){
 vector<shared_ptr<FileEntry> >& Folder::getFiles(){
   return files_;
 }
+
+shared_ptr<Folder> Folder::getChildFolder(string completeName){
+  cout << "olá\n";
+  return NULL;
+}

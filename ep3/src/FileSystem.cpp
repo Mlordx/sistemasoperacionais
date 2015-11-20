@@ -3,6 +3,8 @@
 
 // Standard Libraries
 #include <iostream>
+#include <string.h>
+#include <iomanip>
 
 //EP3 Libraries
 #include "Folder.hpp"
@@ -13,6 +15,13 @@ using namespace std;
 char* cleanIndex(string index, char* filtered);
 
 void FileSystem::init(string fileName){
+
+  cout << "N_BLOCKS = " << N_BLOCKS << endl;
+  cout << "BLOCK_SIZE = " << BLOCK_SIZE << endl;
+  cout << "TOTAL_SIZE = " << TOTAL_SIZE << endl;
+  cout << "BITMAP_POSITION = " << BITMAP_POSITION << endl;
+  cout << "FILEMAP_POSITION = " << FILEMAP_POSITION << endl;
+
   if(isDisk(fileName)) return;
   disk_.close();
   disk_.open(fileName, ios::out);
@@ -20,8 +29,8 @@ void FileSystem::init(string fileName){
   disk_.close();
   disk_.open(fileName, ios::in | ios::out);
   auto root  = shared_ptr<FileEntry>(new Folder("/"));
-  persist(root, 0);
-  getFileMap();
+  initFileMap();
+  persist(root, getNextFreeBlock());
 }
 
 void FileSystem::formatDisk(){
@@ -38,12 +47,19 @@ bool FileSystem::isDisk(string fileName){
 }
 
 void FileSystem::persist(shared_ptr<FileEntry> entry, int block){
-  char empty = 0;
-  string text = entry->getData();
-  string test;
-  disk_.seekp(block*BLOCK_SIZE);
-  disk_ << text;
-  disk_ << empty;
+  auto teste = block;
+  auto blocks = getFileChunks(entry->getData());
+  int newBlock;
+  for (auto text : blocks){
+    disk_.seekp(block*BLOCK_SIZE);
+    disk_ << text;
+    if(text.size() < BLOCK_SIZE - 1)
+      newBlock = 0;
+    else
+      newBlock = getNextFreeBlock();
+    addMapRegistry(block, newBlock);
+    block = newBlock;
+  }
   disk_ << flush;
 }
 
@@ -55,16 +71,68 @@ shared_ptr<Folder> FileSystem::getCurrentFolder(){
   return currentFolder_;
 }
   
-vector<int> FileSystem::getFileMap(){
-  char filtered[5];
-  if(fileMap_.empty()){
-    disk_.seekp(FILEMAP_POSITION);
-    for(int i = 0; i < FILE_BLOCKS; i++){
-      char next[6];
-      disk_.width(6);
-      disk_ >> next;
-      fileMap_.push_back(atoi(next));
+void FileSystem::initFileMap(){
+  fileMap_.resize(FILE_BLOCKS);
+  disk_.seekp(FILEMAP_POSITION);
+  for(int i = 0; i < FILE_BLOCKS; i++){
+    char next[6];
+    disk_.width(6);
+    disk_ >> next;
+    fileMap_[atoi(next)];
+  }
+}
+
+void FileSystem::addMapRegistry(int block, int newBlock){
+  fileMap_[block] = newBlock;
+  stringstream buffer;
+  buffer << setfill('0') << setw(5) << newBlock;
+  disk_.seekp(FILEMAP_POSITION + block*6);
+  disk_ << buffer.str();
+}
+
+vector<string> FileSystem::getFileChunks(string data){
+  vector<string> vs;
+
+  stringstream input(data);
+
+  for(unsigned int i = 0; i < data.size(); i += BLOCK_SIZE-1)
+    vs.push_back(data.substr(i, BLOCK_SIZE - 1));
+
+  return vs;
+}
+
+int FileSystem::getNextFreeBlock(){
+  disk_.close();
+  disk_.open("bla.txt", ios::in | ios::out);
+  disk_.seekp(BITMAP_POSITION);
+  char c = 1;
+  for(int i=0; i < FILE_BLOCKS/8+1; i++){
+    disk_.get(c);
+    unsigned char value = (unsigned char) c;    
+    unsigned int byte = (unsigned int) value;
+    for (unsigned int j = 0; j < 8; j++){
+      if(byte%2 == 0){        
+        value = (unsigned int) value + (1 << j);
+        disk_.seekp(BITMAP_POSITION + i);
+        disk_.put((char) value);
+        return i*8+j;
+      }
+      byte = byte/2;
     }
   }
-  return fileMap_;
+  cout << "Disco cheio" << endl;
+  exit(1);
+  return 0;
+}
+
+string FileSystem::getFileData(int block){
+  string data;
+  do{
+    char buffer[BLOCK_SIZE];
+    disk_.seekp(block*BLOCK_SIZE);
+    disk_.read(buffer, BLOCK_SIZE);
+    data += buffer;
+    block = fileMap_[block];
+  } while (block != 0);
+  return data;
 }

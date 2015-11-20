@@ -59,6 +59,11 @@ void FileEntry::setInitialBlock(int initialBlock){
   initialBlock_ = initialBlock;
 }
 
+void FileEntry::setData(string data){
+  size_ = data.size() + 1;
+  data_ = data;
+}
+
 string FileEntry::getData(){
-  return "oi";
+  return data_;
 }

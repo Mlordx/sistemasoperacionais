@@ -9,16 +9,20 @@
 
 class FileEntry{
  private:
+  std::string data_;
   std::string name_;
   int size_;
   time_t creationTime_;
   time_t modificationTime_;
   time_t accessTime_;
   int initialBlock_;
+
  public:
-  FileEntry(std::string);
+
+  FileEntry(std::string fileName);
 
   virtual std::string getData();
+  void setData(std::string);
   
   std::string getName();
   int getSize();

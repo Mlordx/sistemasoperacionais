@@ -21,7 +21,7 @@ class Folder : public FileEntry, public std::enable_shared_from_this<FileEntry>{
   std::string getData();
   std::string generateData();
   std::string generateData(std::shared_ptr<FileEntry>);
-
+  std::shared_ptr<Folder> getChildFolder(std::string completeName);
 };
 
 #endif
