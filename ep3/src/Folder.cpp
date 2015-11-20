@@ -18,16 +18,13 @@ vector<string>& split(const string &input, char delim, vector<string> &args) {
   return args;
 }
 
-Folder::Folder(string name) : FileEntry(name){
-}
+Folder::Folder(string name) : FileEntry(name) {}
 
 Folder::Folder(string name, shared_ptr<FileEntry> parent) : FileEntry(name){
-
   addParent(parent);
 }
 
 Folder::Folder(string name, string data) : FileEntry(name){
-  
   vector<string> filesData;
   vector<string> filesInfo;
   split(data, '\n', filesData);
