@@ -35,7 +35,7 @@ Terminal::Terminal(){
   
   shared_ptr<Command> sai(new LeaveCommand);
   shared_ptr<Command> mount(new MountCommand(filesys));
-  shared_ptr<Command> touch(new TouchCommand(filesys->getCurrentFolder()));
+  shared_ptr<Command> touch(new TouchCommand(filesys));
   shared_ptr<Command> copy(new CopyCommand(filesys));
   shared_ptr<Command> print(new PrintCommand(filesys));
   shared_ptr<Command> mkdir(new MakeFolderCommand(filesys));

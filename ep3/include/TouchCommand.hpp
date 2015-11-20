@@ -8,13 +8,13 @@
 // EP3 Classes
 #include "Command.hpp"
 #include "FileEntry.hpp"
-#include "Folder.hpp"
+#include "FileSystem.hpp"
 
 class TouchCommand : public Command{
 private:
-  std::shared_ptr<Folder> currentFolder;
+  std::shared_ptr<FileSystem> fileSystem_;
 public:
-  TouchCommand(std::shared_ptr<Folder> cf);
+  TouchCommand(std::shared_ptr<FileSystem> fs);
   int execute(std::vector<std::string> args);
 };
 
