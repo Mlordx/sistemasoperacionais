@@ -13,6 +13,7 @@
 #include "LeaveCommand.hpp"
 #include "TouchCommand.hpp"
 #include "MountCommand.hpp"
+#include "UnmountCommand.hpp"
 #include "CopyCommand.hpp"
 #include "PrintCommand.hpp"
 #include "MakeFolderCommand.hpp"
@@ -35,6 +36,7 @@ Terminal::Terminal(){
   
   shared_ptr<Command> sai(new LeaveCommand);
   shared_ptr<Command> mount(new MountCommand(filesys));
+  shared_ptr<Command> unmount(new UnmountCommand(filesys));
   shared_ptr<Command> touch(new TouchCommand(filesys));
   shared_ptr<Command> copy(new CopyCommand(filesys));
   shared_ptr<Command> print(new PrintCommand(filesys));
@@ -43,6 +45,7 @@ Terminal::Terminal(){
   
   commands_["sai"] = sai;
   commands_["mount"] = mount;
+  commands_["unmount"] = unmount;
   commands_["touch"] = touch;
   commands_["cp"] = copy;
   commands_["cat"] = print;

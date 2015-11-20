@@ -60,7 +60,6 @@ bool FileSystem::isOpen(){
 
 void FileSystem::persist(shared_ptr<FileEntry> entry){
   int block = entry->getInitialBlock();
-  int teste = block;
   auto blocks = getFileChunks(entry->getData());
   int newBlock;
   for (auto text : blocks){
@@ -86,7 +85,7 @@ shared_ptr<Folder> FileSystem::getCurrentFolder(){
 
 shared_ptr<Folder> FileSystem::loadFolder(int block){
   string data = getFileData(block);
-  shared_ptr<Folder> folder(new Folder("teste", data));
+  shared_ptr<Folder> folder(new Folder("", data));
   return folder;
 }
 
@@ -174,4 +173,8 @@ string FileSystem::getFileData(int block){
     block = fileMap_[block];
   } while (block != 0);
   return data;
+}
+
+void FileSystem::close(){
+  disk_.close();
 }

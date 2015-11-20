@@ -18,7 +18,7 @@ EPs de SO
     - [x] *ls diretorio*
     - [ ] *find diretorio arquivo*
     - [ ] *df*
-    - [ ] *unmount*
+    - [x] *unmount*
     - [x] *sai*
 - [ ] **Testes**
     - [ ] Copia de um arquivo de 1MB no ‘/’
