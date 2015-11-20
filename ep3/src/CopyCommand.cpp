@@ -20,12 +20,27 @@ int CopyCommand::execute(vector<string> args){
   stringstream buffer;
   buffer << original.rdbuf();
   string data = buffer.str();
+
   string newRelativeName = args[1];
-  auto targetFolder = fileSystem_->getCurrentFolder(); //currentFolder_->getChildFolder(newRelativeName);
+
+  auto targetFolder = fileSystem_->getPathFolder(newRelativeName);
+  
+  if(targetFolder == NULL || newRelativeName.size() == 0){
+    cout << "Caminho inválido" << endl;
+    return 0;
+  }
+
+  if(targetFolder->getFile(newRelativeName) != NULL){
+    cout << "Este nome já está sendo utilizado" << endl;
+    return 0;
+  }
+
   shared_ptr<FileEntry> newFile(new FileEntry(newRelativeName));
   newFile->setData(data);
   newFile->setInitialBlock(fileSystem_->getNextFreeBlock());
   targetFolder->addFile(newFile);
+  
+  fileSystem_->persist(targetFolder);
   fileSystem_->persist(newFile);
 
   return 1;

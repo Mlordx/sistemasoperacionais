@@ -14,8 +14,23 @@ int PrintCommand::execute(std::vector<std::string> args){
     return 1;
   }
 
-  auto targetFolder = fileSystem_->getCurrentFolder(); //currentFolder_->getChildFolder(newRelativeName);
-  auto targetFile = targetFolder->getFile(args[0]);
+  string fileName = args[0];
+
+  auto targetFolder = fileSystem_->getPathFolder(fileName);
+  
+  if(targetFolder == NULL || fileName.size() == 0){
+    cout << "Caminho inválido" << endl;
+    return 0;
+  }
+  
+  cout << targetFolder->getData() << endl;
+  auto targetFile = targetFolder->getFile(fileName);
+  
+  if(targetFile == NULL){
+    cout << "Este arquivo não existe" << endl;
+    return 0;
+  }
+
   string data = fileSystem_->getFileData(targetFile->getInitialBlock());
   cout << data << endl;
 

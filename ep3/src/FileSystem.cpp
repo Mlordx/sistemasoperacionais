@@ -28,10 +28,11 @@ void FileSystem::init(string fileName){
   formatDisk();
   disk_.close();
   disk_.open(fileName, ios::in | ios::out);
-  auto root  = shared_ptr<FileEntry>(new Folder("/"));
+  auto root  = shared_ptr<Folder>(new Folder("/"));
   initFileMap();
   root->setInitialBlock(getNextFreeBlock());
   persist(root);
+  setCurrentFolder(root);
 }
 
 void FileSystem::formatDisk(){
