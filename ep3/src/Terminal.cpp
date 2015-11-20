@@ -32,7 +32,6 @@ vector<string>& breakString(const string &input, char delim, vector<string> &arg
 
 Terminal::Terminal(){
   auto filesys = make_shared<FileSystem>();
-  filesys->init("bla.txt");
   
   shared_ptr<Command> sai(new LeaveCommand);
   shared_ptr<Command> mount(new MountCommand(filesys));

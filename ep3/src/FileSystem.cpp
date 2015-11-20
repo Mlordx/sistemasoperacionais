@@ -54,6 +54,10 @@ bool FileSystem::isDisk(string fileName){
   return disk_.good();
 }
 
+bool FileSystem::isOpen(){
+  return disk_.is_open();
+}
+
 void FileSystem::persist(shared_ptr<FileEntry> entry){
   int block = entry->getInitialBlock();
   int teste = block;

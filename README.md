@@ -8,14 +8,14 @@ EPs de SO
     - [ ] Criar abstração para a estrutura de dados
     - [x] Criar o shell para iteração com o programa
 - [ ] **Comandos**
-    - [ ] *mount arquivo*
-    - [ ] *cp origem destino*
-    - [ ] *mkdir diretorio*
+    - [x] *mount arquivo*
+    - [x] *cp origem destino*
+    - [x] *mkdir diretorio*
     - [ ] *rmdir diretorio*
-    - [ ] *cat arquivo*
+    - [x] *cat arquivo*
     - [ ] *touch arquivo*
     - [ ] *rm arquivo*
-    - [ ] *ls diretorio*
+    - [x] *ls diretorio*
     - [ ] *find diretorio arquivo*
     - [ ] *df*
     - [ ] *unmount*

@@ -10,6 +10,11 @@ ListCommand::ListCommand(shared_ptr<FileSystem> fs) : fileSystem_(fs) {}
 
 int ListCommand::execute(std::vector<std::string> args){
 
+  if(!fileSystem_->isOpen()){
+    cout << "Sistema ainda não está montado, use 'mount FILE'" << endl;
+    return 0;
+  }
+
   shared_ptr<Folder> actualFolder;
   string folderName;
 

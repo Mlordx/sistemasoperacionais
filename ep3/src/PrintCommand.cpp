@@ -9,6 +9,11 @@ using namespace std;
 PrintCommand::PrintCommand(shared_ptr<FileSystem> fs) : fileSystem_(fs) {}
 
 int PrintCommand::execute(std::vector<std::string> args){
+  if(!fileSystem_->isOpen()){
+    cout << "Sistema ainda não está montado, use 'mount FILE'" << endl;
+    return 0;
+  }
+
   if(args.size() < 1){
     cout << "O comando cat precisa de um argumento\n";
     return 1;

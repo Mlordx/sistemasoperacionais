@@ -11,6 +11,11 @@ using namespace std;
 CopyCommand::CopyCommand(shared_ptr<FileSystem> fs) : fileSystem_(fs) {}
 
 int CopyCommand::execute(vector<string> args){
+  if(!fileSystem_->isOpen()){
+    cout << "Sistema ainda não está montado, use 'mount FILE'" << endl;
+    return 0;
+  }
+
   if(args.size() < 2){
     cout << "O comando cp precisa de dois argumentos\n";
     return 1;

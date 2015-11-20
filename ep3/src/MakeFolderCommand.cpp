@@ -10,6 +10,11 @@ MakeFolderCommand::MakeFolderCommand(shared_ptr<FileSystem> fs) : fileSystem_(fs
 
 int MakeFolderCommand::execute(std::vector<std::string> args){
   
+  if(!fileSystem_->isOpen()){
+    cout << "Sistema ainda não está montado, use 'mount FILE'" << endl;
+    return 0;
+  }
+
   if(args.size() < 1){
     cout << "O comando mkdir precisa de um argumento\n";
     return 1;

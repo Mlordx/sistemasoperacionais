@@ -25,6 +25,8 @@ class FileSystem : public std::enable_shared_from_this<FileSystem>{
   std::fstream disk_;
   std::shared_ptr<Folder> currentFolder_;
   std::vector<int> fileMap_;
+  std::string fileName_;
+
   void formatDisk();
   std::vector<std::string> getFileChunks(std::string);
   void addMapRegistry(int, int);
@@ -34,6 +36,7 @@ class FileSystem : public std::enable_shared_from_this<FileSystem>{
   FileSystem() = default;
   void init(std::string);
   bool isDisk(std::string fileName);
+  bool isOpen();
   void persist(std::shared_ptr<FileEntry> entry);
   void setCurrentFolder(std::shared_ptr<Folder> f);
   std::shared_ptr<Folder> getCurrentFolder();
