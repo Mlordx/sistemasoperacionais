@@ -14,6 +14,7 @@
 #include "TouchCommand.hpp"
 #include "MountCommand.hpp"
 #include "CopyCommand.hpp"
+#include "PrintCommand.hpp"
 
 using namespace std;
 
@@ -37,17 +38,23 @@ Terminal::Terminal(){
   shared_ptr<Command> mount(new MountCommand(filesys));
   shared_ptr<Command> touch(new TouchCommand(filesys->getCurrentFolder()));
   shared_ptr<Command> copy(new CopyCommand(filesys));
+  shared_ptr<Command> print(new PrintCommand(filesys));
   
   commands_["sai"] = sai;
   commands_["mount"] = mount;
   commands_["touch"] = touch;
   commands_["cp"] = copy;
+  commands_["cat"] = print;
 }
 
 void Terminal::run(char* input){
   string sInput(input);
   vector<string> args;
   split(sInput, ' ', args);
+
+  if(args.empty())
+    return;
+  
   string command = args[0];
   args.erase(args.begin());
 

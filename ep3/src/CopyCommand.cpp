@@ -24,25 +24,9 @@ int CopyCommand::execute(vector<string> args){
   auto targetFolder = fileSystem_->getCurrentFolder(); //currentFolder_->getChildFolder(newRelativeName);
   shared_ptr<FileEntry> newFile(new FileEntry(newRelativeName));
   newFile->setData(data);
+  newFile->setInitialBlock(fileSystem_->getNextFreeBlock());
   targetFolder->addFile(newFile);
-  fileSystem_->persist(newFile, fileSystem_->getNextFreeBlock());
-
+  fileSystem_->persist(newFile);
 
   return 1;
 }
-  /*cout << "Copiando . . .\n";
-
-  for(auto files : currentFolder->getFiles()){
-    if(files->getName() == args[0]){
-      auto size = files->getSize();
-      auto iniBlock = files->getInitialBlock();
-      auto newFile = make_shared<FileEntry>(args[1]);
-      newFile->setSize(size);
-      newFile->setInitialBlock(iniBlock);
-      currentFolder->addFile(newFile);
-    }
-  }
-  return 1;
-}
-// Libraries
-#include "CopyCommand.hpp"*/

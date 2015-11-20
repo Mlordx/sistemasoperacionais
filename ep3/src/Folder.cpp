@@ -14,6 +14,10 @@ Folder::Folder(string name, shared_ptr<FileEntry> parent) : FileEntry(name){
   addParent(parent);
 }
 
+bool Folder::isFolder(){
+  return true;
+}
+
 void Folder::addFile(shared_ptr<FileEntry> file){
   files_.push_back(file);
 }
@@ -56,5 +60,15 @@ vector<shared_ptr<FileEntry> >& Folder::getFiles(){
 
 shared_ptr<Folder> Folder::getChildFolder(string completeName){
   cout << "olá\n";
+  return NULL;
+}
+
+shared_ptr<FileEntry> Folder::getFile(string fileName){
+  for(auto file : files_){
+    if(file->getName() == fileName){
+      cout << "saiu" << endl;
+      return file;
+    }
+  }
   return NULL;
 }

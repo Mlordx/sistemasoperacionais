@@ -30,7 +30,8 @@ void FileSystem::init(string fileName){
   disk_.open(fileName, ios::in | ios::out);
   auto root  = shared_ptr<FileEntry>(new Folder("/"));
   initFileMap();
-  persist(root, getNextFreeBlock());
+  root->setInitialBlock(getNextFreeBlock());
+  persist(root);
 }
 
 void FileSystem::formatDisk(){
@@ -46,8 +47,9 @@ bool FileSystem::isDisk(string fileName){
   return disk_.good();
 }
 
-void FileSystem::persist(shared_ptr<FileEntry> entry, int block){
-  auto teste = block;
+void FileSystem::persist(shared_ptr<FileEntry> entry){
+  int block = entry->getInitialBlock();
+  int teste = block;
   auto blocks = getFileChunks(entry->getData());
   int newBlock;
   for (auto text : blocks){
@@ -92,7 +94,6 @@ void FileSystem::addMapRegistry(int block, int newBlock){
 
 vector<string> FileSystem::getFileChunks(string data){
   vector<string> vs;
-
   stringstream input(data);
 
   for(unsigned int i = 0; i < data.size(); i += BLOCK_SIZE-1)
@@ -102,8 +103,7 @@ vector<string> FileSystem::getFileChunks(string data){
 }
 
 int FileSystem::getNextFreeBlock(){
-  disk_.close();
-  disk_.open("bla.txt", ios::in | ios::out);
+
   disk_.seekp(BITMAP_POSITION);
   char c = 1;
   for(int i=0; i < FILE_BLOCKS/8+1; i++){
@@ -120,6 +120,7 @@ int FileSystem::getNextFreeBlock(){
       byte = byte/2;
     }
   }
+
   cout << "Disco cheio" << endl;
   exit(1);
   return 0;

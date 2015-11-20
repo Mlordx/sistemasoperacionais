@@ -22,7 +22,7 @@ class FileEntry{
   FileEntry(std::string fileName);
 
   virtual std::string getData();
-  void setData(std::string);
+  virtual bool isFolder();
   
   std::string getName();
   int getSize();
@@ -31,12 +31,14 @@ class FileEntry{
   time_t getAccessTime();
   int getInitialBlock();
 
+  void setData(std::string);
   void setName(std::string);
   void setSize(int);
   void setCreationTime();
   void setModificationTime();
   void setAccessTime();
   void setInitialBlock(int);
+
 };
 
 #endif

@@ -12,6 +12,10 @@ FileEntry::FileEntry(string name) : name_(name), size_(0){
   setAccessTime();
 }
 
+bool FileEntry::isFolder(){
+  return false;
+}
+
 string FileEntry::getName(){
   return name_;
 }

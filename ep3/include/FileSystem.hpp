@@ -33,7 +33,7 @@ class FileSystem : public std::enable_shared_from_this<FileSystem>{
   FileSystem() = default;
   void init(std::string);
   bool isDisk(std::string fileName);
-  void persist(std::shared_ptr<FileEntry> entry, int block);
+  void persist(std::shared_ptr<FileEntry> entry);
   void setCurrentFolder(std::shared_ptr<Folder> f);
   std::shared_ptr<Folder> getCurrentFolder();
   void initFileMap();
