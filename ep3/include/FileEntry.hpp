@@ -6,6 +6,7 @@
 
 //Standard Libraries
 #include <string>
+#include <vector>
 
 class FileEntry{
  private:
@@ -30,6 +31,8 @@ class FileEntry{
   time_t getModificationTime();
   time_t getAccessTime();
   int getInitialBlock();
+
+  void initFromData(std::vector<std::string>);
 
   void setData(std::string);
   void setName(std::string);

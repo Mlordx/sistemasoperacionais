@@ -15,10 +15,11 @@
 #include "MountCommand.hpp"
 #include "CopyCommand.hpp"
 #include "PrintCommand.hpp"
+#include "MakeFolderCommand.hpp"
 
 using namespace std;
 
-vector<string>& split(const string &input, char delim, vector<string> &args) {
+vector<string>& breakString(const string &input, char delim, vector<string> &args) {
   stringstream stream(input);
   string item;
   
@@ -39,18 +40,20 @@ Terminal::Terminal(){
   shared_ptr<Command> touch(new TouchCommand(filesys->getCurrentFolder()));
   shared_ptr<Command> copy(new CopyCommand(filesys));
   shared_ptr<Command> print(new PrintCommand(filesys));
+  shared_ptr<Command> mkdir(new MakeFolderCommand(filesys));
   
   commands_["sai"] = sai;
   commands_["mount"] = mount;
   commands_["touch"] = touch;
   commands_["cp"] = copy;
   commands_["cat"] = print;
+  commands_["mkdir"] = mkdir;
 }
 
 void Terminal::run(char* input){
   string sInput(input);
   vector<string> args;
-  split(sInput, ' ', args);
+  breakString(sInput, ' ', args);
 
   if(args.empty())
     return;

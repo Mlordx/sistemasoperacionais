@@ -72,6 +72,33 @@ void FileSystem::setCurrentFolder(shared_ptr<Folder> f){
 shared_ptr<Folder> FileSystem::getCurrentFolder(){
   return currentFolder_;
 }
+
+shared_ptr<Folder> FileSystem::loadFolder(int block){
+  string data = getFileData(block);
+  shared_ptr<Folder> folder(new Folder("teste", data));
+  return folder;
+}
+
+shared_ptr<Folder> FileSystem::getInitialFolder(string& path){
+  if (path[0] != '/'){
+    return currentFolder_;
+  }
+  path.erase(0, 1);
+  return loadFolder(0);
+}
+shared_ptr<Folder> FileSystem::getPathFolder(string& path){
+  auto initialFolder = getInitialFolder(path);
+  size_t pos;
+  while((pos = path.find('/')) != string::npos){
+    string folderName = path.substr(0, pos);
+    path.erase(0, pos+1);
+    initialFolder = initialFolder->getFolder(folderName);
+    if(initialFolder == NULL)
+      return NULL;
+    initialFolder = loadFolder(initialFolder->getInitialBlock());
+  }
+  return initialFolder;
+}
   
 void FileSystem::initFileMap(){
   fileMap_.resize(FILE_BLOCKS);

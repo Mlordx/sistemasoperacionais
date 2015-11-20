@@ -12,6 +12,15 @@ FileEntry::FileEntry(string name) : name_(name), size_(0){
   setAccessTime();
 }
 
+void FileEntry::initFromData(vector<string> filesInfo){
+  setName(filesInfo[0]);
+  setSize(atoi(filesInfo[1].c_str()));
+  creationTime_ = atoi(filesInfo[2].c_str());
+  modificationTime_ = atoi(filesInfo[3].c_str());
+  accessTime_ = atoi(filesInfo[4].c_str());
+  setInitialBlock(atoi(filesInfo[5].c_str()));
+}
+
 bool FileEntry::isFolder(){
   return false;
 }
