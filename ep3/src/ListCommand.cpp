@@ -43,6 +43,8 @@ int ListCommand::execute(std::vector<std::string> args){
 
   auto files = actualFolder->getFiles();
   unsigned int i = (folderName == "/" ? 0 : 1);
+  printf("DATE       SIZE       NAME\n");
+  printf("----------------------------------------------\n");
   for (; i < files.size(); i++)
     files[i]->printFormattedInfo();
   return 1;
