@@ -40,6 +40,7 @@ class FileSystem : public std::enable_shared_from_this<FileSystem>{
   bool isDisk(std::string fileName);
   bool isOpen();
   void persist(std::shared_ptr<FileEntry> entry);
+  void removeFile(int block);
   void setCurrentFolder(std::shared_ptr<Folder> f);
   std::shared_ptr<Folder> getCurrentFolder();
   void close();

@@ -14,7 +14,7 @@ EPs de SO
     - [ ] *rmdir diretorio*
     - [x] *cat arquivo*
     - [ ] *touch arquivo*
-    - [ ] *rm arquivo*
+    - [x] *rm arquivo*
     - [x] *ls diretorio*
     - [ ] *find diretorio arquivo*
     - [x] *df*

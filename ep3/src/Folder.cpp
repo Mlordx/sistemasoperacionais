@@ -68,6 +68,7 @@ string Folder::getData(){
   data = generateData();
   for(auto entry : files_)
     data+= "\n" + generateData(entry);
+  data += '\0';
   return data;
 }
 
@@ -104,6 +105,16 @@ shared_ptr<FileEntry> Folder::getFile(string fileName){
     }
   }
   return NULL;
+}
+
+void Folder::removeFile(string fileName){
+  unsigned int i;
+  for(i = 0; i < files_.size(); i++){
+    if(files_[i]->getName() == fileName){
+      break;
+    }
+  }
+  files_.erase(files_.begin()+i);
 }
 
 shared_ptr<Folder> Folder::getFolder(string folderName){

@@ -19,6 +19,7 @@
 #include "MakeFolderCommand.hpp"
 #include "ListCommand.hpp"
 #include "StatusCommand.hpp"
+#include "RemoveCommand.hpp"
 
 using namespace std;
 
@@ -44,6 +45,7 @@ Terminal::Terminal(){
   shared_ptr<Command> mkdir(new MakeFolderCommand(filesys));
   shared_ptr<Command> list(new ListCommand(filesys));
   shared_ptr<Command> status(new StatusCommand(filesys));
+  shared_ptr<Command> removeFile(new RemoveCommand(filesys));
   
   commands_["sai"] = sai;
   commands_["mount"] = mount;
@@ -54,6 +56,7 @@ Terminal::Terminal(){
   commands_["mkdir"] = mkdir;
   commands_["ls"] = list;
   commands_["df"] = status;
+  commands_["rm"] = removeFile;
 }
 
 void Terminal::run(char* input){

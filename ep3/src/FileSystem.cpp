@@ -175,6 +175,21 @@ string FileSystem::getFileData(int block){
   return data;
 }
 
+void FileSystem::removeFile(int block){
+  while(block != 0){
+    char c;
+    unsigned int value;
+    int i = block/8;
+    int j = block%8;
+    disk_.seekp(BITMAP_POSITION + i);
+    disk_.get(c);
+    value = (unsigned int) c - (1 << j);
+    disk_.seekp(BITMAP_POSITION + i);
+    disk_.put((char) value);
+    block = fileMap_[block];
+  }
+}
+
 void FileSystem::close(){
   disk_.close();
 }
