@@ -23,6 +23,7 @@ class Folder : public FileEntry, public std::enable_shared_from_this<FileEntry>{
   
   void addFile(std::shared_ptr<FileEntry>);
   void addParent(std::shared_ptr<FileEntry>);
+  void removeFile(std::string fileName);
   
   std::vector<std::shared_ptr<FileEntry> >& getFiles();
   std::shared_ptr<FileEntry> getFile(std::string fileName);
