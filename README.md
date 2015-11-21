@@ -11,7 +11,7 @@ EPs de SO
     - [x] *mount arquivo*
     - [x] *cp origem destino*
     - [x] *mkdir diretorio*
-    - [ ] *rmdir diretorio*
+    - [x] *rmdir diretorio*
     - [x] *cat arquivo*
     - [ ] *touch arquivo*
     - [x] *rm arquivo*

@@ -37,6 +37,11 @@ int RemoveCommand::execute(vector<string> args){
     return 0;
   }
 
+  if(file->isFolder()){
+    cout << "Para remover diretorio use 'rmdir'" << endl;
+    return 0; 
+  }
+
   targetFolder->removeFile(fileName);
 
   fileSystem_->removeFile(file->getInitialBlock());

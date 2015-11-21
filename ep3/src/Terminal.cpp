@@ -20,6 +20,7 @@
 #include "ListCommand.hpp"
 #include "StatusCommand.hpp"
 #include "RemoveCommand.hpp"
+#include "RemoveDirCommand.hpp"
 
 using namespace std;
 
@@ -46,6 +47,7 @@ Terminal::Terminal(){
   shared_ptr<Command> list(new ListCommand(filesys));
   shared_ptr<Command> status(new StatusCommand(filesys));
   shared_ptr<Command> removeFile(new RemoveCommand(filesys));
+  shared_ptr<Command> removeFolder(new RemoveDirCommand(filesys));
   
   commands_["sai"] = sai;
   commands_["mount"] = mount;
@@ -57,6 +59,7 @@ Terminal::Terminal(){
   commands_["ls"] = list;
   commands_["df"] = status;
   commands_["rm"] = removeFile;
+  commands_["rmdir"] = removeFolder;
 }
 
 void Terminal::run(char* input){
