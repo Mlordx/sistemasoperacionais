@@ -2,6 +2,7 @@
 #include <iostream>
 #include <algorithm>
 
+
 // Interface
 #include "TouchCommand.hpp"
 
@@ -23,7 +24,7 @@ int TouchCommand::execute(vector<string> args){
   }
 
   reverse(name.begin(),name.end());
-  for(int i = 0; i < name.size(); i++) fileName+=name[i];
+for(int i = 0; i < (int)name.size(); i++) fileName+=name[i];
   
   cout << "Toquei . . . \n";
   for(auto files : currentFolder->getFiles()){
