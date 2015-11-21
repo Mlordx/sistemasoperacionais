@@ -215,7 +215,7 @@ void FileSystem::printInfo(){
 
   cout << "diretorios: " << diretorios << endl;
   cout << "arquivos: " << arquivos << endl;
-  cout << "Espaço Livvre (bytes): " << emptySpace << endl;
+  cout << "Espaço Livre (bytes): " << emptySpace << endl;
   cout << "Espaço Desperdiçado (bytes): " << (FILE_BLOCKS*BLOCK_SIZE) - emptySpace - virtualSize << endl;
 }
 

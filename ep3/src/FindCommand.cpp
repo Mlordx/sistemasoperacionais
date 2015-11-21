@@ -25,7 +25,7 @@ int FindCommand::execute(vector<string> args){
   shared_ptr<Folder> actualFolder;
   string folderName;
 
-  if(args.size() < 1 || args[0] == "/"){
+  if(args[0] == "/"){
     folderName = "/";
     actualFolder = fileSystem_->getCurrentFolder();
   } 
@@ -68,14 +68,16 @@ int FindCommand::execute(vector<string> args){
 
     int i = 0;
     for(auto files : folder->getFiles()){
-      if(i != 0 && files->isFolder()) folders.push(make_pair(files->getInitialBlock(),path+files->getName()+"/"));
+      if((i != 0) && files->isFolder()){
+	folders.push(make_pair(files->getInitialBlock(),path));
+      }
       if(files->getName() == args[1]){
 	if(files->isFolder()){
 	  cout << path + files->getName() +"/" << endl;
 	}else cout << path + files->getName() << endl;
       }
+      i++;
     }
-    i++;
   }
   return 1;
 }

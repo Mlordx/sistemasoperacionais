@@ -53,7 +53,7 @@ Terminal::Terminal(){
   
   commands_["sai"] = sai;
   commands_["mount"] = mount;
-  commands_["unmount"] = unmount;
+  commands_["umount"] = unmount;
   commands_["touch"] = touch;
   commands_["cp"] = copy;
   commands_["cat"] = print;

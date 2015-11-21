@@ -1,5 +1,6 @@
 //Standard Libraries
 #include <iostream>
+#include <algorithm>
 
 // Interface
 #include "TouchCommand.hpp"
@@ -10,7 +11,20 @@ TouchCommand::TouchCommand(shared_ptr<FileSystem> fs) : fileSystem_(fs) {}
 
 
 int TouchCommand::execute(vector<string> args){
-  auto currentFolder = fileSystem_->getCurrentFolder();
+  auto currentFolder = fileSystem_->getPathFolder(args[0]);
+  string fileName;
+  vector<char> name;
+  auto fullPath = args[0];
+  int i = fullPath.length()-1;
+  char c = fullPath[i];
+  while( c != '/'){
+    name.push_back(fullPath[c]);
+    c = fullPath[--i];
+  }
+
+  reverse(name.begin(),name.end());
+  for(int i = 0; i < name.size(); i++) fileName+=name[i];
+  
   cout << "Toquei . . . \n";
   for(auto files : currentFolder->getFiles()){
     if(files->getName() == args[0]){
