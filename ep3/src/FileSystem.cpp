@@ -178,3 +178,59 @@ string FileSystem::getFileData(int block){
 void FileSystem::close(){
   disk_.close();
 }
+
+void FileSystem::printInfo(){
+  int diretorios = 0;
+  int arquivos = 0;
+  int virtualSize = getTotalSize(getCurrentFolder(), &diretorios, &arquivos);
+  int emptySpace = getTotalEmptySpace();
+
+  cout << "diretorios: " << diretorios << endl;
+  cout << "arquivos: " << arquivos << endl;
+  cout << "Espaço Livvre (bytes): " << emptySpace << endl;
+  cout << "Espaço Desperdiçado (bytes): " << (FILE_BLOCKS*BLOCK_SIZE) - emptySpace - virtualSize << endl;
+}
+
+int FileSystem::getTotalSize(shared_ptr<Folder> folder, int* diretorios, int* arquivos){
+
+  auto files = folder->getFiles();
+  int size = 0;
+
+  unsigned int i = (folder->getName() == "/" ?  0 : 1);
+
+  for (; i < files.size(); i++){
+    if(files[i]->isFolder()){
+      *diretorios = *diretorios + 1;
+      auto childFolder = loadFolder(files[i]->getInitialBlock());
+      size += getTotalSize(childFolder, diretorios, arquivos);
+    } else {
+      *arquivos = *arquivos + 1;
+      size += files[i]->getSize();
+    }
+  }
+
+  return size;
+}
+
+int FileSystem::getTotalEmptySpace(){
+
+  int emptySpace = 0;
+
+  disk_.seekp(BITMAP_POSITION);
+  char c;
+
+  for(int i=0; i < FILE_BLOCKS/8+1; i++){
+    disk_.get(c);
+    unsigned char value = (unsigned char) c;    
+    unsigned int byte = (unsigned int) value;
+    for (unsigned int j = 0; j < 8; j++){
+  
+      if(byte%2 == 0){
+        if(i*8+j <= FILE_BLOCKS)   
+          emptySpace++;
+      }
+      byte = byte/2;
+    }
+  }
+  return emptySpace*BLOCK_SIZE;
+}

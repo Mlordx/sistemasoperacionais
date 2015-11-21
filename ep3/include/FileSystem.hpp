@@ -31,6 +31,8 @@ class FileSystem : public std::enable_shared_from_this<FileSystem>{
   void addMapRegistry(int, int);
   std::shared_ptr<Folder> getInitialFolder(std::string& path);
   void initFileMap();
+  int getTotalSize(std::shared_ptr<Folder>, int*, int*);
+  int getTotalEmptySpace();
   
  public:
   FileSystem() = default;
@@ -41,6 +43,7 @@ class FileSystem : public std::enable_shared_from_this<FileSystem>{
   void setCurrentFolder(std::shared_ptr<Folder> f);
   std::shared_ptr<Folder> getCurrentFolder();
   void close();
+  void printInfo();
   int getNextFreeBlock();
   std::string getFileData(int);
   std::shared_ptr<Folder> getPathFolder(std::string&);  

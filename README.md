@@ -17,7 +17,7 @@ EPs de SO
     - [ ] *rm arquivo*
     - [x] *ls diretorio*
     - [ ] *find diretorio arquivo*
-    - [ ] *df*
+    - [x] *df*
     - [x] *unmount*
     - [x] *sai*
 - [ ] **Testes**

@@ -18,6 +18,7 @@
 #include "PrintCommand.hpp"
 #include "MakeFolderCommand.hpp"
 #include "ListCommand.hpp"
+#include "StatusCommand.hpp"
 
 using namespace std;
 
@@ -42,6 +43,7 @@ Terminal::Terminal(){
   shared_ptr<Command> print(new PrintCommand(filesys));
   shared_ptr<Command> mkdir(new MakeFolderCommand(filesys));
   shared_ptr<Command> list(new ListCommand(filesys));
+  shared_ptr<Command> status(new StatusCommand(filesys));
   
   commands_["sai"] = sai;
   commands_["mount"] = mount;
@@ -51,6 +53,7 @@ Terminal::Terminal(){
   commands_["cat"] = print;
   commands_["mkdir"] = mkdir;
   commands_["ls"] = list;
+  commands_["df"] = status;
 }
 
 void Terminal::run(char* input){
