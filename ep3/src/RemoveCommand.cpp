@@ -1,12 +1,14 @@
 //Standard Libraries
 #include <iostream>
 #include <fstream>
+#include <chrono>
 
 //Interface
 #include "RemoveCommand.hpp"
 #include "FileSystem.hpp"
 
 using namespace std;
+using namespace std::chrono;
 
 RemoveCommand::RemoveCommand(shared_ptr<FileSystem> fs) : fileSystem_(fs) {}
 

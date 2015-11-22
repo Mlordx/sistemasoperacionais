@@ -1,0 +1,9 @@
+-------------------------
+------ EP3 - SO----------
+Vinícius Silva - 7557626-
+Mateus Barros - 7991037--
+-------------------------
+
+Como compilar: Basta rodar o comando "make" no terminal
+
+Como rodar: Basta utilizar o comando "./bin/ep3", montar o sistema de arquivos, e então executar os comandos desejados.
