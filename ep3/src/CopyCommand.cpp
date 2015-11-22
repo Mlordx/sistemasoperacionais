@@ -1,14 +1,12 @@
 //Standard Libraries
 #include <iostream>
 #include <fstream>
-//#include <chrono>
 
 //Interface
 #include "CopyCommand.hpp"
 #include "FileSystem.hpp"
 
 using namespace std;
-//using namespace std::chrono;
 
 CopyCommand::CopyCommand(shared_ptr<FileSystem> fs) : fileSystem_(fs) {}
 
@@ -48,6 +46,7 @@ int CopyCommand::execute(vector<string> args){
   targetFolder->addFile(newFile);
   
   fileSystem_->persist(targetFolder);
+  targetFolder->setModificationTime();
   fileSystem_->persist(newFile);
   
   return 1;

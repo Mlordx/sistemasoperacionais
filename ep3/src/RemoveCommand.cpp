@@ -45,7 +45,7 @@ int RemoveCommand::execute(vector<string> args){
   }
 
   targetFolder->removeFile(fileName);
-
+  targetFolder->setModificationTime();
   fileSystem_->removeFile(file->getInitialBlock());
   fileSystem_->persist(targetFolder);
 

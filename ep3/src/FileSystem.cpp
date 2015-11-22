@@ -80,7 +80,7 @@ void FileSystem::setCurrentFolder(shared_ptr<Folder> f){
 }
 
 shared_ptr<Folder> FileSystem::getCurrentFolder(){
-  return currentFolder_;
+  return loadFolder(currentFolder_->getInitialBlock());
 }
 
 shared_ptr<Folder> FileSystem::loadFolder(int block){
@@ -91,7 +91,7 @@ shared_ptr<Folder> FileSystem::loadFolder(int block){
 
 shared_ptr<Folder> FileSystem::getInitialFolder(string& path){
   if (path[0] != '/'){
-    return currentFolder_;
+    return getCurrentFolder();
   }
   path.erase(0, 1);
   return loadFolder(0);

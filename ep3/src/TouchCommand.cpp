@@ -39,6 +39,7 @@ for(int i = 0; i < (int)name.size(); i++) fileName+=name[i];
   currentFolder->addFile(newFile);
 
   fileSystem_->persist(currentFolder);
+  currentFolder->setModificationTime();
   fileSystem_->persist(newFile);
   
   return 1;
