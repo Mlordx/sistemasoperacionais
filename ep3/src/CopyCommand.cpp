@@ -1,19 +1,18 @@
 //Standard Libraries
 #include <iostream>
 #include <fstream>
-#include <chrono>
+//#include <chrono>
 
 //Interface
 #include "CopyCommand.hpp"
 #include "FileSystem.hpp"
 
 using namespace std;
-using namespace std::chrono;
+//using namespace std::chrono;
 
 CopyCommand::CopyCommand(shared_ptr<FileSystem> fs) : fileSystem_(fs) {}
 
 int CopyCommand::execute(vector<string> args){
-  high_resolution_clock::time_point t1 = high_resolution_clock::now();
   if(!fileSystem_->isOpen()){
     cout << "Sistema ainda não está montado, use 'mount FILE'" << endl;
     return 0;
@@ -51,9 +50,5 @@ int CopyCommand::execute(vector<string> args){
   fileSystem_->persist(targetFolder);
   fileSystem_->persist(newFile);
   
-  high_resolution_clock::time_point t2 = high_resolution_clock::now();
-
-  auto duration = duration_cast<microseconds>( t2 - t1 ).count();
-  cout << "Tempo: " << duration << endl;
   return 1;
 }
