@@ -17,7 +17,7 @@ int main(){
   Terminal terminal;
 
   while(1){
-    snprintf(shell_prompt, sizeof(shell_prompt), "%s $ ", getcwd(dir, 1024));
+    snprintf(shell_prompt, sizeof(shell_prompt), "$ ");
     free(dir);
     
     input = readline(shell_prompt);
