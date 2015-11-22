@@ -37,6 +37,7 @@ int MakeFolderCommand::execute(std::vector<std::string> args){
   fileSystem_->persist(folder);
 
   targetFolder->addFile(folder);
+  targetFolder->setModificationTime();
   fileSystem_->persist(targetFolder);
 
   return 1;

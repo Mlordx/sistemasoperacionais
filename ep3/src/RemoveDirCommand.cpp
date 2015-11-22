@@ -9,7 +9,6 @@ using namespace std;
 RemoveDirCommand::RemoveDirCommand(shared_ptr<FileSystem> fs) : fileSystem_(fs) {}
 
 int RemoveDirCommand::execute(std::vector<std::string> args){
-
   if(!fileSystem_->isOpen()){
     cout << "Sistema ainda não está montado, use 'mount FILE'" << endl;
     return 0;
@@ -46,6 +45,8 @@ int RemoveDirCommand::execute(std::vector<std::string> args){
 
   fileSystem_->removeFolder(actualFolder);
   targetFolder->removeFile(folderName);
+  targetFolder->setModificationTime();
   fileSystem_->persist(targetFolder);
+
   return 0;
 } 
